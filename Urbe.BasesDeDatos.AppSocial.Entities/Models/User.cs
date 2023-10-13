@@ -7,12 +7,25 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class User : ModifiableEntity, IKeyed<Guid>
+public class User : ModifiableEntity, IKeyed<Guid>, IEntity
 {
     private string? username;
     private string? email;
 
-    public Guid Id { get; init; }
+    public User(GuidId<User> id, string? realName, string username, string? email, string passwordHash, string passwordSalt, UserStatus status, HashSet<User>? follows, string? profilePictureUrl)
+    {
+        Id = id;
+        RealName = realName;
+        Username = username ?? throw new ArgumentNullException(nameof(username));
+        Email = email;
+        PasswordHash = passwordHash ?? throw new ArgumentNullException(nameof(passwordHash));
+        PasswordSalt = passwordSalt ?? throw new ArgumentNullException(nameof(passwordSalt));
+        Status = status;
+        Follows = follows;
+        ProfilePictureUrl = profilePictureUrl;
+    }
+
+    public GuidId<User> Id { get; init; }
 
     public string? RealName { get; set; }
 
@@ -72,4 +85,6 @@ public class User : ModifiableEntity, IKeyed<Guid>
 
     public IQueryable<User> GetFollowers(SocialContext context)
         => context.Users.Where(x => x.Follows!.Contains(this));
+
+    Guid IKeyed<Guid>.Id => Id.Value;
 }
