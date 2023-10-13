@@ -2,5 +2,5 @@
 
 public interface IKeyed<TKey> where TKey : struct
 {
-    public TKey Id { get; init; }
+    public TKey Id { get; }
 }
