@@ -1,8 +1,10 @@
-﻿using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities;
 
-public readonly record struct SnowflakeId<TEntity> where TEntity : class, IEntity
+public readonly record struct SnowflakeId<TEntity> : IConvertibleProperty
+    where TEntity : class, IEntity
 {
     public Snowflake Value { get; }
 
@@ -16,4 +18,9 @@ public readonly record struct SnowflakeId<TEntity> where TEntity : class, IEntit
 
     public static explicit operator Snowflake(SnowflakeId<TEntity> id)
         => id.Value;
+
+    public static ValueConverter ValueConverter { get; } = new ValueConverter<SnowflakeId<TEntity>, long>(
+        x => x.Value.AsLong(),
+        x => new SnowflakeId<TEntity>(new Snowflake(x))
+    );
 }

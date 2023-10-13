@@ -1,8 +1,12 @@
-﻿using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities;
 
-public readonly record struct GuidId<TEntity> where TEntity : class, IEntity
+public readonly record struct GuidId<TEntity> : IConvertibleProperty
+    where TEntity : class, IEntity
 {
     public Guid Value { get; }
 
@@ -16,4 +20,9 @@ public readonly record struct GuidId<TEntity> where TEntity : class, IEntity
 
     public static explicit operator Guid(GuidId<TEntity> id)
         => id.Value;
+
+    public static ValueConverter ValueConverter { get; } = new ValueConverter<Guid, GuidId<TEntity>>(
+        x => (GuidId<TEntity>)x,
+        x => x.Value
+    );
 }
