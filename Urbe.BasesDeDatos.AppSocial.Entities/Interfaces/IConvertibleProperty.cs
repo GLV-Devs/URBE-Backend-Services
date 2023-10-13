@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Urbe.BasesDeDatos.AppSocial.Entities;
+namespace Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 public interface IConvertibleProperty
 {
