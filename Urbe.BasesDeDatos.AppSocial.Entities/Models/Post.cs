@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+using Urbe.BasesDeDatos.AppSocial.Entities.Internal;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 

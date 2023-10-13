@@ -1,6 +1,6 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
-namespace Urbe.BasesDeDatos.AppSocial.Entities;
+namespace Urbe.BasesDeDatos.AppSocial.Entities.Internal;
 
 internal class KeyedNavigation<TId, TEntity>
     where TId : struct, IEquatable<TId>
