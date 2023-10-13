@@ -1,9 +1,11 @@
 ﻿using System.Numerics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class Post : IKeyed<Snowflake>, IEntity
+public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 {
     private readonly KeyedNavigation<Guid, User> UserNavigation = new();
     private readonly KeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
@@ -52,5 +54,17 @@ public class Post : IKeyed<Snowflake>, IEntity
         init => InResponseToNavigation.Id = value.Value;
     }
 
+    public HashSet<Post>? Responses { get; set; }
+
     Snowflake IKeyed<Snowflake>.Id => Id.Value;
+
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<Post> mb)
+    {
+        mb.HasKey(x => x.Id);
+        mb.HasOne(x => x.Poster).WithMany(x => x.Posts).HasForeignKey(x => x.PosterId);
+        mb.HasOne(x => x.InResponseTo).WithMany(x => x.Responses).HasForeignKey(x => x.InResponseToId);
+
+        mb.Property(x => x.InResponseToId).HasConversion(SnowflakeId<Post>.ValueConverter);
+        mb.Property(x => x.Id).HasConversion(SnowflakeId<Post>.ValueConverter);
+    }
 }

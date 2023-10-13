@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class User : ModifiableEntity, IKeyed<Guid>, IEntity
+public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<User>
 {
     private string? username;
     private string? email;
@@ -29,18 +32,16 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity
 
     public string? RealName { get; set; }
 
+    [MemberNotNull(nameof(username))]
     public string Username
     {
         get
         {
             if (username is null)
-            {
-                username = $"{(RealName ?? "User")}{Random.Shared.Next(100000, 999999)}";
-                NotifyModified();
-            }
-
+                Username = $"{(RealName ?? "User")}{Random.Shared.Next(100000, 999999)}";
             return username;
         }
+
         set
         {
             if (value is null)
@@ -78,6 +79,10 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity
 
     public HashSet<User>? Follows { get; set; }
 
+    public HashSet<Post>? Posts { get; set; }
+
+    public int FollowerCount { get; init; }
+
     public string? ProfilePictureUrl { get; set; }
 
     public string GetPictureOrDefault()
@@ -87,4 +92,16 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity
         => context.Users.Where(x => x.Follows!.Contains(this));
 
     Guid IKeyed<Guid>.Id => Id.Value;
+
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<User> mb)
+    {
+        mb.HasKey(x => x.Id);
+        
+        mb.Property(x => x.Id).HasConversion(GuidId<User>.ValueConverter);
+        
+        mb.HasMany(x => x.Follows).WithMany();
+
+        //mb.Property(x => x.FollowerCount)
+        //    .HasComputedColumnSql("COUNT(*) FROM Users WHERE U");
+    }
 }
