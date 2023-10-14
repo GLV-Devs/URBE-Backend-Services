@@ -16,9 +16,12 @@ public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
         this.context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async ValueTask<TEntity?> Find(SocialAppUser Requester, TKey key)
+    public virtual async ValueTask<TEntity?> Find(SocialAppUser Requester, TKey key)
         => await context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
 
-    public IQueryable<TEntity> Query(SocialAppUser Requester)
+    public virtual IQueryable<TEntity> Query(SocialAppUser Requester)
         => context.Set<TEntity>();
+
+    public virtual async ValueTask<int> SaveChanges()
+        => await context.SaveChangesAsync();
 }
