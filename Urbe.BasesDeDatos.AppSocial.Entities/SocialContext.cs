@@ -11,8 +11,9 @@ public class SocialContext : DbContext
         ChangeTracker.StateChanged += ChangeTracker_StateChanged;
     }
 
-    public DbSet<User> Users => Set<User>();
+    public DbSet<SocialAppUser> Users => Set<SocialAppUser>();
     public DbSet<Post> Posts => Set<Post>();
+    public DbSet<PendingMailConfirmation> PendingMailConfirmations => Set<PendingMailConfirmation>();
 
     private static void ChangeTracker_StateChanged(object? sender, Microsoft.EntityFrameworkCore.ChangeTracking.EntityStateChangedEventArgs e)
     {
@@ -22,7 +23,8 @@ public class SocialContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        User.BuildModel(modelBuilder, modelBuilder.Entity<User>());
+        SocialAppUser.BuildModel(modelBuilder, modelBuilder.Entity<SocialAppUser>());
+        PendingMailConfirmation.BuildModel(modelBuilder, modelBuilder.Entity<PendingMailConfirmation>());
         Post.BuildModel(modelBuilder, modelBuilder.Entity<Post>());
     }
 }
