@@ -1,10 +1,12 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
 namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
 
-public interface IEntityCRUDRepository<TEntity, TCreationModel, TUpdateModel> : IEntityCRDRepository<TEntity, TCreationModel>
-    where TEntity : IEntity
+public interface IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> : IEntityCRDRepository<TEntity, TKey, TCreationModel>
+    where TEntity : IEntity, IKeyed<TKey>
+    where TKey : struct, IEquatable<TKey>
 {
-    public ValueTask<ErrorList> Update(TEntity entity, TUpdateModel update);
+    public ValueTask<ErrorList> Update(SocialAppUser requester, TEntity entity, TUpdateModel update);
 }

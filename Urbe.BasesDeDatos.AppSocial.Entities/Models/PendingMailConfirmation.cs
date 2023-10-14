@@ -12,17 +12,17 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
 public class PendingMailConfirmation : IEntity, IKeyed<RandomKey>, ISelfModelBuilder<PendingMailConfirmation>
 {
-    private readonly KeyedNavigation<Guid, User> UserNavigation = new();
+    private readonly KeyedNavigation<Guid, SocialAppUser> UserNavigation = new();
 
     public RandomKeyId<PendingMailConfirmation> Id { get; init; }
 
-    public User? User
+    public SocialAppUser? User
     {
         get => UserNavigation.Entity;
         init => UserNavigation.Entity = value;
     }
 
-    public GuidId<User> UserId
+    public GuidId<SocialAppUser> UserId
     {
         get => UserNavigation.Id;
         init => UserNavigation.Id = value.Value;

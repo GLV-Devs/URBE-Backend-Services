@@ -11,7 +11,7 @@ namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 public class PostViewModel
 {
     public required SnowflakeId<Post> Id { get; init; }
-    public required GuidId<User> Poster { get; init; }
+    public required GuidId<SocialAppUser> Poster { get; init; }
     public required string Content { get; init; }
     public required string PosterThenUsername { get; init; }
     public required DateTimeOffset DatePosted { get; init; }

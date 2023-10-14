@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Urbe.BasesDeDatos.AppSocial.Entities.DTOs;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Internal;
 
@@ -9,10 +8,10 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
 public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 {
-    private readonly KeyedNavigation<Guid, User> UserNavigation = new();
+    private readonly KeyedNavigation<Guid, SocialAppUser> UserNavigation = new();
     private readonly KeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
 
-    public Post(SnowflakeId<Post> id, User? poster, GuidId<User> posterId, string content, string posterThenUsername, DateTimeOffset datePosted, Post? inResponseTo, SnowflakeId<Post> inResponseToId)
+    public Post(SnowflakeId<Post> id, SocialAppUser? poster, GuidId<SocialAppUser> posterId, string content, string posterThenUsername, DateTimeOffset datePosted, Post? inResponseTo, SnowflakeId<Post> inResponseToId)
     {
         Id = id;
         Poster = poster;
@@ -26,13 +25,13 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 
     public SnowflakeId<Post> Id { get; init; }
 
-    public User? Poster
+    public SocialAppUser? Poster
     {
         get => UserNavigation.Entity;
         init => UserNavigation.Entity = value;
     }
 
-    public GuidId<User> PosterId
+    public GuidId<SocialAppUser> PosterId
     {
         get => UserNavigation.Id;
         init => UserNavigation.Id = value.Value;
