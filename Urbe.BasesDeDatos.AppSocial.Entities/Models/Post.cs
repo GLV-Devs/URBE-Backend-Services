@@ -69,4 +69,7 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>, IReadab
         mb.Property(x => x.InResponseToId).HasConversion(SnowflakeId<Post>.ValueConverter);
         mb.Property(x => x.Id).HasConversion(SnowflakeId<Post>.ValueConverter);
     }
+
+    public ValueTask<object> GetView()
+        => ValueTask.FromResult<object>(PostViewModel.FromPost(this));
 }
