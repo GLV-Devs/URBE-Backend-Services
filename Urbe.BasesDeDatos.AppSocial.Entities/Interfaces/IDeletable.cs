@@ -2,5 +2,9 @@
 
 public interface IDeletable
 {
-    public abstract ValueTask<bool> Delete(SocialContext context);
+    public ValueTask<bool> Delete(SocialContext context)
+    {
+        context.Remove(this);
+        return ValueTask.FromResult(true);
+    }
 }
