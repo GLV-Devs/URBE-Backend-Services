@@ -9,7 +9,7 @@ public interface IEntityCRDRepository<TEntity, TKey, TCreationModel> : IEntityRe
     where TEntity : IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
-    public ValueTask<SuccessResult<TEntity>> Create(SocialAppUser requester, TCreationModel model);
+    public ValueTask<SuccessResult<TEntity>> Create(SocialAppUser? requester, TCreationModel model);
     
     public ValueTask<object> GetView(SocialAppUser requester, TEntity entity);
 

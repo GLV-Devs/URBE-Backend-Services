@@ -12,7 +12,7 @@ public abstract class EntityCRDRepository<TEntity, TKey, TCreationModel> : Entit
 {
     public EntityCRDRepository(SocialContext context) : base(context) { }
 
-    public abstract ValueTask<SuccessResult<TEntity>> Create(SocialAppUser requester, TCreationModel model);
+    public abstract ValueTask<SuccessResult<TEntity>> Create(SocialAppUser? requester, TCreationModel model);
 
     public abstract ValueTask<object> GetView(SocialAppUser requester, TEntity entity);
 
