@@ -21,6 +21,7 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
     public const int UserNameMaxLength = 20;
     public const int PronounsMaxLength = 30;
     public const int ProfileMessageMaxLength = 80;
+    public const int ProfilePictureUrlMaxLength = 1000;
 
     public string? RealName { get; set; }
 
@@ -33,6 +34,28 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
     public HashSet<SocialAppUser>? Follows { get; set; }
 
     public HashSet<Post>? Posts { get; set; }
+
+    private void UpdateEmail(string? value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        if (string.Equals(base.Email, value, StringComparison.OrdinalIgnoreCase) is false)
+        {
+            base.Email = value;
+            base.NormalizedEmail = value.ToUpper();
+        }
+    }
+
+    public override string? Email 
+    { 
+        get => base.Email;
+        set => UpdateEmail(value);
+    }
+
+    public override string? NormalizedEmail 
+    { 
+        get => base.NormalizedEmail; 
+        set => UpdateEmail(value);
+    }
 
     public int FollowerCount { get; init; }
 
@@ -53,6 +76,7 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
         mb.Property(x => x.RealName).HasMaxLength(RealNameMaxLength);
         mb.Property(x => x.UserName).HasMaxLength(UserNameMaxLength).IsRequired(true).HasDefaultValue($"User{Random.Shared.Next(100_000_000, 999_999_999)}");
         mb.Property(x => x.Pronouns).HasMaxLength(PronounsMaxLength);
+        mb.Property(x => x.ProfilePictureUrl).HasMaxLength(ProfilePictureUrlMaxLength);
         mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);
 
         mb.HasMany(x => x.Follows).WithMany();
