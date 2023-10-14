@@ -39,6 +39,19 @@ public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<Ran
     public ulong[] ToArray()
         => AsSpan().ToArray();
 
+    public unsafe RandomKey(ReadOnlySpan<byte> array)
+    {
+        if (array.Length < LengthInBytes)
+            throw new ArgumentException("array has too few elements", nameof(array));
+
+        var buf = MemoryMarshal.Cast<byte, ulong>(array);
+        fixed (ulong* ptr = &A)
+        {
+            var buffer = new Span<ulong>(ptr, LengthInLongs);
+            for (int i = 0; i < LengthInLongs; i++) ptr[i] = buf[i];
+        }
+    }
+
     public unsafe RandomKey(ReadOnlySpan<ulong> array)
     {
         if (array.Length < LengthInLongs)
