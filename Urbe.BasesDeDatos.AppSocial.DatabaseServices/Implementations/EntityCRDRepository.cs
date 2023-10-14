@@ -16,7 +16,7 @@ public abstract class EntityCRDRepository<TEntity, TKey, TCreationModel> : Entit
 
     public abstract ValueTask<SuccessResult<TEntity>> Create(SocialAppUser? requester, TCreationModel model);
 
-    public abstract ValueTask<object> GetView(SocialAppUser requester, TEntity entity);
+    public abstract ValueTask<SuccessResult<object>> GetView(SocialAppUser requester, TEntity entity);
 
     public virtual ValueTask<bool> Delete(SocialAppUser requester, TEntity entity)
     {
