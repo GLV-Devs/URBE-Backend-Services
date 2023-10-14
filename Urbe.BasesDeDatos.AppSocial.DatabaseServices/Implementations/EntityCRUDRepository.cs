@@ -10,7 +10,9 @@ public abstract class EntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdat
     where TEntity : class, IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
-    protected EntityCRUDRepository(SocialContext context) : base(context) { }
+    protected EntityCRUDRepository(SocialContext context, IServiceProvider provider) : base(context, provider)
+    {
+    }
 
     public abstract ValueTask<ErrorList> Update(SocialAppUser requester, TEntity entity, TUpdateModel update);
 }

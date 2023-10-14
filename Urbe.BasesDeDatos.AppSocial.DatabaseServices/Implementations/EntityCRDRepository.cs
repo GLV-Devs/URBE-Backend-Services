@@ -10,7 +10,9 @@ public abstract class EntityCRDRepository<TEntity, TKey, TCreationModel> : Entit
     where TEntity : class, IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
-    public EntityCRDRepository(SocialContext context) : base(context) { }
+    protected EntityCRDRepository(SocialContext context, IServiceProvider provider) : base(context, provider)
+    {
+    }
 
     public abstract ValueTask<SuccessResult<TEntity>> Create(SocialAppUser? requester, TCreationModel model);
 

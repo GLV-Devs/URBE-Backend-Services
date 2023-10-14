@@ -10,10 +10,12 @@ public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
     where TKey : struct, IEquatable<TKey>
 {
     protected readonly SocialContext context;
+    protected readonly IServiceProvider provider;
 
-    public EntityRepository(SocialContext context)
+    public EntityRepository(SocialContext context, IServiceProvider provider)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
+        this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
     }
 
     public virtual async ValueTask<TEntity?> Find(SocialAppUser Requester, TKey key)
