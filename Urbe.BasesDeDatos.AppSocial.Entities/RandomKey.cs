@@ -39,6 +39,9 @@ public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<Ran
     public ulong[] ToArray()
         => AsSpan().ToArray();
 
+    public byte[] ToByteArray()
+        => AsBytes().ToArray();
+
     public unsafe RandomKey(ReadOnlySpan<byte> array)
     {
         if (array.Length < LengthInBytes)
