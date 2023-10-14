@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.BasesDeDatos.AppSocial.Entities", "Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj", "{9F9BE47C-8A98-4602-B7AE-65040CCD9E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Entities", "Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj", "{9F9BE47C-8A98-4602-B7AE-65040CCD9E65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DD011580-B254-4F40-A5E9-FB1800C48DE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9F9BE47C-8A98-4602-B7AE-65040CCD9E65} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}
