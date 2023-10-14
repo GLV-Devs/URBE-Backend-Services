@@ -13,8 +13,10 @@ public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>
         ReferenceStampUtc = 638327520000000000; // October 13, 2023
     }
 
+    public static ushort SnowflakeMachineId { get; set; }
+
     private static int LastStamp;
-    private static uint LastIndex;
+    private static ushort LastIndex;
 
     [FieldOffset(0)]
     private readonly long aslong;
@@ -23,12 +25,16 @@ public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>
     private readonly int timeStamp;
 
     [FieldOffset(sizeof(int))]
-    private readonly uint index;
+    private readonly ushort index;
 
-    public Snowflake(int timeStamp, uint index) 
+    [FieldOffset(sizeof(int) + sizeof(ushort))]
+    private readonly ushort machineId;
+
+    public Snowflake(int timeStamp, ushort index, ushort machineId) 
     {
         this.timeStamp = timeStamp;
         this.index = index;
+        this.machineId = machineId;
     }
 
     public Snowflake(long value)
@@ -48,12 +54,16 @@ public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>
             LastStamp = stamp;
         }
 
-        return new Snowflake(stamp, LastIndex++);
+        return new Snowflake(stamp, LastIndex++, SnowflakeMachineId);
     }
 
     public long AsLong() => aslong;
+
     public DateTime TimeStamp => new(timeStamp + ReferenceStampUtc, DateTimeKind.Utc);
-    public uint Index => index;
+    
+    public ushort Index => index;
+    
+    public ushort MachineId => machineId;
 
     public bool Equals(Snowflake other)
         => aslong == other.aslong;
