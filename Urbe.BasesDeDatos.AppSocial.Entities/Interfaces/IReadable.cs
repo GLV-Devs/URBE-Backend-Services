@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
-public interface IReadable<TEntity> where TEntity : IEntity
+public interface IReadable
 {
     public ValueTask<object> GetView();
 }

@@ -2,7 +2,7 @@
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
-public interface IUpdateable<TEntity, TUpdateModel> where TEntity : IEntity
+public interface IUpdateable<TUpdateModel>
 {
     public ValueTask<ErrorMessage[]?> Update(TUpdateModel model);
 }
