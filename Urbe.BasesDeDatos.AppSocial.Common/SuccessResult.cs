@@ -12,9 +12,16 @@ public readonly struct SuccessResult<T>
         IsSuccess = true;
     }
 
+    public SuccessResult(ErrorList errors)
+    {
+        IsSuccess = false;
+        Result = default!;
+        ErrorMessages = errors;
+    }
+
     public static SuccessResult<T> Failure => default;
 
-    public ErrorMessage[]? ErrorMessages { get; init; }
+    public ErrorList ErrorMessages { get; }
 
     public T Result { get; }
 

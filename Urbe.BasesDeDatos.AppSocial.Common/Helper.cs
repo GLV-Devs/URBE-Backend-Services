@@ -9,8 +9,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Urbe.BasesDeDatos.AppSocial.Common;
 public static class Helper
 {
-    public static bool IsUpdating(string? original, [NotNullWhen(true)] string? update)
-        => update is not null && string.Equals(original, update, StringComparison.OrdinalIgnoreCase) is false;
+    public static bool IsUpdating(string? original, [NotNullWhen(true)] string? update, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        => update is not null && string.Equals(original, update, comparison) is false;
 
     public static bool IsTooLong(ref ErrorList errors, string update, int maxlength, string property)
     {
