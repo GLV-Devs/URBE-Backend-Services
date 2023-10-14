@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.DTOs;
 
-public class UserCreationModel { }
-
-public class UserViewModel { }
-
-public class UserUpdateModel { }
-
-#error Not Implemented
+public class UserCreationModel
+{
+    public required string Username { get; set; }
+    public required string Email { get; set; }
+    public required string Password { get; set; }
+    public string? RealName { get; set; }
+}
