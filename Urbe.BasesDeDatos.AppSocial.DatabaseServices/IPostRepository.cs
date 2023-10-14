@@ -4,8 +4,8 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
 namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
 
-public interface IPostRepository : IEntityCRDRepository<Post, Snowflake, PostCreationModel> { }
-
-#error Create IPostRepository
-#error Create IMailVerificationService
-#error Create ISessionServices
+public interface IPostRepository : IEntityCRDRepository<Post, Snowflake, PostCreationModel> 
+{
+    public ValueTask<IQueryable<Post>> GetPosts(SocialAppUser requester);
+    public ValueTask<IQueryable<Post>> GetPosts(SocialAppUser requester, SocialAppUser user);
+}
