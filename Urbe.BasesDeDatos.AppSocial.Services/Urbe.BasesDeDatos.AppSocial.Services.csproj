@@ -10,9 +10,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj" />
-  </ItemGroup>
-
 </Project>
