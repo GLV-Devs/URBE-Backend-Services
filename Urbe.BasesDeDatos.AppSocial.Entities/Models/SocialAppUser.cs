@@ -29,7 +29,7 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
 
     public string? ProfileMessage { get; set; }
 
-    public UserStatus Status { get; set; }
+    public UserSettings Settings { get; set; }
 
     public HashSet<SocialAppUser>? Follows { get; set; }
 
