@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Net;
 
 namespace Urbe.BasesDeDatos.AppSocial.Common;
 
@@ -7,6 +8,8 @@ public struct ErrorList : IEnumerable<ErrorMessage>
     internal List<ErrorMessage>? _errors;
 
     public readonly int Count => _errors?.Count ?? 0;
+
+    public HttpStatusCode RecommendedCode { get; set; }
 
     public readonly IEnumerator<ErrorMessage> GetEnumerator() 
         => (_errors ?? (IEnumerable<ErrorMessage>)Array.Empty<ErrorMessage>()).GetEnumerator();
