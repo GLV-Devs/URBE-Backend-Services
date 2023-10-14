@@ -9,6 +9,8 @@ public class UserViewModel
     public required UserStatus Status { get; set; }
     public required string ProfilePictureUrl { get; set; }
     public string? RealName { get; set; }
+    public string? Pronouns { get; set; }
+    public string? ProfileMessage { get; set; }
 
     public static UserViewModel FromUser(User user)
         => new()

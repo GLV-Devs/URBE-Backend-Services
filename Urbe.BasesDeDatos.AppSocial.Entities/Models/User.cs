@@ -10,17 +10,23 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<User>
+public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<User>, ICRUDEntity<User, UserUpdateModel, UserCreationModel>
 {
-    private string? username;
-    private string? email;
+    public const int EmailMaxLength = 300;
+    public const int RealNameMaxLength = 200;
+    public const int UserNameMaxLength = 20;
+    public const int PronounsMaxLength = 30;
+    public const int ProfileMessageMaxLength = 80;
 
-    public User(GuidId<User> id, string? realName, string username, string? email, string passwordHash, string passwordSalt, UserStatus status, HashSet<User>? follows, string? profilePictureUrl)
+    private string? username;
+    private string email;
+
+    public User(GuidId<User> id, string? realName, string username, string email, byte[] passwordHash, byte[] passwordSalt, UserStatus status, HashSet<User>? follows, string? profilePictureUrl)
     {
         Id = id;
         RealName = realName;
         Username = username ?? throw new ArgumentNullException(nameof(username));
-        Email = email;
+        this.email = email ?? throw new ArgumentNullException(nameof(email));
         PasswordHash = passwordHash ?? throw new ArgumentNullException(nameof(passwordHash));
         PasswordSalt = passwordSalt ?? throw new ArgumentNullException(nameof(passwordSalt));
         Status = status;
@@ -32,13 +38,21 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<U
 
     public string? RealName { get; set; }
 
+    public string? Pronouns { get; set; }
+
+    public string? ProfileMessage { get; set; }
+
     [MemberNotNull(nameof(username))]
     public string Username
     {
         get
         {
             if (username is null)
-                Username = $"{(RealName ?? "User")}{Random.Shared.Next(100000, 999999)}";
+            {
+                var bstr = RealName ?? "User";
+                Username = $"{bstr[..int.Min(bstr.Length, UserNameMaxLength - 9)]}{Random.Shared.Next(100000000, 999999999)}";
+                // The -9 comes from the fact that the bunch of numbers are a value between 100 000 000 and 999 999 999; always constrained within 9 digits in decimal (the system used)
+            }
             return username;
         }
 
@@ -55,7 +69,7 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<U
         }
     }
 
-    public string? Email 
+    public string Email 
     { 
         get => email;
         set
@@ -71,9 +85,9 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<U
         }
     }
 
-    public string PasswordHash { get; set; }
+    public byte[] PasswordHash { get; set; }
 
-    public string PasswordSalt { get; set; }
+    public byte[] PasswordSalt { get; set; }
 
     public UserStatus Status { get; set; }
 
@@ -98,6 +112,11 @@ public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<U
         mb.HasKey(x => x.Id);
         
         mb.Property(x => x.Id).HasConversion(GuidId<User>.ValueConverter);
+        mb.Property(x => x.Email).HasMaxLength(EmailMaxLength);
+        mb.Property(x => x.RealName).HasMaxLength(RealNameMaxLength);
+        mb.Property(x => x.Username).HasMaxLength(UserNameMaxLength);
+        mb.Property(x => x.Pronouns).HasMaxLength(PronounsMaxLength);
+        mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);
         
         mb.HasMany(x => x.Follows).WithMany();
 
