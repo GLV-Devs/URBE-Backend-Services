@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Urbe.BasesDeDatos.AppSocial.Services.Attributes;
 
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class RegisterServiceAttribute : Attribute
 {
     public Type Interface { get; }
