@@ -5,7 +5,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities;
 
-public readonly record struct GuidId<TEntity> : IConvertibleProperty
+public readonly record struct GuidId<TEntity> : IConvertibleProperty, IEquatable<Guid>
     where TEntity : class, IEntity
 {
     public Guid Value { get; }
@@ -25,4 +25,7 @@ public readonly record struct GuidId<TEntity> : IConvertibleProperty
         x => (GuidId<TEntity>)x,
         x => x.Value
     );
+
+    public bool Equals(Guid other)
+        => Value == other;
 }

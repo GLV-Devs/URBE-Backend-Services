@@ -3,7 +3,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities;
 
-public readonly record struct SnowflakeId<TEntity> : IConvertibleProperty
+public readonly record struct SnowflakeId<TEntity> : IConvertibleProperty, IEquatable<Snowflake>
     where TEntity : class, IEntity
 {
     public Snowflake Value { get; }
@@ -23,4 +23,7 @@ public readonly record struct SnowflakeId<TEntity> : IConvertibleProperty
         x => x.Value.AsLong(),
         x => new SnowflakeId<TEntity>(new Snowflake(x))
     );
+
+    public bool Equals(Snowflake other)
+        => Value == other;
 }
