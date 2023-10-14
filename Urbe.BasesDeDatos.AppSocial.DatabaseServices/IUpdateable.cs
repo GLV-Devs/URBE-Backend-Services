@@ -1,6 +1,6 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Common;
 
-namespace Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
 
 public interface IUpdateable<TUpdateModel>
 {

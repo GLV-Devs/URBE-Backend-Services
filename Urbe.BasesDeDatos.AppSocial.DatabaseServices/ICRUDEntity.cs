@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+﻿namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
 
 public interface ICRUDEntity<TEntity, TUpdateModel, TCreationModel>
     : IUpdateable<TUpdateModel>, ICreateable<TEntity, TCreationModel>, IReadable, IDeletable

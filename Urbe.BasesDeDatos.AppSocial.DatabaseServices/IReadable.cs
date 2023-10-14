@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
+namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
 
 public interface IReadable
 {
