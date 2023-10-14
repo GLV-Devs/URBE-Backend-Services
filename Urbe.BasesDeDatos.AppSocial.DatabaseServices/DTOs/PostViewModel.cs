@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.Entities.DTOs;
+namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 
 public class PostViewModel
 {

@@ -7,7 +7,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Internal;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>, IReadable, IDeletable
+public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 {
     private readonly KeyedNavigation<Guid, User> UserNavigation = new();
     private readonly KeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
@@ -69,7 +69,4 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>, IReadab
         mb.Property(x => x.InResponseToId).HasConversion(SnowflakeId<Post>.ValueConverter);
         mb.Property(x => x.Id).HasConversion(SnowflakeId<Post>.ValueConverter);
     }
-
-    public ValueTask<object> GetView()
-        => ValueTask.FromResult<object>(PostViewModel.FromPost(this));
 }

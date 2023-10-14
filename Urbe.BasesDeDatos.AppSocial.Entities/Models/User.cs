@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<User>, ICRUDEntity<User, UserUpdateModel, UserCreationModel>
+public class User : ModifiableEntity, IKeyed<Guid>, IEntity, ISelfModelBuilder<User>
 {
     public const int EmailMaxLength = 300;
     public const int RealNameMaxLength = 200;

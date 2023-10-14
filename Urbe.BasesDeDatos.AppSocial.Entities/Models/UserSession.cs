@@ -6,7 +6,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Internal;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class UserSession : IEntity, IKeyed<RandomKey>, ISelfModelBuilder<UserSession>, IDeletable
+public class UserSession : IEntity, IKeyed<RandomKey>, ISelfModelBuilder<UserSession>
 {
     private readonly KeyedNavigation<Guid, User> UserNavigation = new();
 
@@ -34,11 +34,5 @@ public class UserSession : IEntity, IKeyed<RandomKey>, ISelfModelBuilder<UserSes
         mb.HasKey(x => x.Id);
         mb.Property(x => x.Id).HasConversion(RandomKeyId<UserSession>.ValueConverter);
         mb.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).IsRequired(true);
-    }
-
-    public ValueTask<bool> Delete(SocialContext context)
-    {
-        context.Remove(this);
-        return ValueTask.FromResult(true);
     }
 }

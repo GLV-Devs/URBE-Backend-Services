@@ -1,8 +1,9 @@
-﻿using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+﻿using Urbe.BasesDeDatos.AppSocial.Entities;
+using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.Entities.DTOs;
+namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 
-public class UserViewModel 
+public class UserViewModel
 {
     public required GuidId<User> Id { get; set; }
     public required string Username { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.Entities.DTOs;
+﻿namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 
-public class UserUpdateModel 
+public class UserUpdateModel
 {
     public string? RealName { get; set; }
     public string? Username { get; set; }
