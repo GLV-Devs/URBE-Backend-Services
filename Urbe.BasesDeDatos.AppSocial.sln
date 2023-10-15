@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Services", "Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj", "{09858A29-B08E-45AD-909B-688097CB237A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.BasesDeDatos.AppSocial.API", "Urbe.BasesDeDatos.AppSocial.API\Urbe.BasesDeDatos.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{09858A29-B08E-45AD-909B-688097CB237A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09858A29-B08E-45AD-909B-688097CB237A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09858A29-B08E-45AD-909B-688097CB237A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{5D3CC0F9-2180-4CE8-92CF-F654481AE250} = {F698DF42-F987-4B99-A1D3-8B24D3A735CB}
 		{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
 		{09858A29-B08E-45AD-909B-688097CB237A} = {F698DF42-F987-4B99-A1D3-8B24D3A735CB}
+		{A30D7F07-E073-478E-BE7E-6D82DBAF601A} = {26CF868D-32EA-4642-ACB4-FFF654CC129D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}
