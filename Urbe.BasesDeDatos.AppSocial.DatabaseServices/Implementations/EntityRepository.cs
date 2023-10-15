@@ -18,6 +18,12 @@ public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
         this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
     }
 
+    public virtual async ValueTask<TEntity?> Find(TKey key)
+        => await context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
+
+    public virtual IQueryable<TEntity> Query()
+        => context.Set<TEntity>();
+
     public virtual async ValueTask<TEntity?> Find(SocialAppUser Requester, TKey key)
         => await context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
 

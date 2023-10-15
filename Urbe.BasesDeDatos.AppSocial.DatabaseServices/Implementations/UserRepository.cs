@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -194,6 +195,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     }
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser entity)
-        => (entity.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
-        && (entity.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (requester is not null && await IsFollowing(requester, entity)));
+        => (requester?.Id.Equals(entity.Id) is true)
+        || ((entity.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
+            && (entity.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (requester is not null && await IsFollowing(requester, entity))));
 }
