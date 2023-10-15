@@ -81,8 +81,6 @@ public static class Program
             // Cookie settings
             options.Cookie.HttpOnly = false;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-
-            options.LoginPath = "/api/identity/account/login";
             options.SlidingExpiration = true;
         });
 
