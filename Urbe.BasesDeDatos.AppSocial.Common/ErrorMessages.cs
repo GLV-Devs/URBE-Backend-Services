@@ -17,6 +17,9 @@ public static class ErrorMessages
     public static ErrorMessage NoPermission()
         => new("El usuario no tiene permisos para realizar ésta acción");
 
+    public static ErrorMessage NoPostContent()
+        => new("La petición no cuenta con contenido en el post");
+
     public static ErrorMessage AlreadyInUse(string property, string value)
         => new($"La propiedad {property} no puede contener el valor '{value}', debido a que ya esta siendo utilizada.");
 
