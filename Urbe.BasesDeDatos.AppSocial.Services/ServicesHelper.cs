@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
+namespace Urbe.BasesDeDatos.AppSocial.Services;
 public static class ServicesHelper
 {
     public static void RegisterDatabaseServices(this IServiceCollection serviceCollection)
