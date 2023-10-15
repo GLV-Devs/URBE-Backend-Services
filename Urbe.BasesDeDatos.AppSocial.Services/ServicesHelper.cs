@@ -11,7 +11,7 @@ using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
 namespace Urbe.BasesDeDatos.AppSocial.Services;
 public static class ServicesHelper
 {
-    public static void RegisterDatabaseServices(this IServiceCollection serviceCollection)
+    public static void RegisterDecoratedServices(this IServiceCollection serviceCollection)
     {
         foreach (var (type, attr) in AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
