@@ -9,6 +9,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.OData;
+using Microsoft.OpenApi.Models;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -26,7 +27,15 @@ public static class Program
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(o 
+            => o.AddSecurityDefinition("apiKey", new OpenApiSecurityScheme()
+            {
+                In = ParameterLocation.Cookie,
+                Description = "Please log in using the Identity controller",
+                Name = "Session",
+                Type = SecuritySchemeType.ApiKey
+            }
+        ));
 
         builder.Services.RegisterDecoratedServices();
 
