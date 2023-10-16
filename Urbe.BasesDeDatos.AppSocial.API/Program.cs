@@ -80,6 +80,9 @@ public static class Program
         {
             // Cookie settings
             options.Cookie.HttpOnly = false;
+            options.LoginPath = "/api/identity";
+            options.LogoutPath = "/api/identity";
+            options.ClaimsIssuer = "GarciaLozanoViloria-Urbe.BasesDeDatos.AppSocial.API";
             options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             options.SlidingExpiration = true;
         });
