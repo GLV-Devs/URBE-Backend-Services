@@ -195,15 +195,6 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return true;
     }
 
-    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query)
-        => ValueTask.FromResult<IQueryable<object>?>(
-            query is null
-            ? null
-            : requester is null
-            ? query.Where(x => x.Poster!.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
-            : query.Where(x => x.Poster!.Id != requester.Id && (x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.Follows!.Contains(x.Poster)))
-        );
-
     public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<SocialAppUser>? users) 
         => ValueTask.FromResult<IQueryable<object>?>(
             users is null
