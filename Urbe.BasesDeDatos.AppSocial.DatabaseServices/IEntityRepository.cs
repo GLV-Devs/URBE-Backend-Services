@@ -9,7 +9,7 @@ public interface IEntityRepository<TEntity, TKey>
 {
     public ValueTask<TEntity?> Find(TKey key);
     public IQueryable<TEntity> Query();
-    public ValueTask<TEntity?> Find(SocialAppUser Requester, TKey key);
-    public IQueryable<TEntity> Query(SocialAppUser Requester);
+    public ValueTask<TEntity?> Find(SocialAppUser? Requester, TKey key);
+    public IQueryable<TEntity> Query(SocialAppUser? Requester);
     public ValueTask<int> SaveChanges();
 }
