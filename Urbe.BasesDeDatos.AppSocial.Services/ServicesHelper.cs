@@ -13,13 +13,12 @@ public static class ServicesHelper
 {
     public static void RegisterDecoratedServices(this IServiceCollection serviceCollection)
     {
-        foreach (var (type, attr) in AppDomain.CurrentDomain.GetAssemblies()
+        foreach (var (type, attributes) in AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
-                .Select(x => (Type: x, Attribute: x.GetCustomAttribute<RegisterServiceAttribute>()))
-                .Where(x => x.Attribute is not null))
+                .Select(x => (Type: x, Attributes: x.GetCustomAttributes<RegisterServiceAttribute>())))
         {
-            Debug.Assert(attr is not null);
-            serviceCollection.AddScoped(attr.Interface, type);
+            foreach (var attr in attributes)
+                serviceCollection.AddScoped(attr.Interface, type);
         }
     }
 }
