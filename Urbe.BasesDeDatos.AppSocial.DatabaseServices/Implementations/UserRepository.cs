@@ -150,7 +150,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             {
                 var errors = new ErrorList();
                 errors.AddError(ErrorMessages.NoPermission());
-                errors.RecommendedCode = System.Net.HttpStatusCode.Unauthorized;
+                errors.RecommendedCode = System.Net.HttpStatusCode.Forbidden;
                 return new SuccessResult<object>(errors);
             }
         }
