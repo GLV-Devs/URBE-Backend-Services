@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
 using Urbe.BasesDeDatos.AppSocial.API.Models.Requests;
+using Urbe.BasesDeDatos.AppSocial.DatabaseServices;
+using Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
+using Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
 namespace Urbe.BasesDeDatos.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("/api/identity")]
-public sealed class IdentityController : Controller
+public sealed class IdentityController : SocialAppController
 {
     private readonly UserManager<SocialAppUser> UserManager;
     private readonly SignInManager<SocialAppUser> SignInManager;
@@ -19,6 +23,21 @@ public sealed class IdentityController : Controller
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         SignInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateEntity([FromBody] UserCreationModel creationModel, [FromServices] IUserRepository userRepository)
+    {
+        var result = await userRepository.Create(null, creationModel);
+
+        if (result.TryGetResult(out var created))
+        {
+            await userRepository.SaveChanges();
+            var viewresult = await userRepository.GetView(null, created);
+            return viewresult.TryGetResult(out var view) ? Ok(view) : FailureResult(viewresult);
+        }
+
+        return FailureResult(result);
     }
 
     [HttpPut]
