@@ -194,6 +194,11 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return true;
     }
 
+    public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester) 
+        => Requester is not null
+            ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.Follows!.Contains(x)))
+            : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
+
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser entity)
         => (requester?.Id.Equals(entity.Id) is true)
         || ((entity.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
