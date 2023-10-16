@@ -79,6 +79,13 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
         mb.Property(x => x.ProfilePictureUrl).HasMaxLength(ProfilePictureUrlMaxLength);
         mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);
 
+        mb.Property(x => x.Settings)
+            .HasDefaultValue(UserSettings.AllowAnonymousViews | 
+                             UserSettings.AllowNonFollowerViews | 
+                             UserSettings.AllowAnonymousPostViews | 
+                             UserSettings.AllowNonFollowerPostViews
+                            );
+
         mb.HasMany(x => x.Follows).WithMany();
     }
 
