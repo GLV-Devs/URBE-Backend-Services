@@ -144,15 +144,16 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     {
         if (requester is null || requester.Id != entity.Id)
         {
+            UserViewModel view;
             if (await CanView(requester, entity))
-                return new SuccessResult<object>(UserViewModel.FromUser(entity));
-            else
             {
-                var errors = new ErrorList();
-                errors.AddError(ErrorMessages.NoPermission());
-                errors.RecommendedCode = System.Net.HttpStatusCode.Forbidden;
-                return new SuccessResult<object>(errors);
+                view = UserViewModel.FromUser(entity);
+                if (requester is not null)
+                    view.FollowsRequester = await IsFollowing(requester, entity);
             }
+            else
+                view = UserViewModel.FromHiddenUser(entity);
+            return new SuccessResult<object>(view);
         }
 
         return new SuccessResult<object>(UserSelfViewModel.FromUser(entity));
@@ -176,13 +177,13 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser follower, SocialAppUser followed)
         => await CanView(requester, follower) && await IsFollowing(follower, followed);
 
-    public async ValueTask<IQueryable<SocialAppUser>?> GetFollowers(SocialAppUser requester, SocialAppUser user)
+    public async ValueTask<IQueryable<SocialAppUser>?> GetFollowers(SocialAppUser? requester, SocialAppUser user)
         => await CanView(requester, user) ? await GetFollowers(user) : null;
 
-    public async ValueTask<IQueryable<SocialAppUser>?> GetFollowing(SocialAppUser requester, SocialAppUser user)
+    public async ValueTask<IQueryable<SocialAppUser>?> GetFollowing(SocialAppUser? requester, SocialAppUser user)
         => await CanView(requester, user) ? await GetFollowing(user) : null;
 
-    public async ValueTask<IQueryable<SocialAppUser>?> GetMutuals(SocialAppUser requester, SocialAppUser user)
+    public async ValueTask<IQueryable<SocialAppUser>?> GetMutuals(SocialAppUser? requester, SocialAppUser user)
         => await CanView(requester, user) ? await GetMutuals(user) : null;
 
     public async ValueTask<bool> FollowUser(SocialAppUser requester, SocialAppUser followed)

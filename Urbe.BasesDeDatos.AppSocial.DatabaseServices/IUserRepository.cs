@@ -13,9 +13,9 @@ public interface IUserRepository : IEntityCRUDRepository<SocialAppUser, Guid, Us
     public ValueTask<IQueryable<SocialAppUser>> GetMutuals(SocialAppUser requester);
 
     public ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser follower, SocialAppUser followed);
-    public ValueTask<IQueryable<SocialAppUser>?> GetFollowers(SocialAppUser requester, SocialAppUser user);
-    public ValueTask<IQueryable<SocialAppUser>?> GetFollowing(SocialAppUser requester, SocialAppUser user);
-    public ValueTask<IQueryable<SocialAppUser>?> GetMutuals(SocialAppUser requester, SocialAppUser user);
+    public ValueTask<IQueryable<SocialAppUser>?> GetFollowers(SocialAppUser? requester, SocialAppUser user);
+    public ValueTask<IQueryable<SocialAppUser>?> GetFollowing(SocialAppUser? requester, SocialAppUser user);
+    public ValueTask<IQueryable<SocialAppUser>?> GetMutuals(SocialAppUser? requester, SocialAppUser user);
 
     public ValueTask<bool> FollowUser(SocialAppUser requester, SocialAppUser followed);
 }
