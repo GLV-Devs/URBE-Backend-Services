@@ -24,10 +24,10 @@ public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
     public virtual IQueryable<TEntity> Query()
         => context.Set<TEntity>();
 
-    public virtual async ValueTask<TEntity?> Find(SocialAppUser Requester, TKey key)
+    public virtual async ValueTask<TEntity?> Find(SocialAppUser? Requester, TKey key)
         => await context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
 
-    public virtual IQueryable<TEntity> Query(SocialAppUser Requester)
+    public virtual IQueryable<TEntity> Query(SocialAppUser? Requester)
         => context.Set<TEntity>();
 
     public virtual async ValueTask<int> SaveChanges()
