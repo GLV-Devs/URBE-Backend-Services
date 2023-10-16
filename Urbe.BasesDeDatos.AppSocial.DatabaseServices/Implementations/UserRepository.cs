@@ -30,7 +30,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
-    public override async ValueTask<ErrorList> Update(SocialAppUser? requester, SocialAppUser entity, UserUpdateModel update)
+    public override async ValueTask<SuccessResult> Update(SocialAppUser? requester, SocialAppUser entity, UserUpdateModel update)
     {
         var errors = new ErrorList();
 
@@ -84,7 +84,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 && Helper.IsTooLong(ref errors, update.ProfilePictureUrl, SocialAppUser.ProfilePictureUrlMaxLength, "URL de Foto de Perfil") is false)
             entity.ProfilePictureUrl = update.ProfilePictureUrl;
 
-        return errors;
+        return new(errors);
     }
 
     public override async ValueTask<SuccessResult<SocialAppUser>> Create(SocialAppUser? requester, UserCreationModel model)

@@ -14,5 +14,5 @@ public abstract class EntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdat
     {
     }
 
-    public abstract ValueTask<ErrorList> Update(SocialAppUser? requester, TEntity entity, TUpdateModel update);
+    public abstract ValueTask<SuccessResult> Update(SocialAppUser? requester, TEntity entity, TUpdateModel update);
 }
