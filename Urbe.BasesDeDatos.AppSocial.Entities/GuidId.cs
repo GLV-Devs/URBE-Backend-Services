@@ -21,9 +21,9 @@ public readonly record struct GuidId<TEntity> : IConvertibleProperty, IEquatable
     public static explicit operator Guid(GuidId<TEntity> id)
         => id.Value;
 
-    public static ValueConverter ValueConverter { get; } = new ValueConverter<Guid, GuidId<TEntity>>(
-        x => (GuidId<TEntity>)x,
-        x => x.Value
+    public static ValueConverter ValueConverter { get; } = new ValueConverter<GuidId<TEntity>, Guid>(
+        x => x.Value,
+        x => (GuidId<TEntity>)x
     );
 
     public bool Equals(Guid other)

@@ -21,7 +21,7 @@ public class UserController : SocialAppController
     protected IUserRepository UserRepository { get; }
     protected UserManager<SocialAppUser> UserManager { get; }
 
-    protected UserController(IUserRepository userRepository, UserManager<SocialAppUser> userManager)
+    public UserController(IUserRepository userRepository, UserManager<SocialAppUser> userManager)
     {
         UserRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));

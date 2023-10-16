@@ -11,15 +11,13 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
     private readonly KeyedNavigation<Guid, SocialAppUser> UserNavigation = new();
     private readonly KeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
 
-    public Post(SnowflakeId<Post> id, SocialAppUser? poster, GuidId<SocialAppUser> posterId, string content, string posterThenUsername, DateTimeOffset datePosted, Post? inResponseTo, SnowflakeId<Post> inResponseToId)
+    public Post(SnowflakeId<Post> id, GuidId<SocialAppUser> posterId, string content, string posterThenUsername, DateTimeOffset datePosted, SnowflakeId<Post> inResponseToId)
     {
         Id = id;
-        Poster = poster;
         PosterId = posterId;
         Content = content ?? throw new ArgumentNullException(nameof(content));
         PosterThenUsername = posterThenUsername ?? throw new ArgumentNullException(nameof(posterThenUsername));
         DatePosted = datePosted;
-        InResponseTo = inResponseTo;
         InResponseToId = inResponseToId;
     }
 

@@ -35,12 +35,10 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
 
         return ValueTask.FromResult(new SuccessResult<Post>(new Post(
             Snowflake.New(),
-            requester,
             requester.Id,
             model.Content,
             requester.UserName!,
             DateTimeOffset.Now,
-            null,
             model.InResponseTo ?? default
         )));
     }
