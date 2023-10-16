@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Net;
+using System.Text.Json.Serialization;
 
 namespace Urbe.BasesDeDatos.AppSocial.Common;
 
@@ -9,7 +10,8 @@ public struct ErrorList : IEnumerable<ErrorMessage>
 
     public readonly int Count => _errors?.Count ?? 0;
 
-    public HttpStatusCode RecommendedCode { get; set; }
+    [JsonIgnore]
+    public HttpStatusCode? RecommendedCode { get; set; }
 
     public readonly IEnumerator<ErrorMessage> GetEnumerator() 
         => (_errors ?? (IEnumerable<ErrorMessage>)Array.Empty<ErrorMessage>()).GetEnumerator();

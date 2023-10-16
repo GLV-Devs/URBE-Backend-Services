@@ -140,7 +140,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return new SuccessResult<SocialAppUser>(newuser);
     }
 
-    public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser requester, SocialAppUser entity)
+    public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, SocialAppUser entity)
     {
         if (requester is null || requester.Id != entity.Id)
         {

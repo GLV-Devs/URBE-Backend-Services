@@ -8,5 +8,5 @@ public interface IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateMod
     where TEntity : IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
-    public ValueTask<ErrorList> Update(SocialAppUser requester, TEntity entity, TUpdateModel update);
+    public ValueTask<ErrorList> Update(SocialAppUser? requester, TEntity entity, TUpdateModel update);
 }

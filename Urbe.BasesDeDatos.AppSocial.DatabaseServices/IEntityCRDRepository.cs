@@ -11,7 +11,7 @@ public interface IEntityCRDRepository<TEntity, TKey, TCreationModel> : IEntityRe
 {
     public ValueTask<SuccessResult<TEntity>> Create(SocialAppUser? requester, TCreationModel model);
     
-    public ValueTask<SuccessResult<object>> GetView(SocialAppUser requester, TEntity entity);
+    public ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, TEntity entity);
 
-    public ValueTask<bool> Delete(SocialAppUser requester, TEntity entity);
+    public ValueTask<SuccessResult> Delete(SocialAppUser? requester, TEntity entity);
 }

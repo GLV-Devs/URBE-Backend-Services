@@ -3,6 +3,20 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Urbe.BasesDeDatos.AppSocial.Common;
 
+public readonly struct SuccessResult
+{
+    public SuccessResult(ErrorList errors)
+    {
+        ErrorMessages = errors;
+    }
+
+    public ErrorList ErrorMessages { get; }
+
+    public bool IsSuccess => ErrorMessages.Count == 0;
+
+    public static SuccessResult Success => new();
+}
+
 public readonly struct SuccessResult<T>
 {
     public SuccessResult(T result)

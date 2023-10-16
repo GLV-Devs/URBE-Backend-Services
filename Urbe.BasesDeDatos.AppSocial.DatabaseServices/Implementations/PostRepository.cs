@@ -42,7 +42,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         )));
     }
 
-    public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser requester, Post entity)
+    public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, Post entity)
     {
         var errorlist = new ErrorList();
 
