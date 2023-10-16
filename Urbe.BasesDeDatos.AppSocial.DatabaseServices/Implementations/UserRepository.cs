@@ -195,6 +195,50 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return true;
     }
 
+    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query)
+        => ValueTask.FromResult<IQueryable<object>?>(
+            query is null
+            ? null
+            : requester is null
+            ? query.Where(x => x.Poster!.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
+            : query.Where(x => x.Poster!.Id != requester.Id && (x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.Follows!.Contains(x.Poster)))
+        );
+
+    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<SocialAppUser>? users) 
+        => ValueTask.FromResult<IQueryable<object>?>(
+            users is null
+            ? null
+            : requester is null
+            ? users.Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
+                ? new UserViewModel()
+                {
+                    ProfileMessage = x.ProfileMessage,
+                    ProfilePictureUrl = x.ProfilePictureUrl,
+                    Pronouns = x.Pronouns,
+                    RealName = x.RealName,
+                    Username = x.UserName!
+                }
+                : new UserViewModel()
+                {
+                    Username = x.UserName!,
+                    ProfilePictureUrl = null
+                })
+            : users.Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.Follows!.Contains(requester)
+                ? new UserViewModel()
+                {
+                    ProfileMessage = x.ProfileMessage,
+                    ProfilePictureUrl = x.ProfilePictureUrl,
+                    Pronouns = x.Pronouns,
+                    RealName = x.RealName,
+                    Username = x.UserName!
+                }
+                : new UserViewModel()
+                {
+                    Username = x.UserName!,
+                    ProfilePictureUrl = null
+                })
+           );
+
     public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester) 
         => Requester is not null
             ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.Follows!.Contains(x)))

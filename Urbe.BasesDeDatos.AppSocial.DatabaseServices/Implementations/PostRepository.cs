@@ -1,8 +1,11 @@
-﻿using Urbe.BasesDeDatos.AppSocial.Common;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
 
@@ -41,6 +44,15 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
             model.InResponseTo ?? default
         )));
     }
+
+    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query) 
+        => ValueTask.FromResult<IQueryable<object>?>(
+            query is null
+            ? null
+            : requester is null
+            ? query.Where(x => x.Poster!.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
+            : query.Where(x => x.Poster!.Id != requester.Id && (x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.Follows!.Contains(x.Poster)))
+        );
 
     public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, Post entity)
     {

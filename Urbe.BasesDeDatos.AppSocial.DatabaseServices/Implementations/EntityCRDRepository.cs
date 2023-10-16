@@ -23,4 +23,6 @@ public abstract class EntityCRDRepository<TEntity, TKey, TCreationModel> : Entit
         context.Set<TEntity>().Remove(entity);
         return ValueTask.FromResult(SuccessResult.Success);
     }
+
+    public abstract ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<TEntity>? users);
 }
