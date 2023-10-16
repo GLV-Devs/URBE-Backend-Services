@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Urbe.BasesDeDatos.AppSocial.DatabaseServices;
+using Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
+using Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
@@ -18,6 +21,14 @@ public abstract class CRDController<TEntity, TKey, TCreationModel> : SocialAppCo
     {
         EntityCRDRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+    }
+
+    [HttpGet("query")]
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<object>>> QueryEntities()
+    {
+        var u = await UserManager.GetUserAsync(User);
+        return Ok(await EntityCRDRepository.GetViews(u, EntityCRDRepository.Query(u)));
     }
 
     [HttpPost]
