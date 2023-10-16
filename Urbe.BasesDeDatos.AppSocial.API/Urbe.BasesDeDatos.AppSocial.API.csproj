@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.DatabaseServices\Urbe.BasesDeDatos.AppSocial.DatabaseServices.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj" />
