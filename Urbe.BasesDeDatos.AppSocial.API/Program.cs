@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.OData;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -21,7 +22,8 @@ public static class Program
 
         // Add services to the container.
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddOData(o => o.Select().Filter().OrderBy().Count().SetMaxTop(100));
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
