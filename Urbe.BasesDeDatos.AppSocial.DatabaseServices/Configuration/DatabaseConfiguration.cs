@@ -8,13 +8,14 @@ namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.Configuration;
 
 public readonly record struct DatabaseConfiguration(DatabaseType DatabaseType)
 {
-    public static string ReplaceConnectionStringWildCards(string input)
+    public static string FormatConnectionString(string input)
     {
         ArgumentNullException.ThrowIfNull(input);
         return input.Replace(
                 "{appdata}",
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Urbe.BasesDeDatos.AppSocia", "data"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Urbe.BasesDeDatos.AppSocial", "data"),
                 StringComparison.OrdinalIgnoreCase
-            );
+            ).Replace('/', Path.DirectorySeparatorChar)
+            .Replace('\\', Path.DirectorySeparatorChar);
     }
 }

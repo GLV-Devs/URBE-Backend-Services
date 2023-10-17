@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OpenApi.Models;
+using Urbe.BasesDeDatos.AppSocial.Common;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -48,19 +49,23 @@ public static class Program
 
         var dbconf = builder.Configuration.GetRequiredSection("DatabaseConfig").GetRequiredSection("SocialContext").Get<DatabaseConfiguration?>()
             ?? throw new InvalidDataException("SocialConfig parameter under DatabaseConfig section returned null");
-        builder.Services.AddDbContext<SocialContext>(x =>
+        var connstr = DatabaseConfiguration.FormatConnectionString(builder.Configuration.GetConnectionString("SocialContext")!);
+
+        if (dbconf.DatabaseType is DatabaseType.SQLServer)
         {
-            if (dbconf.DatabaseType is DatabaseType.SQLServer)
-            {
-                Log.Information("Registering SocialContext backed by SQLServer");
-                x.UseSqlServer(DatabaseConfiguration.ReplaceConnectionStringWildCards(builder.Configuration.GetConnectionString("SocialContext")!));
-            }
-            else if (dbconf.DatabaseType is DatabaseType.SQLite)
-            {
-                Log.Information("Registering SocialContext backed by SQLite");
-                x.UseSqlite(DatabaseConfiguration.ReplaceConnectionStringWildCards(builder.Configuration.GetConnectionString("SocialContext")!));
-            }
-        });
+            Log.Information("Registering SocialContext backed by SQLServer");
+            builder.Services.AddDbContext<SocialContext>(x => x.UseSqlServer(connstr));
+        }
+        else if (dbconf.DatabaseType is DatabaseType.SQLite)
+        {
+            Log.Information("Registering SocialContext backed by SQLite");
+            var path = Regexes.SQLiteConnectionStringFilePath().Match(connstr).Groups[1].ValueSpan;
+            var dir = Path.GetDirectoryName(path);
+            Directory.CreateDirectory(new string(dir));
+            builder.Services.AddDbContext<SocialContext>(x => x.UseSqlite(connstr));
+        }
+        else
+            throw new InvalidDataException($"Unknown Database Type: {dbconf.DatabaseType}");
 
         builder.Services.AddAuthentication(o =>
         {
