@@ -163,16 +163,16 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         => await userManager.FindByNameAsync(username);
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser followed)
-        => requester.Follows?.Contains(followed) is true || await context.Users.Where(x => x.Id == requester.Id).AnyAsync(x => x.Follows!.Contains(followed));
+        => requester.FollowedUsers?.Contains(followed) is true || await context.Users.Where(x => x.Id == requester.Id).AnyAsync(x => x.FollowedUsers!.Contains(followed));
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowers(SocialAppUser requester)
-        => ValueTask.FromResult(context.Users.Where(x => x.Follows!.Contains(requester)));
+        => ValueTask.FromResult(context.Users.Where(x => x.FollowedUsers!.Contains(requester)));
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowing(SocialAppUser requester)
-        => ValueTask.FromResult(context.Users.Where(x => requester.Follows!.Contains(x)));
+        => ValueTask.FromResult(context.Users.Where(x => requester.FollowedUsers!.Contains(x)));
 
     public ValueTask<IQueryable<SocialAppUser>> GetMutuals(SocialAppUser requester)
-        => ValueTask.FromResult(context.Users.Where(x => x.Follows!.Contains(requester) && requester.Follows!.Contains(x)));
+        => ValueTask.FromResult(context.Users.Where(x => x.FollowedUsers!.Contains(requester) && requester.FollowedUsers!.Contains(x)));
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser follower, SocialAppUser followed)
         => await CanView(requester, follower) && await IsFollowing(follower, followed);
@@ -191,7 +191,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         if (await IsFollowing(requester, followed))
             return false;
 
-        (requester.Follows ??= new()).Add(followed);
+        (requester.FollowedUsers ??= new()).Add(followed);
         return true;
     }
 
@@ -214,7 +214,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                     Username = x.UserName!,
                     ProfilePictureUrl = null
                 })
-            : users.Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.Follows!.Contains(requester)
+            : users.Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers!.Contains(requester)
                 ? new UserViewModel()
                 {
                     ProfileMessage = x.ProfileMessage,
@@ -232,7 +232,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
 
     public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester) 
         => Requester is not null
-            ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.Follows!.Contains(x)))
+            ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.FollowedUsers!.Contains(x)))
             : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser entity)

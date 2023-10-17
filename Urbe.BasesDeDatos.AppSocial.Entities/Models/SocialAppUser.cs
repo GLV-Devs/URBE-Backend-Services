@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
-using Urbe.BasesDeDatos.AppSocial.Entities.Internal;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
@@ -31,7 +30,7 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
 
     public UserSettings Settings { get; set; }
 
-    public HashSet<SocialAppUser>? Follows { get; set; }
+    public HashSet<SocialAppUser>? FollowedUsers { get; set; }
 
     public HashSet<Post>? Posts { get; set; }
 
@@ -70,6 +69,7 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<SocialAppUser> mb)
     {
         mb.HasKey(x => x.Id);
+        mb.HasIndex(x => x.UserName).IsUnique(true);
 
         mb.Property(x => x.Id).HasConversion(GuidId<SocialAppUser>.ValueConverter);
         mb.Property(x => x.Email).HasMaxLength(EmailMaxLength);
@@ -86,7 +86,17 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
                              UserSettings.AllowNonFollowerPostViews
                             );
 
-        mb.HasMany(x => x.Follows).WithMany();
+        var followmb = mb.HasMany(x => x.FollowedUsers).WithMany().UsingEntity<SocialAppUserFollow>(
+            "SocialAppUserFollow",
+            right => right.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId),
+            right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId)
+        );
+
+        followmb.HasKey(x => x.Id);
+
+        followmb.Property(x => x.Id).HasConversion(GuidId<SocialAppUserFollow>.ValueConverter).ValueGeneratedOnAdd();
+        followmb.Property(x => x.FollowerId).HasConversion(GuidId<SocialAppUser>.ValueConverter);
+        followmb.Property(x => x.FollowedId).HasConversion(GuidId<SocialAppUser>.ValueConverter);
     }
 
     Guid IKeyed<Guid>.Id => Id.Value;

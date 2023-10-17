@@ -49,7 +49,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
             ? null
             : requester is null
             ? query.Where(x => x.Poster!.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
-            : query.Where(x => x.Poster!.Id != requester.Id && (x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.Follows!.Contains(x.Poster)))
+            : query.Where(x => x.Poster!.Id != requester.Id && (x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.FollowedUsers!.Contains(x.Poster)))
         );
 
     public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, Post entity)
