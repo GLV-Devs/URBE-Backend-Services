@@ -8,6 +8,7 @@ public class SocialContext : DbContext
 {
     public SocialContext(DbContextOptions<SocialContext> options) : base(options)
     {
+        Database.EnsureCreated();
         ChangeTracker.StateChanged += ChangeTracker_StateChanged;
     }
 

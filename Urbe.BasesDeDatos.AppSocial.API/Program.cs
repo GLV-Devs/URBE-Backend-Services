@@ -46,18 +46,19 @@ public static class Program
             .WriteTo.Console()
             .CreateLogger();
 
-        var dbconf = builder.Configuration.GetRequiredSection("DatabaseConfig").GetValue<DatabaseConfiguration>("SocialContext");
+        var dbconf = builder.Configuration.GetRequiredSection("DatabaseConfig").GetRequiredSection("SocialContext").Get<DatabaseConfiguration?>()
+            ?? throw new InvalidDataException("SocialConfig parameter under DatabaseConfig section returned null");
         builder.Services.AddDbContext<SocialContext>(x =>
         {
             if (dbconf.DatabaseType is DatabaseType.SQLServer)
             {
                 Log.Information("Registering SocialContext backed by SQLServer");
-                x.UseSqlServer(builder.Configuration.GetConnectionString("SocialContext"));
+                x.UseSqlServer(DatabaseConfiguration.ReplaceConnectionStringWildCards(builder.Configuration.GetConnectionString("SocialContext")!));
             }
             else if (dbconf.DatabaseType is DatabaseType.SQLite)
             {
                 Log.Information("Registering SocialContext backed by SQLite");
-                x.UseSqlite(builder.Configuration.GetConnectionString("SocialContext"));
+                x.UseSqlite(DatabaseConfiguration.ReplaceConnectionStringWildCards(builder.Configuration.GetConnectionString("SocialContext")!));
             }
         });
 
