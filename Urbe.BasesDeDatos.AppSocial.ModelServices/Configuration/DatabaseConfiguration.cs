@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
 
-public readonly record struct DatabaseConfiguration(DatabaseType DatabaseType)
+public readonly record struct DatabaseConfiguration(DatabaseType DatabaseType, string SQLServerConnectionString, string SQLiteConnectionString)
 {
     public static string FormatConnectionString(string input)
     {

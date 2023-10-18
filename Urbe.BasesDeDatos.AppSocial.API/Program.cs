@@ -61,20 +61,20 @@ public static class Program
 
         var dbconf = builder.Configuration.GetRequiredSection("DatabaseConfig").GetRequiredSection("SocialContext").Get<DatabaseConfiguration?>()
             ?? throw new InvalidDataException("SocialConfig parameter under DatabaseConfig section returned null");
-        var connstr = DatabaseConfiguration.FormatConnectionString(builder.Configuration.GetConnectionString("SocialContext")!);
 
         if (dbconf.DatabaseType is DatabaseType.SQLServer)
         {
             Log.Information("Registering SocialContext backed by SQLServer");
-            services.AddDbContext<SocialContext>(x => x.UseSqlServer(connstr));
+            services.AddDbContext<SocialContext>(x => x.UseSqlServer(dbconf.SQLServerConnectionString));
         }
         else if (dbconf.DatabaseType is DatabaseType.SQLite)
         {
             Log.Information("Registering SocialContext backed by SQLite");
-            var path = Regexes.SQLiteConnectionStringFilePath().Match(connstr).Groups[1].ValueSpan;
+            var conns = DatabaseConfiguration.FormatConnectionString(dbconf.SQLiteConnectionString);
+            var path = Regexes.SQLiteConnectionStringFilePath().Match(conns).Groups[1].ValueSpan;
             var dir = Path.GetDirectoryName(path);
             Directory.CreateDirectory(new string(dir));
-            services.AddDbContext<SocialContext>(x => x.UseSqlite(connstr));
+            services.AddDbContext<SocialContext>(x => x.UseSqlite(conns));
         }
         else
             throw new InvalidDataException($"Unknown Database Type: {dbconf.DatabaseType}");
