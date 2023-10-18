@@ -28,4 +28,4 @@ public static class ErrorListExtensions
     }
 }
 
-public readonly record struct ErrorMessage(string Message);
+public readonly record struct ErrorMessage(string? Message, string Key, IDictionary<string, string>? Properties);
