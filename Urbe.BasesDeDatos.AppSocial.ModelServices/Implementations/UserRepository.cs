@@ -62,7 +62,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 && Helper.IsTooLong(ref errors, update.Username, SocialAppUser.UserNameMaxLength, "Nombre de Usuario") is false)
         {
             if (await userManager.FindByNameAsync(update.Username) is not null)
-                errors.AddError(ErrorMessages.AlreadyInUseByOtherUser("Nombre de Usuario", update.Username));
+                errors.AddError(ErrorMessages.UsernameAlreadyInUse(update.Username));
             else
             {
                 var result = await userManager.SetUserNameAsync(entity, update.Username);
@@ -97,14 +97,14 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         if (Helper.IsTooLong(ref errors, model.Username, SocialAppUser.UserNameMaxLength, "Nombre de Usuario") is false
             && await userManager.FindByNameAsync(model.Username) is not null)
         {
-            errors.AddError(ErrorMessages.AlreadyInUseByOtherUser("Nombre de Usuario", model.Username));
+            errors.AddError(ErrorMessages.UsernameAlreadyInUse(model.Username));
             return new SuccessResult<SocialAppUser>(errors);
         }
 
         if (Helper.IsTooLong(ref errors, model.Email, SocialAppUser.EmailMaxLength, "Correo Electrónico") is false
             && await userManager.FindByEmailAsync(model.Email) is not null)
         {
-            errors.AddError(ErrorMessages.AlreadyInUseByOtherUser("Correo Electrónico", model.Email));
+            errors.AddError(ErrorMessages.EmailAlreadyInUse(model.Email));
             return new SuccessResult<SocialAppUser>(errors);
         }
 

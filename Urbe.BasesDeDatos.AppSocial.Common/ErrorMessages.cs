@@ -13,9 +13,9 @@ public static class ErrorMessages
         => new(
             $"El correo electrónico está malformado: {email}",
             nameof(BadEmail),
-            new Dictionary<string, string>()
+            new ErrorMessageProperty[]
             {
-                { nameof(email), email }
+                new(nameof(email), "correo electrónico", email)
             }
         );
 
@@ -23,9 +23,9 @@ public static class ErrorMessages
         => new(
             $"El nombre de usuario no es válido: {username}",
             nameof(BadUsername),
-            new Dictionary<string, string>()
+            new ErrorMessageProperty[]
             {
-                { nameof(username), username }
+                new(nameof(username), "nombre de usuario", username)
             }
         );
 
@@ -43,11 +43,11 @@ public static class ErrorMessages
         return new(
                 $"La propiedad {property} tiene demasiados caracteres ({cc}). Esta propiedad tiene un maximo de {mc} caracteres",
                 nameof(TooLong),
-                new Dictionary<string, string>()
+                new ErrorMessageProperty[]
                 {
-                { nameof(property), property },
-                { nameof(maxCharacters), mc },
-                { nameof(currentCharacters), cc }
+                new(nameof(property), "propiedad", property),
+                new(nameof(maxCharacters), "caracteres", mc),
+                new(nameof(currentCharacters), "caracteres", cc)
                 }
             );
     }
@@ -66,25 +66,23 @@ public static class ErrorMessages
             null
         );
 
-    public static ErrorMessage AlreadyInUse(string property, string value)
+    public static ErrorMessage EmailAlreadyInUse(string value)
         => new(
-            $"La propiedad {property} no puede contener el valor '{value}', debido a que ya esta siendo utilizada.",
-            nameof(AlreadyInUse),
-            new Dictionary<string, string>()
+            $"El correo electrónico no puede ser '{value}', debido a que ya esta siendo utilizada por otro usuario.",
+            nameof(EmailAlreadyInUse),
+            new ErrorMessageProperty[]
             {
-                { nameof(property), property },
-                { nameof(value), value }
+                new(nameof(value), "valor", value)
             }
         );
 
-    public static ErrorMessage AlreadyInUseByOtherUser(string property, string value)
+    public static ErrorMessage UsernameAlreadyInUse(string value)
         => new(
-            $"La propiedad {property} no puede contener el valor '{value}', debido a que ya esta siendo utilizada por otro usuario.",
-            nameof(AlreadyInUseByOtherUser),
-            new Dictionary<string, string>()
+            $"El nombre de usuario no puede ser '{value}', debido a que ya esta siendo utilizada por otro usuario.",
+            nameof(UsernameAlreadyInUse),
+            new ErrorMessageProperty[]
             {
-                { nameof(property), property },
-                { nameof(value), value }
+                new(nameof(value), "valor", value)
             }
         );
 
@@ -92,10 +90,10 @@ public static class ErrorMessages
         => new(
             $"{action} {property} no es soportado en estos momentos",
             nameof(NotSupported),
-            new Dictionary<string, string>()
+            new ErrorMessageProperty[]
             {
-                { nameof(property), property },
-                { nameof(action), action }
+                new(nameof(property), "propiedad", property),
+                new(nameof(action), "acción", action)
             }
         );
 }
