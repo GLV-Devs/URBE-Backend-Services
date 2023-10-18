@@ -1,6 +1,7 @@
 ﻿using DiegoG.REST.ASPNET;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
@@ -22,14 +23,31 @@ public sealed class APIResponseFilter : IAsyncResultFilter
     {
         if (context.Result is ObjectResult objresult)
         {
-            if (objresult.Value is APIResponse) return;
+            switch (objresult.Value)
+            {
+                case APIResponse: 
+                    return;
 
-            objresult.Value = objresult.Value is IResponseModel model
-                ? model.GetResponse()
-                : objresult.Value is IEnumerable<IResponseModel> models
-                ? (object)await models.GetResponse()
-                : throw new InvalidDataException("The result of the request was, unexpectedly, not an APIResponse or an IResponseModel");
-            
+                case IResponseModel model:
+                    objresult.Value = model.GetResponse();
+                    break;
+
+                case IEnumerable<IResponseModel> models:
+                    objresult.Value = await models.GetResponse();
+                    break;
+
+                case ErrorList errorList:
+                    objresult.Value = errorList.GetResponse();
+                    break;
+
+                case IEnumerable<ErrorMessage> errors:
+                    objresult.Value = errors.GetResponse();
+                    break;
+
+                default:
+                    throw new InvalidDataException("The result of the request was, unexpectedly, not an APIResponse or an IResponseModel");
+            }
+
             await next();
         }
 

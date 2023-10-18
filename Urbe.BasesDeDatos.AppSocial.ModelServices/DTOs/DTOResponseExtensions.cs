@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
@@ -29,6 +30,18 @@ public static class DTOResponseExtensions
             Data = data
         };
     }
+
+    public static APIResponse GetResponse(this ErrorList errorList)
+        => new(APIResponseCodeEnum.ErrorCollection)
+        {
+            Errors = errorList.Errors
+        };
+
+    public static APIResponse GetResponse(this IEnumerable<ErrorMessage> errorList)
+        => new(APIResponseCodeEnum.ErrorCollection)
+        {
+            Errors = errorList
+        };
 
     public static APIResponse GetResponse(this IResponseModel data)
         => new(data.APIResponseCode)

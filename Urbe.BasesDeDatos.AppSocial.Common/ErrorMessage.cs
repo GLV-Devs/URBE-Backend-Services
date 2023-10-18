@@ -10,11 +10,12 @@ public struct ErrorList : IEnumerable<ErrorMessage>
 
     public readonly int Count => _errors?.Count ?? 0;
 
-    [JsonIgnore]
+    public readonly IEnumerable<ErrorMessage> Errors => _errors ?? (IEnumerable<ErrorMessage>)Array.Empty<ErrorMessage>();
+
     public HttpStatusCode? RecommendedCode { get; set; }
 
-    public readonly IEnumerator<ErrorMessage> GetEnumerator() 
-        => (_errors ?? (IEnumerable<ErrorMessage>)Array.Empty<ErrorMessage>()).GetEnumerator();
+    public readonly IEnumerator<ErrorMessage> GetEnumerator()
+        => Errors.GetEnumerator();
 
     readonly IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();

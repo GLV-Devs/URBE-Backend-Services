@@ -12,7 +12,7 @@ public class APIResponse : RESTObject<APIResponseCode>
     public object? Data { get; init; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ErrorList? Errors { get; init; }
+    public IEnumerable<ErrorMessage>? Errors { get; init; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Exception { get; init; }

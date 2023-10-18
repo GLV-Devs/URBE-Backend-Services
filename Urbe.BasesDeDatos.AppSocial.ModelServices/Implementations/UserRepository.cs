@@ -21,6 +21,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 
+[RegisterService(typeof(IEntityCRDRepository<SocialAppUser, Guid, UserCreationModel>))]
 [RegisterService(typeof(IEntityCRUDRepository<SocialAppUser, Guid, UserCreationModel, UserUpdateModel>))]
 [RegisterService(typeof(IUserRepository))]
 public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCreationModel, UserUpdateModel>, IUserRepository
@@ -115,7 +116,18 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             RealName = model.RealName
         };
 
-        await userManager.CreateAsync(newuser);
+        var createresult = await userManager.CreateAsync(newuser);
+        if (createresult.Succeeded is false)
+        {
+            foreach (var error in createresult.Errors)
+                errors.AddError(new ErrorMessage(
+                    error.Description,
+                    error.Code,
+                    null
+                ));
+
+            return new SuccessResult<SocialAppUser>(errors);
+        }
 
         var passresults = await userManager.AddPasswordAsync(newuser, model.Password);
         if (passresults.Succeeded is false)
