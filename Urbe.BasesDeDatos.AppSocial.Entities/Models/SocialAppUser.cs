@@ -74,7 +74,7 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
         mb.Property(x => x.Id).HasConversion(GuidId<SocialAppUser>.ValueConverter);
         mb.Property(x => x.Email).HasMaxLength(EmailMaxLength);
         mb.Property(x => x.RealName).HasMaxLength(RealNameMaxLength);
-        mb.Property(x => x.UserName).HasMaxLength(UserNameMaxLength).IsRequired(true).HasDefaultValue($"User{Random.Shared.Next(100_000_000, 999_999_999)}");
+        mb.Property(x => x.UserName).HasMaxLength(UserNameMaxLength).IsRequired(true);
         mb.Property(x => x.Pronouns).HasMaxLength(PronounsMaxLength);
         mb.Property(x => x.ProfilePictureUrl).HasMaxLength(ProfilePictureUrlMaxLength);
         mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);

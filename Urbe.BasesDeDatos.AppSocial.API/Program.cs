@@ -112,7 +112,7 @@ public static class Program
         })
         .AddSignInManager()
         .AddDefaultTokenProviders()
-        .AddEntityFrameworkStores<SocialContext>();
+        .AddEntityFrameworkSocialContextStores();
 
         services.ConfigureApplicationCookie(options =>
         {

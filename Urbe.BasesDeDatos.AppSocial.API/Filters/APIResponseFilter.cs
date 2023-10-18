@@ -27,13 +27,23 @@ public sealed class APIResponseFilter : IAsyncResultFilter
         {
             switch (objresult.Value)
             {
-                case APIResponse: 
+                case APIResponse:
                     break;
 
-                case null or ProblemDetails:
+                case null:
                     objresult.Value = objresult.StatusCode is int sc && sc >= 200 && sc <= 299
                         ? new APIResponse(APIResponseCodeEnum.Success) { TraceId = context.HttpContext.TraceIdentifier }
                         : new APIResponse(APIResponseCodeEnum.UnspecifiedError) { TraceId = context.HttpContext.TraceIdentifier };
+                    break;
+
+                case ProblemDetails problem:
+                    var pdlist = new ErrorList();
+                    pdlist.AddError(new ErrorMessage($"{problem.Title}: {problem.Detail}", "Unknown", null));
+                    objresult.Value = new APIResponse(APIResponseCodeEnum.ErrorCollection)
+                    {
+                        Errors = pdlist,
+                        TraceId = context.HttpContext.TraceIdentifier
+                    };
                     break;
 
                 case IResponseModel model:
@@ -59,6 +69,12 @@ public sealed class APIResponseFilter : IAsyncResultFilter
 
             await next();
         }
+        else if (context.Result is StatusCodeResult statusResult)
+            context.Result = new ObjectResult(statusResult.StatusCode is int sc && sc >= 200 && sc <= 299
+                        ? new APIResponse(APIResponseCodeEnum.Success) { TraceId = context.HttpContext.TraceIdentifier }
+                        : new APIResponse(APIResponseCodeEnum.UnspecifiedError) { TraceId = context.HttpContext.TraceIdentifier });
+        else if (context.Result is null)
+            context.Result = new ObjectResult(new APIResponse(APIResponseCodeEnum.Success) { TraceId = context.HttpContext.TraceIdentifier });
         else
         {
             Debugger.Break();
