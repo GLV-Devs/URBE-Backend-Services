@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 public class UserCreationModel
 {

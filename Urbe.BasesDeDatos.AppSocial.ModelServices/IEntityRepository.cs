@@ -1,9 +1,9 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
 
-public interface IEntityRepository<TEntity, TKey> 
+public interface IEntityRepository<TEntity, TKey>
     where TEntity : IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {

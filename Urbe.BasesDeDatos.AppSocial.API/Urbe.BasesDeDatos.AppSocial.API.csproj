@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DiegoG.REST.ASPNET" Version="1.1.1" />
+    <PackageReference Include="DiegoG.REST.Json" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
@@ -22,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.DatabaseServices\Urbe.BasesDeDatos.AppSocial.DatabaseServices.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.BasesDeDatos.AppSocial.ModelServices.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj" />
   </ItemGroup>

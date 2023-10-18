@@ -1,13 +1,14 @@
 ﻿using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using Urbe.BasesDeDatos.AppSocial.Common;
-using Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 
 public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationModel>, IPostRepository
 {
@@ -43,7 +44,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         )));
     }
 
-    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query) 
+    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query)
         => ValueTask.FromResult<IQueryable<object>?>(
             query is null
             ? null
@@ -75,7 +76,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         => post.Poster ?? (await userRepository.Find(post.PosterId.Value))!;
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser poster)
-        => (requester?.Id.Equals(poster.Id) is true)
-        || ((poster.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
-            && (poster.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (requester is not null && await userRepository.IsFollowing(requester, poster))));
+        => requester?.Id.Equals(poster.Id) is true
+        || (poster.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
+            && (poster.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || requester is not null && await userRepository.IsFollowing(requester, poster));
 }

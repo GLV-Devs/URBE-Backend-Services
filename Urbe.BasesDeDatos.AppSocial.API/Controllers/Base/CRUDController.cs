@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Urbe.BasesDeDatos.AppSocial.DatabaseServices;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices;
 
 namespace Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
 

@@ -3,7 +3,6 @@ using Serilog.Extensions.Hosting;
 using Serilog.Extensions.Logging;
 using Serilog;
 using Urbe.BasesDeDatos.AppSocial.Entities;
-using Urbe.BasesDeDatos.AppSocial.DatabaseServices.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +13,7 @@ using Urbe.BasesDeDatos.AppSocial.Common;
 using DiegoG.REST.ASPNET;
 using Urbe.BasesDeDatos.AppSocial.HTTPModels;
 using System.Net;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 

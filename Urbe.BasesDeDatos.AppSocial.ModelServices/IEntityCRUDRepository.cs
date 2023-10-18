@@ -2,7 +2,7 @@
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
 
 public interface IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> : IEntityCRDRepository<TEntity, TKey, TCreationModel>
     where TEntity : IEntity, IKeyed<TKey>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.Configuration;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
 
 public readonly record struct DatabaseConfiguration(DatabaseType DatabaseType)
 {

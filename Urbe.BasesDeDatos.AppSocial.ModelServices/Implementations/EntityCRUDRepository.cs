@@ -2,8 +2,9 @@
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 
 public abstract class EntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel>
     : EntityCRDRepository<TEntity, TKey, TCreationModel>, IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel>

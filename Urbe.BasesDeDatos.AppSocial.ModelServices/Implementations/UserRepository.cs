@@ -10,14 +10,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using Urbe.BasesDeDatos.AppSocial.Common;
-using Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 
 [RegisterService(typeof(IEntityCRUDRepository<SocialAppUser, Guid, UserCreationModel, UserUpdateModel>))]
 [RegisterService(typeof(IUserRepository))]
@@ -90,7 +91,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     public override async ValueTask<SuccessResult<SocialAppUser>> Create(SocialAppUser? requester, UserCreationModel model)
     {
         var errors = new ErrorList();
-        
+
         if (Helper.IsTooLong(ref errors, model.Username, SocialAppUser.UserNameMaxLength, "Nombre de Usuario") is false
             && await userManager.FindByNameAsync(model.Username) is not null)
         {
@@ -199,7 +200,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return true;
     }
 
-    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<SocialAppUser>? users) 
+    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<SocialAppUser>? users)
         => ValueTask.FromResult<IQueryable<object>?>(
             users is null
             ? null
@@ -234,13 +235,13 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 })
            );
 
-    public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester) 
+    public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester)
         => Requester is not null
             ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.FollowedUsers!.Contains(x)))
             : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser entity)
-        => (requester?.Id.Equals(entity.Id) is true)
-        || ((entity.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
-            && (entity.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (requester is not null && await IsFollowing(requester, entity))));
+        => requester?.Id.Equals(entity.Id) is true
+        || (entity.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
+            && (entity.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || requester is not null && await IsFollowing(requester, entity));
 }

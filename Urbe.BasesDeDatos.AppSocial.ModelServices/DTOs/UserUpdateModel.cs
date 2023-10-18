@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
+﻿namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 public class UserUpdateModel
 {

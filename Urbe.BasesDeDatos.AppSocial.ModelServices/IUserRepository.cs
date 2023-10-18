@@ -1,7 +1,7 @@
-﻿using Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
-using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+﻿using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
 
 public interface IUserRepository : IEntityCRUDRepository<SocialAppUser, Guid, UserCreationModel, UserUpdateModel>
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.DatabaseServices.DTOs;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 public class PostViewModel
 {

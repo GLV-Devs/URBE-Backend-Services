@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F698DF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Common", "Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj", "{5D3CC0F9-2180-4CE8-92CF-F654481AE250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.DatabaseServices", "Urbe.BasesDeDatos.AppSocial.DatabaseServices\Urbe.BasesDeDatos.AppSocial.DatabaseServices.csproj", "{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.ModelServices", "Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.BasesDeDatos.AppSocial.ModelServices.csproj", "{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Services", "Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj", "{09858A29-B08E-45AD-909B-688097CB237A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.BasesDeDatos.AppSocial.API", "Urbe.BasesDeDatos.AppSocial.API\Urbe.BasesDeDatos.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.API", "Urbe.BasesDeDatos.AppSocial.API\Urbe.BasesDeDatos.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
