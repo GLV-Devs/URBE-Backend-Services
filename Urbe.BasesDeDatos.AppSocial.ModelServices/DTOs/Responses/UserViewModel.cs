@@ -1,9 +1,10 @@
-﻿using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+﻿using System.Text.Json.Serialization;
+using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 
-public class UserViewModel
+public class UserViewModel : IResponseModel
 {
     public required string Username { get; set; }
     public string? Pronouns { get; set; }
@@ -26,4 +27,6 @@ public class UserViewModel
             ProfilePictureUrl = user.ProfilePictureUrl,
             RealName = user.Settings.HasFlag(Entities.UserSettings.AllowRealNamePublicly) ? user.RealName : null
         };
+
+    APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.UserView;
 }

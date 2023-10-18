@@ -14,6 +14,9 @@ using DiegoG.REST.ASPNET;
 using System.Net;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
+using Urbe.BasesDeDatos.AppSocial.API.Filters;
+using DiegoG.REST.Json;
+using Microsoft.AspNetCore.Http.Json;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -43,6 +46,10 @@ public static class Program
             }
         ));
 
+        services.AddRESTObjectSerializer<APIResponseCode>(
+            x => new JsonRESTSerializer<APIResponseCode>(x.GetRequiredService<IOptions<JsonOptions>>().Value.SerializerOptions));
+
+        services.AddMvc(o => o.Filters.Add(APIResponseFilter.Instance));
         services.RegisterDecoratedServices();
 
         builder.Logging.AddSerilog();

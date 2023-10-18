@@ -2,6 +2,9 @@
 
 public enum APIResponseCodeEnum : int
 {
+    PostView = 20,
+
+    UserSelfView = 11,
     UserView = 10,
 
     Success = 1,

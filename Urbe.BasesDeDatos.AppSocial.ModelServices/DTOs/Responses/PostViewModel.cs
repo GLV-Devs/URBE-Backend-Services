@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
-public class PostViewModel
+public class PostViewModel : IResponseModel
 {
     public required SnowflakeId<Post> Id { get; init; }
     public required GuidId<SocialAppUser> Poster { get; init; }
@@ -29,4 +30,6 @@ public class PostViewModel
             InResponseTo = post.InResponseToId,
             Responses = post.Responses?.Select(x => x.Id).ToHashSet()
         };
+
+    APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.PostView;
 }

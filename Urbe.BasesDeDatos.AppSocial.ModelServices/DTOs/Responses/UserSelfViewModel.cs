@@ -1,9 +1,10 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 
-public class UserSelfViewModel
+public class UserSelfViewModel : IResponseModel
 {
     public required GuidId<SocialAppUser> Id { get; set; }
     public required string Username { get; set; }
@@ -22,4 +23,6 @@ public class UserSelfViewModel
             ProfilePictureUrl = user.ProfilePictureUrl,
             RealName = user.RealName
         };
+
+    APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.UserSelfView;
 }
