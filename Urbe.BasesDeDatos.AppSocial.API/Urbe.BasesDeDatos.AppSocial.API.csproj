@@ -36,6 +36,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.BasesDeDatos.AppSocial.ModelServices.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj" />

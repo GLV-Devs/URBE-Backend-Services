@@ -19,6 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.API", "Urbe.BasesDeDatos.AppSocial.API\Urbe.BasesDeDatos.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations", "Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.csproj", "{AF825A14-77C2-48B7-9546-5B371E5D410F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations", "Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations.csproj", "{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +51,14 @@ Global
 		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +69,9 @@ Global
 		{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
 		{09858A29-B08E-45AD-909B-688097CB237A} = {F698DF42-F987-4B99-A1D3-8B24D3A735CB}
 		{A30D7F07-E073-478E-BE7E-6D82DBAF601A} = {26CF868D-32EA-4642-ACB4-FFF654CC129D}
+		{C42B1E81-C3A8-4F0F-8F7D-3597862F0B38} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
+		{AF825A14-77C2-48B7-9546-5B371E5D410F} = {C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}
+		{6AADC71A-02DC-4BC8-A6E2-6B0379720F66} = {C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}

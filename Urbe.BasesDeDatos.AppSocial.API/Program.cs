@@ -17,6 +17,7 @@ using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 using Urbe.BasesDeDatos.AppSocial.API.Filters;
 using DiegoG.REST.Json;
 using Microsoft.AspNetCore.Http.Json;
+using Urbe.BasesDeDatos.AppSocial.API.Services;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -65,7 +66,10 @@ public static class Program
         if (dbconf.DatabaseType is DatabaseType.SQLServer)
         {
             Log.Information("Registering SocialContext backed by SQLServer");
-            services.AddDbContext<SocialContext>(x => x.UseSqlServer(dbconf.SQLServerConnectionString));
+            services.AddDbContext<SocialContext>(x => x.UseSqlServer(
+                dbconf.SQLServerConnectionString,     
+                o => o.MigrationsAssembly("Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations")
+            ));
         }
         else if (dbconf.DatabaseType is DatabaseType.SQLite)
         {
@@ -74,7 +78,10 @@ public static class Program
             var path = Regexes.SQLiteConnectionStringFilePath().Match(conns).Groups[1].ValueSpan;
             var dir = Path.GetDirectoryName(path);
             Directory.CreateDirectory(new string(dir));
-            services.AddDbContext<SocialContext>(x => x.UseSqlite(conns));
+            services.AddDbContext<SocialContext>(x => x.UseSqlite(
+                conns,
+                o => o.MigrationsAssembly("Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations")
+            ));
         }
         else
             throw new InvalidDataException($"Unknown Database Type: {dbconf.DatabaseType}");
