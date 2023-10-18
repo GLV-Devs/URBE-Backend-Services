@@ -90,6 +90,7 @@ public static class Program
             o.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
             o.User.RequireUniqueEmail = true;
         })
+        .AddSignInManager()
         .AddDefaultTokenProviders()
         .AddEntityFrameworkStores<SocialContext>();
 
