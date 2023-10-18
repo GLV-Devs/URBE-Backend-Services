@@ -15,5 +15,8 @@ public class APIResponse : RESTObject<APIResponseCode>
     public IEnumerable<ErrorMessage>? Errors { get; init; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? TraceId { get; init; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Exception { get; init; }
 }

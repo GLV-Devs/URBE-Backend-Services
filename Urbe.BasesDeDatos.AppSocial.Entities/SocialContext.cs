@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
@@ -27,5 +28,11 @@ public class SocialContext : DbContext
         SocialAppUser.BuildModel(modelBuilder, modelBuilder.Entity<SocialAppUser>());
         PendingMailConfirmation.BuildModel(modelBuilder, modelBuilder.Entity<PendingMailConfirmation>());
         Post.BuildModel(modelBuilder, modelBuilder.Entity<Post>());
+
+        var iucmb = modelBuilder.Entity<IdentityUserClaim<GuidId<SocialAppUser>>>();
+        iucmb.ToTable("SocialAppUserClaims");
+        iucmb.HasKey(x => x.Id);
+        iucmb.HasOne(typeof(SocialAppUser)).WithMany().HasForeignKey(nameof(IdentityUserClaim<GuidId<SocialAppUser>>.UserId));
+        iucmb.Property(x => x.UserId).HasConversion(GuidId<SocialAppUser>.ValueConverter);
     }
 }

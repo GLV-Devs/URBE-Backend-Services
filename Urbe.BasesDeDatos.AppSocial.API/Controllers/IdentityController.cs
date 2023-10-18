@@ -6,6 +6,8 @@ using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Urbe.BasesDeDatos.AppSocial.ModelServices;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.BasesDeDatos.AppSocial.Common;
+using System.Diagnostics;
 
 namespace Urbe.BasesDeDatos.AppSocial.API.Controllers;
 
@@ -40,19 +42,35 @@ public sealed class IdentityController : SocialAppController
     }
 
     [HttpPut]
-    public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin) 
+    public async Task<IActionResult> Login([FromBody] UserLoginModel? userLogin) 
     {
+        ErrorList list = new();
+
+        if (userLogin is null)
+        {
+            list.AddError(ErrorMessages.EmptyBody());
+            return BadRequest(list.Errors);
+        }
+
         if (string.IsNullOrWhiteSpace(userLogin.UserNameOrEmail))
-            return BadRequest();
+            list.AddError(ErrorMessages.BadUsername(userLogin.UserNameOrEmail ?? ""));
 
         if (string.IsNullOrWhiteSpace(userLogin.Password))
-            return BadRequest();
+            list.AddError(ErrorMessages.BadPassword());
 
+        if (list.Count > 0)
+            return BadRequest(list.Errors);
+
+        Debug.Assert(string.IsNullOrWhiteSpace(userLogin.UserNameOrEmail) is false);
+        Debug.Assert(string.IsNullOrWhiteSpace(userLogin.Password) is false);
         var user = await UserManager.FindByEmailAsync(userLogin.UserNameOrEmail) ?? await UserManager.FindByNameAsync(userLogin.UserNameOrEmail);
         if (user is null)
-            return NotFound();
+        {
+            list.AddError(ErrorMessages.UserNotFound(userLogin.UserNameOrEmail));
+            return NotFound(list.Errors);
+        }
 
-        Logger.LogInformation("Attempting to log in as user {user} ({userid})", userLogin.UserNameOrEmail);
+        Logger.LogInformation("Attempting to log in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id.Value);
 
         var result = await SignInManager.PasswordSignInAsync(user, userLogin.Password, true, false);
         if (result.Succeeded)
@@ -60,10 +78,29 @@ public sealed class IdentityController : SocialAppController
             Logger.LogInformation("Succesfully logged in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id.Value);
             return Ok();
         }
+        else if (result.IsLockedOut)
+        {
+            Logger.LogInformation("Could not log in as user {user} ({userid}), because they're locked out", user.UserName!, user.Id.Value);
+            list.AddError(ErrorMessages.LoginLockedOut(user.UserName!));
+            return Forbidden(list.Errors);
+        }
+        else if (result.RequiresTwoFactor)
+        {
+            Logger.LogInformation("Could not log in as user {user} ({userid}), because they require 2FA", user.UserName!, user.Id.Value);
+            list.AddError(ErrorMessages.LoginRequires("2FA", user.UserName!));
+            return Forbidden(list.Errors);
+        }
+        else if (result.IsNotAllowed)
+        {
+            Logger.LogInformation("Could not log in as user {user} ({userid}), because they're not allowed to", user.UserName!, user.Id.Value);
+            list.AddError(ErrorMessages.ActionDisallowed("LogIn"));
+            return Forbidden(list.Errors);
+        }
         else
         {
-            Logger.LogInformation("Could not log in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id.Value);
-            return BadRequest();
+            Logger.LogInformation("Could not log in as user {user} ({userid})", user.UserName!, user.Id.Value);
+            list.AddError(ErrorMessages.BadLogin());
+            return BadRequest(list.Errors);
         }
     }
 

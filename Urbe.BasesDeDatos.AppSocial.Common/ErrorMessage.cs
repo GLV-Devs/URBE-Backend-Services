@@ -29,6 +29,6 @@ public static class ErrorListExtensions
     }
 }
 
-public readonly record struct ErrorMessageProperty(string Key, string DefaultNameES, string Value);
+public readonly record struct ErrorMessageProperty(string Key, string Value);
 
 public readonly record struct ErrorMessage(string? DefaultMessageES, string Key, IEnumerable<ErrorMessageProperty>? Properties);

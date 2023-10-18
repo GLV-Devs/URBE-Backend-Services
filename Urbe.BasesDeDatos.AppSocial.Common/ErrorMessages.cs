@@ -2,10 +2,65 @@
 
 public static class ErrorMessages
 {
+    public static ErrorMessage ActionDisallowed(string action)
+        => new(
+            $"La accion '{action}' no está permitida para este usuario",
+            nameof(ActionDisallowed),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(action), action)
+            }
+        );
+
+    public static ErrorMessage LoginRequires(string requirement, string user)
+        => new(
+            $"Iniciar sesión como el usuario {user} requiere {requirement}",
+            nameof(LoginRequires),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(requirement), requirement),
+                new(nameof(user), user)
+            }
+        );
+
+    public static ErrorMessage LoginLockedOut(string user)
+        => new(
+            $"El usuario {user} se encuentra actualmente bloqueado",
+            nameof(LoginLockedOut),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(user), user)
+            }
+        );
+
+    public static ErrorMessage BadLogin()
+        => new(
+            "Las credenciales son inválidas",
+            nameof(BadLogin),
+            null
+        );
+
+    public static ErrorMessage UserNotFound(string user)
+        => new(
+            $"No se encontró el usuario: {user}",
+            nameof(UserNotFound),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(user), user)
+            }
+        );
+
     public static ErrorMessage InternalError()
         => new(
             $"Ocurrió un error interno en el servidor",
             nameof(InternalError),
+            null
+        );
+
+    public static ErrorMessage EmptyBody()
+        => new(
+            "El cuerpo de la petición está vacio",
+            nameof(EmptyBody),
             null
         );
 
@@ -15,7 +70,7 @@ public static class ErrorMessages
             nameof(BadEmail),
             new ErrorMessageProperty[]
             {
-                new(nameof(email), "correo electrónico", email)
+                new(nameof(email), email)
             }
         );
 
@@ -25,7 +80,7 @@ public static class ErrorMessages
             nameof(BadUsername),
             new ErrorMessageProperty[]
             {
-                new(nameof(username), "nombre de usuario", username)
+                new(nameof(username), username)
             }
         );
 
@@ -45,9 +100,9 @@ public static class ErrorMessages
                 nameof(TooLong),
                 new ErrorMessageProperty[]
                 {
-                new(nameof(property), "propiedad", property),
-                new(nameof(maxCharacters), "caracteres", mc),
-                new(nameof(currentCharacters), "caracteres", cc)
+                new(nameof(property), property),
+                new(nameof(maxCharacters), mc),
+                new(nameof(currentCharacters), cc)
                 }
             );
     }
@@ -72,7 +127,7 @@ public static class ErrorMessages
             nameof(EmailAlreadyInUse),
             new ErrorMessageProperty[]
             {
-                new(nameof(value), "valor", value)
+                new(nameof(value), value)
             }
         );
 
@@ -82,7 +137,7 @@ public static class ErrorMessages
             nameof(UsernameAlreadyInUse),
             new ErrorMessageProperty[]
             {
-                new(nameof(value), "valor", value)
+                new(nameof(value), value)
             }
         );
 
@@ -92,8 +147,8 @@ public static class ErrorMessages
             nameof(NotSupported),
             new ErrorMessageProperty[]
             {
-                new(nameof(property), "propiedad", property),
-                new(nameof(action), "acción", action)
+                new(nameof(property), property),
+                new(nameof(action), action)
             }
         );
 }

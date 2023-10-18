@@ -11,7 +11,7 @@ namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 public static class DTOResponseExtensions
 {
-    public static async ValueTask<APIResponse> GetResponse(this IEnumerable<IResponseModel> data)
+    public static async ValueTask<APIResponse> GetResponse(this IEnumerable<IResponseModel> data, string? traceId)
     {
 #if DEBUG
         if (data is IQueryable<IResponseModel> queryable)
@@ -27,25 +27,29 @@ public static class DTOResponseExtensions
 
         return new(code)
         {
-            Data = data
+            Data = data,
+            TraceId = traceId
         };
     }
 
-    public static APIResponse GetResponse(this ErrorList errorList)
+    public static APIResponse GetResponse(this ErrorList errorList, string? traceId)
         => new(APIResponseCodeEnum.ErrorCollection)
         {
-            Errors = errorList.Errors
+            Errors = errorList.Errors,
+            TraceId = traceId
         };
 
-    public static APIResponse GetResponse(this IEnumerable<ErrorMessage> errorList)
+    public static APIResponse GetResponse(this IEnumerable<ErrorMessage> errorList, string? traceId)
         => new(APIResponseCodeEnum.ErrorCollection)
         {
-            Errors = errorList
+            Errors = errorList,
+            TraceId = traceId
         };
 
-    public static APIResponse GetResponse(this IResponseModel data)
+    public static APIResponse GetResponse(this IResponseModel data, string? traceId)
         => new(data.APIResponseCode)
         {
-            Data = new object[] { data }
+            Data = new object[] { data },
+            TraceId = traceId
         };
 }

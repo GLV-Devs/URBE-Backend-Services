@@ -10,8 +10,10 @@ public enum APIResponseCodeEnum : int
     Success = 1,
 
     Empty = 0,
+
     ErrorCollection = -1,
-    Exception = -2
+    Exception = -2,
+    UnspecifiedError = -3
 }
 
 public readonly record struct APIResponseCode(APIResponseCodeEnum ResponseId)

@@ -90,7 +90,8 @@ public static class Program
         {
             o.Stores.MaxLengthForKeys = 128;
 
-            o.SignIn.RequireConfirmedEmail = true;
+            o.SignIn.RequireConfirmedEmail = false;
+            o.SignIn.RequireConfirmedPhoneNumber = false;
 
             o.Password.RequireDigit = true;
             o.Password.RequireNonAlphanumeric = true;
@@ -141,20 +142,22 @@ public static class Program
             app.UseSwaggerUI();
         }
         else
+        {
             app.UseHsts();
 
-        app.UseRESTExceptionHandler((r, e, s, c) =>
-        {
-            var errors = new ErrorList();
-            errors.AddError(ErrorMessages.InternalError());
-            return Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
-                new APIResponse(APIResponseCodeEnum.ErrorCollection)
-                {
-                    Errors = errors
-                },
-                HttpStatusCode.InternalServerError
-            ));
-        });
+            app.UseRESTExceptionHandler((r, e, s, c) =>
+            {
+                var errors = new ErrorList();
+                errors.AddError(ErrorMessages.InternalError());
+                return Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
+                    new APIResponse(APIResponseCodeEnum.ErrorCollection)
+                    {
+                        Errors = errors
+                    },
+                    HttpStatusCode.InternalServerError
+                ));
+            });
+        }
 
         app.UseHttpsRedirection();
 
