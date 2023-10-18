@@ -2,7 +2,7 @@
 using DiegoG.REST;
 using Urbe.BasesDeDatos.AppSocial.Common;
 
-namespace Urbe.BasesDeDatos.AppSocial.HTTPModels;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
 public class APIResponse : RESTObject<APIResponseCode>
 {

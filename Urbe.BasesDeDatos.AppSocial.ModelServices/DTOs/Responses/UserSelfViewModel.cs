@@ -1,7 +1,7 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 
 public class UserSelfViewModel
 {

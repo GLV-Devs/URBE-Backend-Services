@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
-using Urbe.BasesDeDatos.AppSocial.DatabaseServices.Implementations;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Urbe.BasesDeDatos.AppSocial.ModelServices;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.API.Controllers;
 

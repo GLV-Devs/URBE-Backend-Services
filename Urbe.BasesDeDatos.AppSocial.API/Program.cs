@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OpenApi.Models;
 using Urbe.BasesDeDatos.AppSocial.Common;
 using DiegoG.REST.ASPNET;
-using Urbe.BasesDeDatos.AppSocial.HTTPModels;
 using System.Net;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -139,7 +139,7 @@ public static class Program
         app.UseRESTExceptionHandler((r, e, s, c) =>
         {
             var errors = new ErrorList();
-            errors.AddError(ErrorMessages.InternalError)
+            errors.AddError(ErrorMessages.InternalError());
             return Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
                 new APIResponse(APIResponseCodeEnum.ErrorCollection)
                 {

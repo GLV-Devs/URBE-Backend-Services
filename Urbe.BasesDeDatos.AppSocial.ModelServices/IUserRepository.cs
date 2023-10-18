@@ -1,5 +1,5 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
 

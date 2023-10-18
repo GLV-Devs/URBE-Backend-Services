@@ -14,7 +14,8 @@ using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Urbe.BasesDeDatos.AppSocial.ModelServices;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 

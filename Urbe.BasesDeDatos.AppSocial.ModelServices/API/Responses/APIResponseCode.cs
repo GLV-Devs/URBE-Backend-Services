@@ -1,14 +1,17 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.HTTPModels;
+﻿namespace Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
 
-public enum APIResponseCodeEnum : long
+public enum APIResponseCodeEnum : int
 {
+    UserView = 10,
+
     Success = 1,
+
     Empty = 0,
     ErrorCollection = -1,
     Exception = -2
 }
 
-public readonly record struct APIResponseCode(APIResponseCodeEnum ResponseId) 
+public readonly record struct APIResponseCode(APIResponseCodeEnum ResponseId)
 {
     public string Name { get; } = ResponseId.ToString();
 
