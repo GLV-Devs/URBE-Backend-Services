@@ -2,6 +2,13 @@
 
 public static class ErrorMessages
 {
+    public static ErrorMessage InternalError()
+        => new(
+            $"Ocurrió un error interno en el servidor",
+            nameof(InternalError),
+            null
+        );
+
     public static ErrorMessage BadEmail(string email)
         => new(
             $"El correo electrónico está malformado: {email}",

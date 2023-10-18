@@ -11,6 +11,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OpenApi.Models;
 using Urbe.BasesDeDatos.AppSocial.Common;
+using DiegoG.REST.ASPNET;
+using Urbe.BasesDeDatos.AppSocial.HTTPModels;
+using System.Net;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -22,13 +25,15 @@ public static class Program
     {
         var builder = WebApplication.CreateBuilder(Environment.GetCommandLineArgs());
 
+        var services = builder.Services;
+
         // Add services to the container.
 
-        builder.Services.AddControllers().AddOData(o => o.Select().Filter().OrderBy().Count().SetMaxTop(100));
+        services.AddControllers().AddOData(o => o.Select().Filter().OrderBy().Count().SetMaxTop(100));
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(o 
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(o 
             => o.AddSecurityDefinition("apiKey", new OpenApiSecurityScheme()
             {
                 In = ParameterLocation.Cookie,
@@ -38,7 +43,7 @@ public static class Program
             }
         ));
 
-        builder.Services.RegisterDecoratedServices();
+        services.RegisterDecoratedServices();
 
         builder.Logging.AddSerilog();
 
@@ -54,7 +59,7 @@ public static class Program
         if (dbconf.DatabaseType is DatabaseType.SQLServer)
         {
             Log.Information("Registering SocialContext backed by SQLServer");
-            builder.Services.AddDbContext<SocialContext>(x => x.UseSqlServer(connstr));
+            services.AddDbContext<SocialContext>(x => x.UseSqlServer(connstr));
         }
         else if (dbconf.DatabaseType is DatabaseType.SQLite)
         {
@@ -62,19 +67,19 @@ public static class Program
             var path = Regexes.SQLiteConnectionStringFilePath().Match(connstr).Groups[1].ValueSpan;
             var dir = Path.GetDirectoryName(path);
             Directory.CreateDirectory(new string(dir));
-            builder.Services.AddDbContext<SocialContext>(x => x.UseSqlite(connstr));
+            services.AddDbContext<SocialContext>(x => x.UseSqlite(connstr));
         }
         else
             throw new InvalidDataException($"Unknown Database Type: {dbconf.DatabaseType}");
 
-        builder.Services.AddAuthentication(o =>
+        services.AddAuthentication(o =>
         {
             o.DefaultScheme = IdentityConstants.ApplicationScheme;
             o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         })
         .AddIdentityCookies(o => { });
 
-        builder.Services.AddIdentityCore<SocialAppUser>(o =>
+        services.AddIdentityCore<SocialAppUser>(o =>
         {
             o.Stores.MaxLengthForKeys = 128;
 
@@ -82,8 +87,8 @@ public static class Program
 
             o.Password.RequireDigit = true;
             o.Password.RequireNonAlphanumeric = true;
-            o.Password.RequiredLength = 8;
-            o.Password.RequiredUniqueChars = 5;
+            o.Password.RequiredLength = 6;
+            o.Password.RequiredUniqueChars = 4;
 
             o.Lockout.MaxFailedAccessAttempts = 3;
 
@@ -94,7 +99,7 @@ public static class Program
         .AddDefaultTokenProviders()
         .AddEntityFrameworkStores<SocialContext>();
 
-        builder.Services.ConfigureApplicationCookie(options =>
+        services.ConfigureApplicationCookie(options =>
         {
             // Cookie settings
             options.Cookie.HttpOnly = false;
@@ -105,16 +110,44 @@ public static class Program
             options.SlidingExpiration = true;
         });
 
+        services.UseRESTInvalidModelStateResponse(
+            x => new RESTObjectResult<APIResponseCode>(new APIResponse(APIResponseCodeEnum.ErrorCollection) 
+            {
+                Data = null,
+                Errors = null
+            })
+        );
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            app.UseRESTExceptionHandler((r, e, s, c) => Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
+                new APIResponse(APIResponseCodeEnum.Exception)
+                {
+                    Exception = e?.ToString() ?? "Unknown error"
+                },
+                HttpStatusCode.InternalServerError
+            )));
             app.UseSwagger();
             app.UseSwaggerUI();
         }
         else
             app.UseHsts();
+
+        app.UseRESTExceptionHandler((r, e, s, c) =>
+        {
+            var errors = new ErrorList();
+            errors.AddError(ErrorMessages.InternalError)
+            return Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
+                new APIResponse(APIResponseCodeEnum.ErrorCollection)
+                {
+                    Errors = errors
+                },
+                HttpStatusCode.InternalServerError
+            ));
+        });
 
         app.UseHttpsRedirection();
 
