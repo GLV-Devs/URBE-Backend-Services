@@ -108,33 +108,37 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         var newuser = new SocialAppUser()
         {
             Id = new(Guid.NewGuid()),
+            UserName = model.Username,
+            Email = model.Email,
             RealName = model.RealName
         };
 
         await userManager.CreateAsync(newuser);
 
-        if ((await userManager.SetUserNameAsync(newuser, model.Username)).Succeeded is false)
-        {
-            await userManager.DeleteAsync(newuser);
-            errors.AddError(ErrorMessages.BadUsername(model.Username));
-            return new SuccessResult<SocialAppUser>(errors);
-        } 
-        else if ((await userManager.AddPasswordAsync(newuser, model.Password)).Succeeded is false)
+        var passresults = await userManager.AddPasswordAsync(newuser, model.Password);
+        if (passresults.Succeeded is false)
         {
             await userManager.DeleteAsync(newuser);
             errors.AddError(ErrorMessages.BadPassword());
+            foreach (var error in passresults.Errors)
+                errors.AddError(new ErrorMessage(
+                    error.Description,
+                    error.Code,
+                    null
+                ));
+
             return new SuccessResult<SocialAppUser>(errors);
         }
-        else
-        {
-            var token = await userManager.GenerateChangeEmailTokenAsync(newuser, model.Email);
-            if ((await userManager.ChangeEmailAsync(newuser, model.Email, token)).Succeeded is false)
-            {
-                await userManager.DeleteAsync(newuser);
-                errors.AddError(ErrorMessages.BadPassword());
-                return new SuccessResult<SocialAppUser>(errors);
-            }
-        }
+        //else
+        //{
+        //    var token = await userManager.GenerateChangeEmailTokenAsync(newuser, model.Email);
+        //    if ((await userManager.ChangeEmailAsync(newuser, model.Email, token)).Succeeded is false)
+        //    {
+        //        await userManager.DeleteAsync(newuser);
+        //        errors.AddError(ErrorMessages.BadPassword());
+        //        return new SuccessResult<SocialAppUser>(errors);
+        //    }
+        //}
 
         await context.SaveChangesAsync();
         return new SuccessResult<SocialAppUser>(newuser);
