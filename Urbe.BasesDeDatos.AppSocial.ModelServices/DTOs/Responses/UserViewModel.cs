@@ -7,6 +7,7 @@ namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 public class UserViewModel : IResponseModel
 {
     public required string Username { get; set; }
+    public Guid? UserId { get; set; }
     public string? Pronouns { get; set; }
     public string? ProfileMessage { get; set; }
     public string? RealName { get; set; }
@@ -23,6 +24,7 @@ public class UserViewModel : IResponseModel
     public static UserViewModel FromUser(SocialAppUser user)
         => new()
         {
+            UserId = user.Id,
             Username = user.UserName!,
             ProfilePictureUrl = user.ProfilePictureUrl,
             RealName = user.Settings.HasFlag(Entities.UserSettings.AllowRealNamePublicly) ? user.RealName : null

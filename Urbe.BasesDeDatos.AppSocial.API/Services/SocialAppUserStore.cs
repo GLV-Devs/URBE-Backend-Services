@@ -9,6 +9,8 @@ namespace Urbe.BasesDeDatos.AppSocial.API.Services;
 
 public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Guid>
 {
+    private static readonly Task<SocialAppUser?> CompletedEmptyTask = Task.FromResult<SocialAppUser?>(null);
+
     public SocialAppUserStore(SocialContext context, IdentityErrorDescriber? describer = null) : base(context, describer)
     {
     }
@@ -17,8 +19,10 @@ public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Gu
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
-        var id = ConvertIdFromString(userId);
-        return Context.SocialAppUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        return Guid.TryParse(userId, out Guid id)
+            ? Context.SocialAppUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+            : CompletedEmptyTask;
     }
 
     public override Guid ConvertIdFromString(string? id) 

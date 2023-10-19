@@ -88,11 +88,14 @@ public class UserController : SocialAppController
         return foundEntity is null ? NotFound() : Ok(await UserRepository.GetViews(u, await UserRepository.GetFollowers(u, foundEntity)));
     }
 
-    [HttpGet("{key}")]
-    public async Task<IActionResult> ViewEntity(Guid key)
+    [HttpGet("{userhandle}")]
+    public async Task<IActionResult> ViewEntity(string userhandle)
     {
         var u = await UserManager.GetUserAsync(User);
-        var foundEntity = await UserRepository.Find(u, key);
+
+        SocialAppUser? foundEntity 
+            = await UserManager.FindByIdAsync(userhandle) ?? await UserManager.FindByNameAsync(userhandle) ?? await UserManager.FindByEmailAsync(userhandle);
+
         if (foundEntity is null)
             return NotFound();
 

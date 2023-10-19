@@ -181,16 +181,16 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         => await userManager.FindByNameAsync(username);
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser followed)
-        => requester.FollowedUsers?.Contains(followed) is true || await context.Users.Where(x => x.Id == requester.Id).AnyAsync(x => x.FollowedUsers!.Contains(followed));
+        => requester.FollowedUsers?.Contains(followed) is true || await context.SocialAppUsers.Where(x => x.Id == requester.Id).Select(x => x.FollowedUsers != null && x.FollowedUsers.Contains(followed)).FirstOrDefaultAsync();
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowers(SocialAppUser requester)
-        => ValueTask.FromResult(context.Users.Where(x => x.FollowedUsers!.Contains(requester)));
+        => ValueTask.FromResult(context.Set<SocialAppUserFollow>().Where(x => x.FollowedId == requester.Id).Select(x => x.Follower!));
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowing(SocialAppUser requester)
-        => ValueTask.FromResult(context.Users.Where(x => requester.FollowedUsers!.Contains(x)));
+        => ValueTask.FromResult(context.Set<SocialAppUserFollow>().Where(x => x.FollowerId == requester.Id).Select(x => x.Followed!));
 
     public ValueTask<IQueryable<SocialAppUser>> GetMutuals(SocialAppUser requester)
-        => ValueTask.FromResult(context.Users.Where(x => x.FollowedUsers!.Contains(requester) && requester.FollowedUsers!.Contains(x)));
+        => ValueTask.FromResult(context.SocialAppUsers.Where(x => requester.FollowedUsers != null && requester.FollowedUsers.Contains(x) && x.FollowedUsers != null && x.FollowedUsers.Contains(requester)));
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser follower, SocialAppUser followed)
         => await CanView(requester, follower) && await IsFollowing(follower, followed);
@@ -232,25 +232,27 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                     Username = x.UserName!,
                     ProfilePictureUrl = null
                 })
-            : users.Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers!.Contains(requester)
+            : users.Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
                 ? new UserViewModel()
                 {
                     ProfileMessage = x.ProfileMessage,
                     ProfilePictureUrl = x.ProfilePictureUrl,
                     Pronouns = x.Pronouns,
                     RealName = x.RealName,
-                    Username = x.UserName!
+                    Username = x.UserName!,
+                    FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
                 }
                 : new UserViewModel()
                 {
                     Username = x.UserName!,
-                    ProfilePictureUrl = null
+                    ProfilePictureUrl = x.ProfilePictureUrl,
+                    FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
                 })
            );
 
     public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester)
         => Requester is not null
-            ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.FollowedUsers!.Contains(x)))
+            ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.FollowedUsers != null && Requester.FollowedUsers.Contains(x)))
             : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser entity)
