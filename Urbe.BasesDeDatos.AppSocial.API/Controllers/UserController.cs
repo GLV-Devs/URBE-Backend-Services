@@ -34,7 +34,7 @@ public class UserController : SocialAppController
     public async Task<ActionResult<IQueryable<UserViewModel>>> QueryUsers()
     {
         var u = await UserManager.GetUserAsync(User);
-        return Ok(UserRepository.Query(u));
+        return Ok(await UserRepository.GetViews(u, UserRepository.Query(u)));
     }
 
     [HttpPut("addfollow/{key}")]
@@ -45,7 +45,15 @@ public class UserController : SocialAppController
         Debug.Assert(u is not null);
 
         var foundEntity = await UserRepository.Find(u, key);
-        return foundEntity is null ? NotFound() : await UserRepository.FollowUser(u, foundEntity) ? Ok() : BadRequest();
+        if (foundEntity is null)
+            return NotFound();
+        else if (await UserRepository.FollowUser(u, foundEntity))
+        {
+            await UserRepository.SaveChanges();
+            return Ok();
+        }
+        else
+            return BadRequest();
     }
 
     #region Regarding Requester and other user

@@ -13,17 +13,7 @@ public static class DTOResponseExtensions
 {
     public static async ValueTask<APIResponse> GetResponse(this IEnumerable<IResponseModel> data, string? traceId)
     {
-#if DEBUG
-        if (data is IQueryable<IResponseModel> queryable)
-            data = await queryable.ToListAsync();
-
-        APIResponseCode code = data.First().APIResponseCode;
-
-        foreach (var d in data)
-            if (code != d.APIResponseCode) throw new InvalidOperationException("Code mismatch within collection");
-#else
         APIResponseCode code = data is IQueryable<IResponseModel> queryable ? (await queryable.FirstAsync()).APIResponseCode : data.First().APIResponseCode;
-#endif
 
         return new(code)
         {

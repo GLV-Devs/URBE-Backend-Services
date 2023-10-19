@@ -18,6 +18,8 @@ using Urbe.BasesDeDatos.AppSocial.API.Filters;
 using DiegoG.REST.Json;
 using Microsoft.AspNetCore.Http.Json;
 using Urbe.BasesDeDatos.AppSocial.API.Services;
+using Urbe.BasesDeDatos.AppSocial.API.Middleware;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -32,6 +34,8 @@ public static class Program
         var services = builder.Services;
 
         // Add services to the container.
+
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, SocialAppAuthorizationMiddlewareResultHandler>();
 
         services.AddControllers().AddOData(o => o.Select().Filter().OrderBy().Count().SetMaxTop(100));
 

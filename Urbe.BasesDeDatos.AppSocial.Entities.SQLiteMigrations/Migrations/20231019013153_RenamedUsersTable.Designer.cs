@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 
@@ -10,9 +11,11 @@ using Urbe.BasesDeDatos.AppSocial.Entities;
 namespace Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231019013153_RenamedUsersTable")]
+    partial class RenamedUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");

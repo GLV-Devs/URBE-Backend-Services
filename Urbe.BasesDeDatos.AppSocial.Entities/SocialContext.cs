@@ -8,19 +8,22 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities;
 public class SocialContext : DbContext
 {
     private static readonly object migrationsync = new();
-    private static readonly bool migrated = false;
+    private static bool migrated = false;
 
     public SocialContext(DbContextOptions<SocialContext> options) : base(options)
     {
         if (migrated is false)
             lock (migrationsync)
                 if (migrated is false)
+                {
                     Database.Migrate();
+                    migrated = true;
+                }
 
         ChangeTracker.StateChanged += ChangeTracker_StateChanged;
     }
 
-    public DbSet<SocialAppUser> Users => Set<SocialAppUser>();
+    public DbSet<SocialAppUser> SocialAppUsers => Set<SocialAppUser>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<PendingMailConfirmation> PendingMailConfirmations => Set<PendingMailConfirmation>();
 

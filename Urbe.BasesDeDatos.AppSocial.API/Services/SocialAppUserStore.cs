@@ -18,7 +18,7 @@ public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Gu
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
         var id = ConvertIdFromString(userId);
-        return Context.Users.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return Context.SocialAppUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public override Guid ConvertIdFromString(string? id) 
