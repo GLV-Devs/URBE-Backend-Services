@@ -86,9 +86,8 @@ public class SocialAppUser : IdentityUser<Guid>, IEntity, ISelfModelBuilder<Soci
                             );
 
         var followmb = mb.HasMany(x => x.FollowedUsers).WithMany().UsingEntity<SocialAppUserFollow>(
-            "SocialAppUserFollow",
-            right => right.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId),
-            right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId)
+            right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId),
+            left => left.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId)
         );
 
         followmb.HasKey(x => x.Id);

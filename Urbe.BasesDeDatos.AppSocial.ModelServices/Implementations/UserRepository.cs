@@ -181,13 +181,13 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         => await userManager.FindByNameAsync(username);
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser followed)
-        => requester.FollowedUsers?.Contains(followed) is true || await context.SocialAppUsers.Where(x => x.Id == requester.Id).Select(x => x.FollowedUsers != null && x.FollowedUsers.Contains(followed)).FirstOrDefaultAsync();
+        => requester.FollowedUsers?.Contains(followed) is true || await context.SocialAppUserFollows.AnyAsync(x => x.FollowerId == requester.Id && x.FollowedId == followed.Id);
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowers(SocialAppUser requester)
-        => ValueTask.FromResult(context.Set<SocialAppUserFollow>().Where(x => x.FollowedId == requester.Id).Select(x => x.Follower!));
+        => ValueTask.FromResult(context.SocialAppUserFollows.Where(x => x.FollowedId == requester.Id).Select(x => x.Follower!));
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowing(SocialAppUser requester)
-        => ValueTask.FromResult(context.Set<SocialAppUserFollow>().Where(x => x.FollowerId == requester.Id).Select(x => x.Followed!));
+        => ValueTask.FromResult(context.SocialAppUserFollows.Where(x => x.FollowerId == requester.Id).Select(x => x.Followed!));
 
     public ValueTask<IQueryable<SocialAppUser>> GetMutuals(SocialAppUser requester)
         => ValueTask.FromResult(context.SocialAppUsers.Where(x => requester.FollowedUsers != null && requester.FollowedUsers.Contains(x) && x.FollowedUsers != null && x.FollowedUsers.Contains(requester)));

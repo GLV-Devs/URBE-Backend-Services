@@ -7,6 +7,7 @@ public enum APIResponseCodeEnum : int
     UserSelfView = 11,
     UserView = 10,
 
+    NoData = 2,
     Success = 1,
 
     Empty = 0,

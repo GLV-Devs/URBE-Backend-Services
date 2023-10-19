@@ -26,6 +26,7 @@ public class SocialContext : DbContext
     public DbSet<SocialAppUser> SocialAppUsers => Set<SocialAppUser>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<PendingMailConfirmation> PendingMailConfirmations => Set<PendingMailConfirmation>();
+    public DbSet<SocialAppUserFollow> SocialAppUserFollows => Set<SocialAppUserFollow>();
 
     private static void ChangeTracker_StateChanged(object? sender, Microsoft.EntityFrameworkCore.ChangeTracking.EntityStateChangedEventArgs e)
     {
@@ -40,7 +41,6 @@ public class SocialContext : DbContext
         Post.BuildModel(modelBuilder, modelBuilder.Entity<Post>());
 
         var iucmb = modelBuilder.Entity<IdentityUserClaim<Guid>>();
-        iucmb.ToTable("SocialAppUserClaims");
         iucmb.HasKey(x => x.Id);
         iucmb.HasOne(typeof(SocialAppUser)).WithMany().HasForeignKey(nameof(IdentityUserClaim<Guid>.UserId));
     }

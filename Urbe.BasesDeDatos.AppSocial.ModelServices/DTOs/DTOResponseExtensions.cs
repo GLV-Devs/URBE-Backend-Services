@@ -13,7 +13,14 @@ public static class DTOResponseExtensions
 {
     public static async ValueTask<APIResponse> GetResponse(this IEnumerable<IResponseModel> data, string? traceId)
     {
-        APIResponseCode code = data is IQueryable<IResponseModel> queryable ? (await queryable.FirstAsync()).APIResponseCode : data.First().APIResponseCode;
+        APIResponseCode code = 
+            data is IQueryable<IResponseModel> queryable
+            ? await queryable.AnyAsync() is false 
+            ? (APIResponseCode)APIResponseCodeEnum.NoData 
+            : (await queryable.FirstAsync()).APIResponseCode
+            : data.Any() is false 
+            ? (APIResponseCode)APIResponseCodeEnum.NoData 
+            : (data.First()).APIResponseCode;
 
         return new(code)
         {

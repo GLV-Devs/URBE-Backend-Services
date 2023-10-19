@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 
@@ -10,9 +11,11 @@ using Urbe.BasesDeDatos.AppSocial.Entities;
 namespace Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231019051339_AddedSetForSocialAppUserFollows")]
+    partial class AddedSetForSocialAppUserFollows
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -37,6 +40,27 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("IdentityUserClaim<Guid>");
+                });
+
+            modelBuilder.Entity("SocialAppUserFollow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FollowedId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowedId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("SocialAppUserFollow");
                 });
 
             modelBuilder.Entity("Urbe.BasesDeDatos.AppSocial.Entities.Models.PendingMailConfirmation", b =>
@@ -171,27 +195,6 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.Migrations
                     b.ToTable("SocialAppUsers");
                 });
 
-            modelBuilder.Entity("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUserFollow", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("FollowedId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("FollowerId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FollowedId");
-
-                    b.HasIndex("FollowerId");
-
-                    b.ToTable("SocialAppUserFollows");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUser", null)
@@ -199,6 +202,25 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SocialAppUserFollow", b =>
+                {
+                    b.HasOne("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUser", "Followed")
+                        .WithMany()
+                        .HasForeignKey("FollowedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUser", "Follower")
+                        .WithMany()
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Followed");
+
+                    b.Navigation("Follower");
                 });
 
             modelBuilder.Entity("Urbe.BasesDeDatos.AppSocial.Entities.Models.PendingMailConfirmation", b =>
@@ -227,25 +249,6 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.Migrations
                     b.Navigation("InResponseTo");
 
                     b.Navigation("Poster");
-                });
-
-            modelBuilder.Entity("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUserFollow", b =>
-                {
-                    b.HasOne("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUser", "Followed")
-                        .WithMany()
-                        .HasForeignKey("FollowedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Urbe.BasesDeDatos.AppSocial.Entities.Models.SocialAppUser", "Follower")
-                        .WithMany()
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Followed");
-
-                    b.Navigation("Follower");
                 });
 
             modelBuilder.Entity("Urbe.BasesDeDatos.AppSocial.Entities.Models.Post", b =>
