@@ -14,7 +14,7 @@ public class PendingMailConfirmation : IEntity, IKeyed<RandomKey>, ISelfModelBui
 {
     private readonly KeyedNavigation<Guid, SocialAppUser> UserNavigation = new();
 
-    public RandomKeyId<PendingMailConfirmation> Id { get; init; }
+    public RandomKey Id { get; init; }
 
     public SocialAppUser? User
     {
@@ -22,20 +22,18 @@ public class PendingMailConfirmation : IEntity, IKeyed<RandomKey>, ISelfModelBui
         init => UserNavigation.Entity = value;
     }
 
-    public GuidId<SocialAppUser> UserId
+    public Guid UserId
     {
         get => UserNavigation.Id;
-        init => UserNavigation.Id = value.Value;
+        init => UserNavigation.Id = value;
     }
 
     public DateTimeOffset CreationDate { get; init; }
 
-    RandomKey IKeyed<RandomKey>.Id => Id.Value;
-
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<PendingMailConfirmation> mb)
     {
         mb.HasKey(x => x.Id);
-        mb.Property(x => x.Id).HasConversion(RandomKeyId<PendingMailConfirmation>.ValueConverter);
         mb.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).IsRequired(true);
+        mb.Property(x => x.Id).HasConversion(RandomKey.ValueConverter);
     }
 }

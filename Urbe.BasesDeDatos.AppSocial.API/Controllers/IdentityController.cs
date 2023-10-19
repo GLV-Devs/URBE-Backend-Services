@@ -70,35 +70,35 @@ public sealed class IdentityController : SocialAppController
             return NotFound(list.Errors);
         }
 
-        Logger.LogInformation("Attempting to log in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id.Value);
+        Logger.LogInformation("Attempting to log in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id);
 
         var result = await SignInManager.PasswordSignInAsync(user, userLogin.Password, true, false);
         if (result.Succeeded)
         {
-            Logger.LogInformation("Succesfully logged in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id.Value);
+            Logger.LogInformation("Succesfully logged in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id);
             return Ok();
         }
         else if (result.IsLockedOut)
         {
-            Logger.LogInformation("Could not log in as user {user} ({userid}), because they're locked out", user.UserName!, user.Id.Value);
+            Logger.LogInformation("Could not log in as user {user} ({userid}), because they're locked out", user.UserName!, user.Id);
             list.AddError(ErrorMessages.LoginLockedOut(user.UserName!));
             return Forbidden(list.Errors);
         }
         else if (result.RequiresTwoFactor)
         {
-            Logger.LogInformation("Could not log in as user {user} ({userid}), because they require 2FA", user.UserName!, user.Id.Value);
+            Logger.LogInformation("Could not log in as user {user} ({userid}), because they require 2FA", user.UserName!, user.Id);
             list.AddError(ErrorMessages.LoginRequires("2FA", user.UserName!));
             return Forbidden(list.Errors);
         }
         else if (result.IsNotAllowed)
         {
-            Logger.LogInformation("Could not log in as user {user} ({userid}), because they're not allowed to", user.UserName!, user.Id.Value);
+            Logger.LogInformation("Could not log in as user {user} ({userid}), because they're not allowed to", user.UserName!, user.Id);
             list.AddError(ErrorMessages.ActionDisallowed("LogIn"));
             return Forbidden(list.Errors);
         }
         else
         {
-            Logger.LogInformation("Could not log in as user {user} ({userid})", user.UserName!, user.Id.Value);
+            Logger.LogInformation("Could not log in as user {user} ({userid})", user.UserName!, user.Id);
             list.AddError(ErrorMessages.BadLogin());
             return BadRequest(list.Errors);
         }

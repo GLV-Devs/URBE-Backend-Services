@@ -11,13 +11,13 @@ namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 public class PostViewModel : IResponseModel
 {
-    public required SnowflakeId<Post> Id { get; init; }
-    public required GuidId<SocialAppUser> Poster { get; init; }
+    public required Snowflake Id { get; init; }
+    public required Guid Poster { get; init; }
     public required string Content { get; init; }
     public required string PosterThenUsername { get; init; }
     public required DateTimeOffset DatePosted { get; init; }
-    public required SnowflakeId<Post>? InResponseTo { get; init; }
-    public required HashSet<SnowflakeId<Post>>? Responses { get; init; }
+    public required Snowflake ? InResponseTo { get; init; }
+    public required HashSet<Snowflake>? Responses { get; init; }
 
     public static PostViewModel FromPost(Post post)
         => new()

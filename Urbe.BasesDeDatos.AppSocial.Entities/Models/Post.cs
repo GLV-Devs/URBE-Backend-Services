@@ -11,7 +11,7 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
     private readonly KeyedNavigation<Guid, SocialAppUser> UserNavigation = new();
     private readonly KeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
 
-    public Post(SnowflakeId<Post> id, GuidId<SocialAppUser> posterId, string content, string posterThenUsername, DateTimeOffset datePosted, SnowflakeId<Post> inResponseToId)
+    public Post(Snowflake id, Guid posterId, string content, string posterThenUsername, DateTimeOffset datePosted, Snowflake inResponseToId)
     {
         Id = id;
         PosterId = posterId;
@@ -21,7 +21,7 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
         InResponseToId = inResponseToId;
     }
 
-    public SnowflakeId<Post> Id { get; init; }
+    public Snowflake Id { get; init; }
 
     public SocialAppUser? Poster
     {
@@ -29,10 +29,10 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
         init => UserNavigation.Entity = value;
     }
 
-    public GuidId<SocialAppUser> PosterId
+    public Guid PosterId
     {
         get => UserNavigation.Id;
-        init => UserNavigation.Id = value.Value;
+        init => UserNavigation.Id = value;
     }
 
     public string Content { get; init; }
@@ -47,23 +47,21 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
         init => InResponseToNavigation.Entity = value;
     }
 
-    public SnowflakeId<Post> InResponseToId
+    public Snowflake InResponseToId
     {
         get => InResponseToNavigation.Id;
-        init => InResponseToNavigation.Id = value.Value;
+        init => InResponseToNavigation.Id = value;
     }
 
     public HashSet<Post>? Responses { get; set; }
 
-    Snowflake IKeyed<Snowflake>.Id => Id.Value;
+    Snowflake IKeyed<Snowflake>.Id => Id;
 
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<Post> mb)
     {
         mb.HasKey(x => x.Id);
+        mb.Property(x => x.Id).HasConversion(Snowflake.ValueConverter);
         mb.HasOne(x => x.Poster).WithMany(x => x.Posts).HasForeignKey(x => x.PosterId).IsRequired(true);
         mb.HasOne(x => x.InResponseTo).WithMany(x => x.Responses).HasForeignKey(x => x.InResponseToId).IsRequired(false);
-
-        mb.Property(x => x.InResponseToId).HasConversion(SnowflakeId<Post>.ValueConverter);
-        mb.Property(x => x.Id).HasConversion(SnowflakeId<Post>.ValueConverter);
     }
 }

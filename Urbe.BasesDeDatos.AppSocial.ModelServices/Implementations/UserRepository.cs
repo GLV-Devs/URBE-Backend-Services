@@ -110,7 +110,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
 
         var newuser = new SocialAppUser()
         {
-            Id = new(Guid.NewGuid()),
+            Id = Guid.NewGuid(),
             UserName = model.Username,
             Email = model.Email,
             RealName = model.RealName

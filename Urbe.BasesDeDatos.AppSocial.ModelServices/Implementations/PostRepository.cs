@@ -75,7 +75,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         => await CanView(requester, user) ? await GetPosts(user) : null;
 
     public async ValueTask<SocialAppUser> GetPoster(Post post)
-        => post.Poster ?? (await userRepository.Find(post.PosterId.Value))!;
+        => post.Poster ?? (await userRepository.Find(post.PosterId))!;
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser poster)
         => requester?.Id.Equals(poster.Id) is true

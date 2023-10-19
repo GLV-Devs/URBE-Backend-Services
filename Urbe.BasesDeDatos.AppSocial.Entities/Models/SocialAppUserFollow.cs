@@ -10,12 +10,12 @@ public class SocialAppUserFollow : IKeyed<Guid>, IEntity
     private readonly KeyedNavigation<Guid, SocialAppUser> followernav = new();
     private readonly KeyedNavigation<Guid, SocialAppUser> followednav = new();
 
-    public GuidId<SocialAppUserFollow> Id { get; }
+    public Guid Id { get; }
     
-    public GuidId<SocialAppUser> FollowerId 
+    public Guid FollowerId 
     {
         get => followernav.Id;
-        set => followernav.Id = value.Value;
+        set => followernav.Id = value;
     }
 
     public SocialAppUser? Follower
@@ -24,10 +24,10 @@ public class SocialAppUserFollow : IKeyed<Guid>, IEntity
         set => followernav.Entity = value;
     }
 
-    public GuidId<SocialAppUser> FollowedId
+    public Guid FollowedId
     {
         get => followednav.Id;
-        set => followednav.Id = value.Value;
+        set => followednav.Id = value;
     }
 
     public SocialAppUser? Followed
@@ -35,6 +35,4 @@ public class SocialAppUserFollow : IKeyed<Guid>, IEntity
         get => followednav.Entity;
         set => followednav.Entity = value;
     }
-
-    Guid IKeyed<Guid>.Id => Id.Value;
 }

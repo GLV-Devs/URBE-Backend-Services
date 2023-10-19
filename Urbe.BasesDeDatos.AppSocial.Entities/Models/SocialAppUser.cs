@@ -13,7 +13,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelfModelBuilder<SocialAppUser>, IKeyed<Guid>
+public class SocialAppUser : IdentityUser<Guid>, IEntity, ISelfModelBuilder<SocialAppUser>, IKeyed<Guid>
 {
     public const int EmailMaxLength = 300;
     public const int RealNameMaxLength = 200;
@@ -71,7 +71,6 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
         mb.HasKey(x => x.Id);
         mb.HasIndex(x => x.UserName).IsUnique(true);
 
-        mb.Property(x => x.Id).HasConversion(GuidId<SocialAppUser>.ValueConverter);
         mb.Property(x => x.Email).HasMaxLength(EmailMaxLength);
         mb.Property(x => x.RealName).HasMaxLength(RealNameMaxLength);
         mb.Property(x => x.UserName).HasMaxLength(UserNameMaxLength).IsRequired(true);
@@ -93,11 +92,5 @@ public class SocialAppUser : IdentityUser<GuidId<SocialAppUser>>, IEntity, ISelf
         );
 
         followmb.HasKey(x => x.Id);
-
-        followmb.Property(x => x.Id).HasConversion(GuidId<SocialAppUserFollow>.ValueConverter).ValueGeneratedOnAdd();
-        followmb.Property(x => x.FollowerId).HasConversion(GuidId<SocialAppUser>.ValueConverter);
-        followmb.Property(x => x.FollowedId).HasConversion(GuidId<SocialAppUser>.ValueConverter);
     }
-
-    Guid IKeyed<Guid>.Id => Id.Value;
 }

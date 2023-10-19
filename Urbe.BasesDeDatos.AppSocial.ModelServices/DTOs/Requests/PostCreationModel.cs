@@ -6,5 +6,5 @@ namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
 public class PostCreationModel
 {
     public required string Content { get; init; }
-    public SnowflakeId<Post>? InResponseTo { get; init; }
+    public Snowflake? InResponseTo { get; init; }
 }

@@ -10,10 +10,12 @@ using System.Runtime.Intrinsics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities;
 
-public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<RandomKey, RandomKey, bool>, IFormattable, IParsable<RandomKey>
+public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<RandomKey, RandomKey, bool>, IFormattable, IParsable<RandomKey>, IConvertibleProperty
 {
     private const int LengthInLongs = 8;
     private const int LengthInBytes = LengthInLongs * sizeof(ulong);
@@ -163,4 +165,9 @@ public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<Ran
             result = new(new Span<ulong>(ptr, LengthInLongs));
         return true;
     }
+
+    public static ValueConverter ValueConverter { get; } = new ValueConverter<RandomKey, byte[]>(
+        x => x.ToByteArray(),
+        y => new(y)
+    );
 }

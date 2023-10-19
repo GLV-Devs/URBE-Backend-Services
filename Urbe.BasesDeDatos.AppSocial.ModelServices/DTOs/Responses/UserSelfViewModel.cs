@@ -6,7 +6,7 @@ namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 
 public class UserSelfViewModel : IResponseModel
 {
-    public required GuidId<SocialAppUser> Id { get; set; }
+    public required Guid Id { get; set; }
     public required string Username { get; set; }
     public required UserSettings Settings { get; set; }
     public required string? ProfilePictureUrl { get; set; }

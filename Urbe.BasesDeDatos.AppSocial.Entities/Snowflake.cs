@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 
 namespace Urbe.BasesDeDatos.AppSocial.Entities;
 
 [StructLayout(LayoutKind.Explicit)]
-public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>, IParsable<Snowflake>, IFormattable
+public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>, IParsable<Snowflake>, IFormattable, IConvertibleProperty
 {
     private readonly static long ReferenceStampUtc;
 
@@ -127,4 +129,9 @@ public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>
     {
         return left.CompareTo(right) >= 0;
     }
+
+    public static ValueConverter ValueConverter { get; } = new ValueConverter<Snowflake, long>(
+        x => x.AsLong(),
+        y => new(y)
+    );
 }

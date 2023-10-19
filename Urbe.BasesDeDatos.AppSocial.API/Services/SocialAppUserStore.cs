@@ -7,7 +7,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
 namespace Urbe.BasesDeDatos.AppSocial.API.Services;
 
-public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, GuidId<SocialAppUser>>
+public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Guid>
 {
     public SocialAppUserStore(SocialContext context, IdentityErrorDescriber? describer = null) : base(context, describer)
     {
@@ -21,9 +21,9 @@ public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Gu
         return Context.Users.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public override GuidId<SocialAppUser> ConvertIdFromString(string? id) 
-        => id is not null ? GuidId<SocialAppUser>.Parse(id, null) : default;
+    public override Guid ConvertIdFromString(string? id) 
+        => id is not null ? Guid.Parse(id, null) : default;
 
-    public override string? ConvertIdToString(GuidId<SocialAppUser> id)
-        => id.Value.ToString();
+    public override string? ConvertIdToString(Guid id)
+        => id.ToString();
 }
