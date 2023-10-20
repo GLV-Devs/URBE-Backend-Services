@@ -18,4 +18,6 @@ public interface IUserRepository : IEntityCRUDRepository<SocialAppUser, Guid, Us
     public ValueTask<IQueryable<SocialAppUser>?> GetMutuals(SocialAppUser? requester, SocialAppUser user);
 
     public ValueTask<bool> FollowUser(SocialAppUser requester, SocialAppUser followed);
+
+    public ValueTask<bool> UnfollowUser(SocialAppUser requester, SocialAppUser followed);
 }

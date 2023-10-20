@@ -31,7 +31,7 @@ public class PostController : CRDController<Post, Snowflake, PostCreationModel>
     {
         var u = await UserManager.GetUserAsync(User);
         Debug.Assert(u is not null);
-        return Ok(await PostRepository.GetPosts(u));
+        return Ok(await PostRepository.GetViews(u, await PostRepository.GetPosts(u)));
     }
 
     [HttpGet("from/{userid}")]
@@ -40,6 +40,6 @@ public class PostController : CRDController<Post, Snowflake, PostCreationModel>
         var u = await UserManager.GetUserAsync(User);
         Debug.Assert(u is not null);
         var foundEntity = await UserRepository.Find(userid);
-        return foundEntity is null ? NotFound() : Ok(await PostRepository.GetPosts(u, foundEntity));
+        return foundEntity is null ? NotFound() : Ok(await PostRepository.GetViews(u, await PostRepository.GetPosts(u, foundEntity)));
     }
 }

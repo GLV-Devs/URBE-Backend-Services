@@ -37,6 +37,25 @@ public class UserController : SocialAppController
         return Ok(await UserRepository.GetViews(u, UserRepository.Query(u)));
     }
 
+    [HttpPut("removefollow/{key}")]
+    [Authorize]
+    public async Task<IActionResult> UnfollowUser(Guid key)
+    {
+        var u = await UserManager.GetUserAsync(User);
+        Debug.Assert(u is not null);
+
+        var foundEntity = await UserRepository.Find(u, key);
+        if (foundEntity is null)
+            return NotFound();
+        else if (await UserRepository.UnfollowUser(u, foundEntity))
+        {
+            await UserRepository.SaveChanges();
+            return Ok();
+        }
+        else
+            return BadRequest();
+    }
+
     [HttpPut("addfollow/{key}")]
     [Authorize]
     public async Task<IActionResult> FollowUser(Guid key)

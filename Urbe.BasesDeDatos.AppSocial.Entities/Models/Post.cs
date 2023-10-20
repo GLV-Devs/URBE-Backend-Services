@@ -9,9 +9,9 @@ namespace Urbe.BasesDeDatos.AppSocial.Entities.Models;
 public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 {
     private readonly KeyedNavigation<Guid, SocialAppUser> UserNavigation = new();
-    private readonly KeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
+    private readonly NullableKeyedNavigation<Snowflake, Post> InResponseToNavigation = new();
 
-    public Post(Snowflake id, Guid posterId, string content, string posterThenUsername, DateTimeOffset datePosted, Snowflake inResponseToId)
+    public Post(Snowflake id, Guid posterId, string content, string posterThenUsername, DateTimeOffset datePosted, Snowflake? inResponseToId)
     {
         Id = id;
         PosterId = posterId;
@@ -47,7 +47,7 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
         init => InResponseToNavigation.Entity = value;
     }
 
-    public Snowflake InResponseToId
+    public Snowflake? InResponseToId
     {
         get => InResponseToNavigation.Id;
         init => InResponseToNavigation.Id = value;

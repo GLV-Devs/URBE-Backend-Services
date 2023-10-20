@@ -209,18 +209,27 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         if (await IsFollowing(requester, followed))
             return false;
 
-        (requester.FollowedUsers ??= new()).Add(followed);
+        context.SocialAppUserFollows.Add(new SocialAppUserFollow()
+        {
+            Followed = followed,
+            Follower = requester
+        });
+
         return true;
     }
+
+    public async ValueTask<bool> UnfollowUser(SocialAppUser requester, SocialAppUser followed)
+        => await context.SocialAppUserFollows.Where(x => x.Follower == requester && x.Followed == followed).ExecuteDeleteAsync() > 0;
 
     public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<SocialAppUser>? users)
         => ValueTask.FromResult<IQueryable<object>?>(
             users is null
             ? null
             : requester is null
-            ? users.Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
+            ? users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
                 ? new UserViewModel()
                 {
+                    UserId = x.Id,
                     ProfileMessage = x.ProfileMessage,
                     ProfilePictureUrl = x.ProfilePictureUrl,
                     Pronouns = x.Pronouns,
@@ -229,12 +238,14 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 }
                 : new UserViewModel()
                 {
+                    UserId = x.Id,
                     Username = x.UserName!,
                     ProfilePictureUrl = null
                 })
-            : users.Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
+            : users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
                 ? new UserViewModel()
                 {
+                    UserId = x.Id,
                     ProfileMessage = x.ProfileMessage,
                     ProfilePictureUrl = x.ProfilePictureUrl,
                     Pronouns = x.Pronouns,
@@ -244,6 +255,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 }
                 : new UserViewModel()
                 {
+                    UserId = x.Id,
                     Username = x.UserName!,
                     ProfilePictureUrl = x.ProfilePictureUrl,
                     FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester)

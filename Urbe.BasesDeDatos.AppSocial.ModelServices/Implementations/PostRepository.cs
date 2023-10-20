@@ -8,10 +8,13 @@ using Urbe.BasesDeDatos.AppSocial.ModelServices;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 
+[RegisterService(typeof(IEntityCRDRepository<Post, Snowflake, PostCreationModel>))]
+[RegisterService(typeof(IPostRepository))]
 public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationModel>, IPostRepository
 {
     private readonly IUserRepository userRepository;
@@ -36,23 +39,44 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
             return ValueTask.FromResult(new SuccessResult<Post>(errors));
         }
 
-        return ValueTask.FromResult(new SuccessResult<Post>(new Post(
+        var post = new Post(
             Snowflake.New(),
             requester.Id,
             model.Content,
             requester.UserName!,
             DateTimeOffset.Now,
-            model.InResponseTo ?? default
-        )));
+            model.InResponseTo is long irt ? new(irt) : null
+        );
+        context.Posts.Add(post);
+
+        return ValueTask.FromResult(new SuccessResult<Post>(post));
     }
 
+    //public override async ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query)
+    //{
+    //    if (query is null) return null;
+
+    //    var posts = await query.ToListAsync();
+    //    return posts.AsQueryable();
+    //}
+
     public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<Post>? query)
-        => ValueTask.FromResult<IQueryable<object>?>(
+        => ValueTask.FromResult<IQueryable<object>?>((
             query is null
             ? null
             : requester is null
-            ? query.Where(x => x.Poster!.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
-            : query.Where(x => x.Poster!.Id != requester.Id && (x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.FollowedUsers!.Contains(x.Poster)))
+            ? query.AsNoTracking().Where(x => x.Poster != null && x.Poster.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
+            : query.AsNoTracking().Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || (requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster))))
+            )?.Select(x => new PostViewModel()
+            {
+                Content = x.Content,
+                DatePosted = x.DatePosted,
+                Id = x.Id.AsLong(),
+                InResponseTo = x.InResponseToId == null ? null : x.InResponseToId.Value.AsLong(),
+                Poster = x.Poster!.Id,
+                PosterThenUsername = x.PosterThenUsername,
+                Responses = x.Responses != null ? x.Responses.Select(x => x.Id.AsLong()).ToHashSet() : null
+            })
         );
 
     public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, Post entity)

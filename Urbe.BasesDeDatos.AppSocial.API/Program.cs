@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Urbe.BasesDeDatos.AppSocial.API.Services;
 using Urbe.BasesDeDatos.AppSocial.API.Middleware;
 using Microsoft.AspNetCore.Authorization;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.JsonConverters;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -35,6 +36,7 @@ public static class Program
 
         // Add services to the container.
 
+        services.ConfigureHttpJsonOptions(x => x.SerializerOptions.Converters.Add(SnowflakeConverter.Instance));
         services.AddSingleton<IAuthorizationMiddlewareResultHandler, SocialAppAuthorizationMiddlewareResultHandler>();
 
         services.AddControllers().AddOData(o => o.Select().Filter().OrderBy().Count().SetMaxTop(100));
