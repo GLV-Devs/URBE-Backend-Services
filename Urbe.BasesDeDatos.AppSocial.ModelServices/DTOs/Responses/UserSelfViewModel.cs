@@ -13,6 +13,8 @@ public class UserSelfViewModel : IResponseModel
     public string? RealName { get; set; }
     public string? Pronouns { get; set; }
     public string? ProfileMessage { get; set; }
+    public bool EmailVerified { get; set; }
+    public string? Email { get; set; }
 
     public static UserSelfViewModel FromUser(SocialAppUser user)
         => new()
@@ -21,7 +23,11 @@ public class UserSelfViewModel : IResponseModel
             Username = user.UserName!,
             Settings = user.Settings,
             ProfilePictureUrl = user.ProfilePictureUrl,
-            RealName = user.RealName
+            RealName = user.RealName,
+            Email = user.Email,
+            EmailVerified = user.EmailConfirmed,
+            ProfileMessage = user.ProfileMessage,
+            Pronouns = user.Pronouns
         };
 
     APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.UserSelfView;

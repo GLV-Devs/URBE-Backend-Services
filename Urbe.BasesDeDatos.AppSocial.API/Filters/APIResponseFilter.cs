@@ -9,12 +9,6 @@ using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 namespace Urbe.BasesDeDatos.AppSocial.API.Filters;
 
-public class FilterAPIResponseAttribute : ResultFilterAttribute
-{
-    public override Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
-        => APIResponseFilter.Instance.OnResultExecutionAsync(context, next);
-}
-
 public sealed class APIResponseFilter : IAsyncResultFilter
 {
     private APIResponseFilter() { }

@@ -56,7 +56,12 @@ public static class Program
         services.AddRESTObjectSerializer<APIResponseCode>(
             x => new JsonRESTSerializer<APIResponseCode>(x.GetRequiredService<IOptions<JsonOptions>>().Value.SerializerOptions));
 
-        services.AddMvc(o => o.Filters.Add(APIResponseFilter.Instance));
+        services.AddMvc(o =>
+        {
+            o.Filters.Add(APIResponseFilter.Instance);
+            o.Filters.Add<SignInRefreshFilter>();
+        });
+
         services.RegisterDecoratedServices();
 
         builder.Logging.AddSerilog();
@@ -97,7 +102,7 @@ public static class Program
             o.DefaultScheme = IdentityConstants.ApplicationScheme;
             o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         })
-        .AddIdentityCookies(o => { });
+        .AddIdentityCookies();
 
         services.AddIdentityCore<SocialAppUser>(o =>
         {
@@ -123,6 +128,7 @@ public static class Program
         services.ConfigureApplicationCookie(options =>
         {
             // Cookie settings
+            options.Cookie.Name = "SessionCookie";
             options.Cookie.HttpOnly = false;
             options.LoginPath = "/api/identity";
             options.LogoutPath = "/api/identity";
