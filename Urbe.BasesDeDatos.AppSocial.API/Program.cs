@@ -21,6 +21,7 @@ using Urbe.BasesDeDatos.AppSocial.API.Services;
 using Urbe.BasesDeDatos.AppSocial.API.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.JsonConverters;
+using Urbe.BasesDeDatos.AppSocial.API.Workers;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -52,6 +53,8 @@ public static class Program
                 Type = SecuritySchemeType.ApiKey
             }
         ));
+
+        services.AddHostedService<BackgroundTaskStoreSweeper>();
 
         services.AddRESTObjectSerializer<APIResponseCode>(
             x => new JsonRESTSerializer<APIResponseCode>(x.GetRequiredService<IOptions<JsonOptions>>().Value.SerializerOptions));
