@@ -22,6 +22,10 @@ using Urbe.BasesDeDatos.AppSocial.API.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.JsonConverters;
 using Urbe.BasesDeDatos.AppSocial.API.Workers;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
+using Mail.NET;
+using Mail.NET.MailKit;
+using Urbe.BasesDeDatos.AppSocial.API.Options;
 
 namespace Urbe.BasesDeDatos.AppSocial.API;
 
@@ -54,6 +58,15 @@ public static class Program
                 Type = SecuritySchemeType.ApiKey
             }
         ));
+
+        services.AddScoped<IMailWriter>(x =>
+        {
+            var settings = x.GetRequiredService<IOptions<SmtpSettings>>().Value;
+            return new MailKitSmtpWriter(settings.Domain, settings.Port, new Auth(settings.UserName, settings.Password), settings.UseSsl);
+        });
+
+        services.AddOptions<UserVerificationServiceOptions>();
+        services.AddOptions<SmtpSettings>(); // These should be stored in appsettings.Secret.json
 
         services.AddHostedService<BackgroundTaskStoreSweeper>();
 
