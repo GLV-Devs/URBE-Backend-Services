@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Mail.NET\Mail.NET.MailKit\Mail.NET.MailKit.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj" />
     <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj" />
   </ItemGroup>
