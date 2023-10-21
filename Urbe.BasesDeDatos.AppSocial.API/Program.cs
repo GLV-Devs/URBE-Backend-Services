@@ -34,6 +34,7 @@ public static class Program
         var builder = WebApplication.CreateBuilder(Environment.GetCommandLineArgs());
 
         var services = builder.Services;
+        builder.Configuration.AddJsonFile("appsettings.Secret.json");
 
         // Add services to the container.
 
