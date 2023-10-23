@@ -2,6 +2,20 @@
 
 public static class ErrorMessages
 {
+    public static ErrorMessage EmailAlreadyConfirmed()
+        => new(
+            $"El usuario ya verificó su correo electrónico",
+            nameof(EmailAlreadyConfirmed),
+            null
+        );
+
+    public static ErrorMessage VerificationRequestAlreadyActive()
+        => new(
+            $"El usuario ya posee una verificación de correo activa, y aun no puede pedir otra",
+            nameof(VerificationRequestAlreadyActive),
+            null
+        );
+
     public static ErrorMessage ActionDisallowed(string action)
         => new(
             $"La accion '{action}' no está permitida para este usuario",

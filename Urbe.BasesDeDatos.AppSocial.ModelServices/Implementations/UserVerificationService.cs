@@ -57,18 +57,18 @@ public class UserVerificationService : IUserVerificationService
     }
 
     public async ValueTask<PendingMailConfirmation?> FindById(RandomKey key) 
-        => await context.PendingMailConfirmations.Where(x => x.Id == key).FirstOrDefaultAsync();
+        => await context.PendingMailConfirmations.AsNoTracking().Include(x => x.User).Where(x => x.Id == key).FirstOrDefaultAsync();
 
     public async ValueTask<PendingMailConfirmation?> FindByUser(SocialAppUser user)
     {
         ArgumentNullException.ThrowIfNull(user);
-        return await context.PendingMailConfirmations.Where(x => x.UserId == user.Id).FirstOrDefaultAsync();
+        return await context.PendingMailConfirmations.AsNoTracking().Include(x => x.User).Where(x => x.UserId == user.Id).FirstOrDefaultAsync();
     }
 
     public async ValueTask<PendingMailConfirmation?> FindByToken(string token)
     {
         ArgumentException.ThrowIfNullOrEmpty(token);
-        return await context.PendingMailConfirmations.Where(x => x.Token == token).FirstOrDefaultAsync();
+        return await context.PendingMailConfirmations.AsNoTracking().Include(x => x.User).Where(x => x.Token == token).FirstOrDefaultAsync();
     }
 
     public async ValueTask<VerificationResult> VerifyUserEmail(PendingMailConfirmation confirmation)

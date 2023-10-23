@@ -19,7 +19,8 @@ public class UserViewModel : IResponseModel
         {
             UserId = user.Id,
             Username = user.UserName!,
-            ProfilePictureUrl = null
+            ProfilePictureUrl = user.ProfilePictureUrl,
+            Pronouns = user.Pronouns
         };
 
     public static UserViewModel FromUser(SocialAppUser user)
@@ -28,7 +29,8 @@ public class UserViewModel : IResponseModel
             UserId = user.Id,
             Username = user.UserName!,
             ProfilePictureUrl = user.ProfilePictureUrl,
-            RealName = user.Settings.HasFlag(Entities.UserSettings.AllowRealNamePublicly) ? user.RealName : null
+            RealName = user.Settings.HasFlag(Entities.UserSettings.AllowRealNamePublicly) ? user.RealName : null,
+            Pronouns = user.Pronouns
         };
 
     APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.UserView;

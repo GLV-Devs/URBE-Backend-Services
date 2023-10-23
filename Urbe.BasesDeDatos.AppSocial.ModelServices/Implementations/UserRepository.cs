@@ -240,7 +240,8 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 {
                     UserId = x.Id,
                     Username = x.UserName!,
-                    ProfilePictureUrl = null
+                    ProfilePictureUrl = null,
+                    Pronouns = x.Pronouns,
                 })
             : users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
                 ? new UserViewModel()
@@ -257,6 +258,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 {
                     UserId = x.Id,
                     Username = x.UserName!,
+                    Pronouns = x.Pronouns,
                     ProfilePictureUrl = x.ProfilePictureUrl,
                     FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
                 })

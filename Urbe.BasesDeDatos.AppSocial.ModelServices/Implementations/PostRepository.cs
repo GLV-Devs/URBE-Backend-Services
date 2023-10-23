@@ -65,15 +65,22 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
             query is null
             ? null
             : requester is null
-            ? query.AsNoTracking().Where(x => x.Poster != null && x.Poster.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
-            : query.AsNoTracking().Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || (requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster))))
+            ? query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && x.Poster.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
+            : query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || (requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster))))
             )?.Select(x => new PostViewModel()
             {
                 Content = x.Content,
                 DatePosted = x.DatePosted,
                 Id = x.Id.AsLong(),
+                Poster = new UserViewModel()
+                {
+                    UserId = x.Poster!.Id,
+                    Username = x.Poster!.UserName!,
+                    ProfilePictureUrl = x.Poster!.ProfilePictureUrl,
+                    Pronouns = x.Poster!.Pronouns
+                },
                 InResponseTo = x.InResponseToId == null ? null : x.InResponseToId.Value.AsLong(),
-                Poster = x.Poster!.Id,
+                PosterId = x.Poster!.Id,
                 PosterThenUsername = x.PosterThenUsername,
                 Responses = x.Responses != null ? x.Responses.Select(x => x.Id.AsLong()).ToHashSet() : null
             })
@@ -95,7 +102,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
     public ValueTask<IQueryable<Post>> GetPosts(SocialAppUser requester)
         => ValueTask.FromResult(context.Posts.Where(x => x.PosterId == requester.Id));
 
-    public async ValueTask<IQueryable<Post>?> GetPosts(SocialAppUser requester, SocialAppUser user)
+    public async ValueTask<IQueryable<Post>?> GetPosts(SocialAppUser? requester, SocialAppUser user)
         => await CanView(requester, user) ? await GetPosts(user) : null;
 
     public async ValueTask<SocialAppUser> GetPoster(Post post)

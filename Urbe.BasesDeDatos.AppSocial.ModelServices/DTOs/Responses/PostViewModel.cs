@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
+using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 
 namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 
 public class PostViewModel : IResponseModel
 {
     public required long Id { get; init; }
-    public required Guid Poster { get; init; }
+    public required UserViewModel? Poster { get; init; }
+    public required Guid PosterId { get; init; }
     public required string Content { get; init; }
     public required string PosterThenUsername { get; init; }
     public required DateTimeOffset DatePosted { get; init; }
@@ -23,7 +25,8 @@ public class PostViewModel : IResponseModel
         => new()
         {
             Id = post.Id.AsLong(),
-            Poster = post.PosterId,
+            Poster = post.Poster is not null ? UserViewModel.FromHiddenUser(post.Poster) : null,
+            PosterId = post.PosterId,
             Content = post.Content,
             PosterThenUsername = post.PosterThenUsername,
             DatePosted = post.DatePosted,
