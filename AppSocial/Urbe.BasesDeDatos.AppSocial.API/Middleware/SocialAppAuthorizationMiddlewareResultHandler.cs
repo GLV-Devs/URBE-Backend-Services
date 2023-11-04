@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Middleware;
+namespace Urbe.Programacion.AppSocial.API.Middleware;
 
 public class SocialAppAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
 {

@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
+using Urbe.Programacion.AppSocial.Services.Attributes;
 
-namespace Urbe.BasesDeDatos.AppSocial.Services;
+namespace Urbe.Programacion.AppSocial.Services;
 public static class ServicesHelper
 {
     public static void RegisterDecoratedServices(this IServiceCollection serviceCollection)

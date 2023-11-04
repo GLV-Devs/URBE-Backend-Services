@@ -1,6 +1,6 @@
-﻿using Urbe.BasesDeDatos.AppSocial.Common;
+﻿using Urbe.Programacion.AppSocial.Common;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Workers;
+namespace Urbe.Programacion.AppSocial.API.Workers;
 
 public class BackgroundTaskStoreSweeper : BackgroundService
 {

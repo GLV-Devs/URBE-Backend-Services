@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.Common;
+﻿namespace Urbe.Programacion.AppSocial.Common;
 
 public static class ErrorMessages
 {

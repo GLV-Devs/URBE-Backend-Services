@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace Urbe.BasesDeDatos.AppSocial.Common;
+namespace Urbe.Programacion.AppSocial.Common;
 
 public static class BackgroundTaskStore
 {

@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
+using Urbe.Programacion.AppSocial.Common;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
+namespace Urbe.Programacion.AppSocial.ModelServices;
 
 public interface IEntityCRDRepository<TEntity, TKey, TCreationModel> : IEntityRepository<TEntity, TKey>
     where TEntity : IEntity, IKeyed<TKey>

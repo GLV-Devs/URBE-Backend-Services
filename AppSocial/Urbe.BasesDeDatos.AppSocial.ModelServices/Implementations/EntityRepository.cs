@@ -3,7 +3,7 @@ using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
+namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
 public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
     where TEntity : class, IEntity, IKeyed<TKey>

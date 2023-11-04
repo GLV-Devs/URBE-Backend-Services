@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.API.Options;
+﻿namespace Urbe.Programacion.AppSocial.API.Options;
 
 public class SmtpSettings
 {

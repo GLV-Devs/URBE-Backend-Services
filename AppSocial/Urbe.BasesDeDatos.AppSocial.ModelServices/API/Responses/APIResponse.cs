@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using DiegoG.REST;
-using Urbe.BasesDeDatos.AppSocial.Common;
+using Urbe.Programacion.AppSocial.Common;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
+namespace Urbe.Programacion.AppSocial.ModelServices.API.Responses;
 
 public class APIResponse : RESTObject<APIResponseCode>
 {

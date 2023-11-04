@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Services;
+namespace Urbe.Programacion.AppSocial.API.Services;
 
 public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Guid>
 {
@@ -25,7 +25,7 @@ public class SocialAppUserStore : UserOnlyStore<SocialAppUser, SocialContext, Gu
             : CompletedEmptyTask;
     }
 
-    public override Guid ConvertIdFromString(string? id) 
+    public override Guid ConvertIdFromString(string? id)
         => id is not null ? Guid.Parse(id, null) : default;
 
     public override string? ConvertIdToString(Guid id)

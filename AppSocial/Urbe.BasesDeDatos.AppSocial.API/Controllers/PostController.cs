@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
-using Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
 using Microsoft.AspNetCore.OData.Query;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.ModelServices;
+using Urbe.Programacion.AppSocial.API.Controllers.Base;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Controllers;
+namespace Urbe.Programacion.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("/api/post")]
@@ -30,7 +30,7 @@ public class PostController : CRDController<Post, Snowflake, PostCreationModel>
     [EnableQuery]
     public async Task<IActionResult> GetResponses(long id)
     {
-        var u = await UserManager.GetUserAsync(User); 
+        var u = await UserManager.GetUserAsync(User);
         var snowflake = new Snowflake(id);
         return Ok(await PostRepository.GetViews(u, PostRepository.Query().Where(x => x.InResponseToId != null && x.InResponseToId == snowflake)));
     }

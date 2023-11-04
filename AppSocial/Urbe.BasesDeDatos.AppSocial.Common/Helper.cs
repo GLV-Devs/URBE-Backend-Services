@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Urbe.BasesDeDatos.AppSocial.Common;
+namespace Urbe.Programacion.AppSocial.Common;
 public static class Helper
 {
     public static bool IsUpdating(string? original, [NotNullWhen(true)] string? update, StringComparison comparison = StringComparison.OrdinalIgnoreCase)

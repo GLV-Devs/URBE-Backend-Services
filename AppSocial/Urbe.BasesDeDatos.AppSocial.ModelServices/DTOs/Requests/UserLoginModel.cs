@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
+﻿namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
 
 public class UserLoginModel
 {

@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
+using Urbe.Programacion.AppSocial.Common;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
+namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
 public class UserVerificationServiceOptions
 {
@@ -56,7 +56,7 @@ public class UserVerificationService : IUserVerificationService
         Options = options.Value;
     }
 
-    public async ValueTask<PendingMailConfirmation?> FindById(RandomKey key) 
+    public async ValueTask<PendingMailConfirmation?> FindById(RandomKey key)
         => await context.PendingMailConfirmations.AsNoTracking().Include(x => x.User).Where(x => x.Id == key).FirstOrDefaultAsync();
 
     public async ValueTask<PendingMailConfirmation?> FindByUser(SocialAppUser user)
@@ -73,9 +73,9 @@ public class UserVerificationService : IUserVerificationService
 
     public async ValueTask<VerificationResult> VerifyUserEmail(PendingMailConfirmation confirmation)
     {
-        if (DateTimeOffset.Now > (confirmation.CreationDate + confirmation.Validity))
+        if (DateTimeOffset.Now > confirmation.CreationDate + confirmation.Validity)
             return VerificationResult.Expired;
-        
+
         context.PendingMailConfirmations.Remove(confirmation);
         await context.SaveChangesAsync();
 
@@ -107,7 +107,7 @@ public class UserVerificationService : IUserVerificationService
         if (user.Email is null)
             throw new ArgumentException("User must have a registered email", nameof(user));
 
-        if (await FindByUser(user) is not null || await UserManager.IsEmailConfirmedAsync(user)) 
+        if (await FindByUser(user) is not null || await UserManager.IsEmailConfirmedAsync(user))
             return false;
 
         var pmc = new PendingMailConfirmation()
@@ -144,7 +144,7 @@ public class UserVerificationService : IUserVerificationService
                 await MailWriter.SendMessage(msg, ct);
                 Logger.LogInformation("Succesfully sent Email verification mail message for user {username} ({userid})", user.UserName, user.Id);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.LogError(e, "An error ocurred while trying to send Email verification mail message for user {username} ({userid})", user.UserName, user.Id);
             }

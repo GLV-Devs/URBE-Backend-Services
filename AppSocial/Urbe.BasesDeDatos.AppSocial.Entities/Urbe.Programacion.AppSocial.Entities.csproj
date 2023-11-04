@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.Programacion.AppSocial.Common.csproj" />
   </ItemGroup>
 
 </Project>

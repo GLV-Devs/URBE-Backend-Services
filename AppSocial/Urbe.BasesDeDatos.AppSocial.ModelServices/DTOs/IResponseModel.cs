@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+namespace Urbe.Programacion.AppSocial.ModelServices.DTOs;
 
 public interface IResponseModel
 {

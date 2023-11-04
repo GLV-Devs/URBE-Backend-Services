@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
+﻿namespace Urbe.Programacion.AppSocial.ModelServices;
 
 public enum VerificationResult
 {

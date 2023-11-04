@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
+using Urbe.Programacion.AppSocial.ModelServices;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
+namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
 
 public abstract class CRUDController<TEntity, TKey, TCreationModel, TUpdateModel> : CRDController<TEntity, TKey, TCreationModel>
     where TEntity : IEntity, IKeyed<TKey>
@@ -12,7 +12,7 @@ public abstract class CRUDController<TEntity, TKey, TCreationModel, TUpdateModel
 {
     protected IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> EntityCRUDRepository { get; }
 
-    protected CRUDController(IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> entityRepository, UserManager<SocialAppUser> userManager) 
+    protected CRUDController(IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> entityRepository, UserManager<SocialAppUser> userManager)
         : base(entityRepository, userManager)
     {
         EntityCRUDRepository = entityRepository;
@@ -32,7 +32,7 @@ public abstract class CRUDController<TEntity, TKey, TCreationModel, TUpdateModel
         {
             await EntityCRUDRepository.SaveChanges();
             var viewresult = await EntityCRUDRepository.GetView(u, foundEntity);
-            
+
             return viewresult.TryGetResult(out var view) ? Ok(view) : FailureResult(viewresult);
         }
 

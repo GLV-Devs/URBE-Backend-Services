@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Services;
+namespace Urbe.Programacion.AppSocial.API.Services;
 
 /// <summary>
 /// Contains extension methods to <see cref="IdentityBuilder"/> for adding entity framework stores.

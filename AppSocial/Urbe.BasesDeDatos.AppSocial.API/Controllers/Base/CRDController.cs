@@ -6,9 +6,9 @@ using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
+using Urbe.Programacion.AppSocial.ModelServices;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
+namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
 
 public abstract class CRDController<TEntity, TKey, TCreationModel> : SocialAppController
     where TEntity : IEntity, IKeyed<TKey>

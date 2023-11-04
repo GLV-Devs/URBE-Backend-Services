@@ -9,17 +9,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
-using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
+using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
+namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
 [RegisterService(typeof(IEntityCRDRepository<SocialAppUser, Guid, UserCreationModel>))]
 [RegisterService(typeof(IEntityCRUDRepository<SocialAppUser, Guid, UserCreationModel, UserUpdateModel>))]

@@ -3,11 +3,11 @@ using System.Net;
 using DiegoG.REST.ASPNET;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Urbe.BasesDeDatos.AppSocial.Common;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Filters;
+namespace Urbe.Programacion.AppSocial.API.Filters;
 
 public sealed class APIResponseFilter : IAsyncResultFilter
 {

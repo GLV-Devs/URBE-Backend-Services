@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Urbe.BasesDeDatos.AppSocial.Common;
+namespace Urbe.Programacion.AppSocial.Common;
 
 public readonly struct SuccessResult
 {

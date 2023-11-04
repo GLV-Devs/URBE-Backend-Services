@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
+﻿namespace Urbe.Programacion.AppSocial.ModelServices.Configuration;
 
 public enum DatabaseType
 {

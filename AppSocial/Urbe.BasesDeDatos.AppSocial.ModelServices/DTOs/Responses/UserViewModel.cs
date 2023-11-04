@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
+namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 
 public class UserViewModel : IResponseModel
 {

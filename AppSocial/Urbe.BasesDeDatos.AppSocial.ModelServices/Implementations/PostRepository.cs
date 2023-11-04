@@ -1,17 +1,16 @@
 ﻿using Azure.Core;
 using Microsoft.EntityFrameworkCore;
-using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 using Urbe.BasesDeDatos.AppSocial.Services.Attributes;
+using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
+namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
 [RegisterService(typeof(IEntityCRDRepository<Post, Snowflake, PostCreationModel>))]
 [RegisterService(typeof(IPostRepository))]
@@ -66,7 +65,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
             ? null
             : requester is null
             ? query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && x.Poster.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
-            : query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || (requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster))))
+            : query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster)))
             )?.Select(x => new PostViewModel()
             {
                 Content = x.Content,

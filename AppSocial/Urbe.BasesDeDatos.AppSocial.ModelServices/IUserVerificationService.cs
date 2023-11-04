@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
+namespace Urbe.Programacion.AppSocial.ModelServices;
 
 public interface IUserVerificationService
 {

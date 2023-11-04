@@ -1,4 +1,3 @@
-using Urbe.BasesDeDatos.AppSocial.Services;
 using Serilog.Extensions.Hosting;
 using Serilog.Extensions.Logging;
 using Serilog;
@@ -12,22 +11,25 @@ using Microsoft.OpenApi.Models;
 using Urbe.BasesDeDatos.AppSocial.Common;
 using DiegoG.REST.ASPNET;
 using System.Net;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.Configuration;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
-using Urbe.BasesDeDatos.AppSocial.API.Filters;
 using DiegoG.REST.Json;
 using Microsoft.AspNetCore.Http.Json;
-using Urbe.BasesDeDatos.AppSocial.API.Services;
-using Urbe.BasesDeDatos.AppSocial.API.Middleware;
 using Microsoft.AspNetCore.Authorization;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.JsonConverters;
-using Urbe.BasesDeDatos.AppSocial.API.Workers;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 using Mail.NET;
 using Mail.NET.MailKit;
-using Urbe.BasesDeDatos.AppSocial.API.Options;
+using Urbe.Programacion.AppSocial.ModelServices.JsonConverters;
+using Urbe.Programacion.AppSocial.ModelServices.Configuration;
+using Urbe.Programacion.AppSocial.ModelServices.Implementations;
+using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.Services;
+using Urbe.Programacion.AppSocial.API.Filters;
+using Urbe.Programacion.AppSocial.API.Options;
+using Urbe.Programacion.AppSocial.API.Services;
+using Urbe.Programacion.AppSocial.API.Workers;
+using Urbe.Programacion.AppSocial.API.Middleware;
 
-namespace Urbe.BasesDeDatos.AppSocial.API;
+namespace Urbe.Programacion.AppSocial.API;
 
 public static class Program
 {
@@ -49,7 +51,7 @@ public static class Program
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(o 
+        services.AddSwaggerGen(o
             => o.AddSecurityDefinition("apiKey", new OpenApiSecurityScheme()
             {
                 In = ParameterLocation.Cookie,
@@ -70,7 +72,7 @@ public static class Program
 
         services.AddHostedService<BackgroundTaskStoreSweeper>();
 
-        services.AddRESTObjectSerializer<APIResponseCode>(
+        services.AddRESTObjectSerializer(
             x => new JsonRESTSerializer<APIResponseCode>(x.GetRequiredService<IOptions<JsonOptions>>().Value.SerializerOptions));
 
         services.AddMvc(o =>
@@ -95,7 +97,7 @@ public static class Program
         {
             Log.Information("Registering SocialContext backed by SQLServer");
             services.AddDbContext<SocialContext>(x => x.UseSqlServer(
-                dbconf.SQLServerConnectionString,     
+                dbconf.SQLServerConnectionString,
                 o => o.MigrationsAssembly("Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations")
             ));
         }
@@ -155,7 +157,7 @@ public static class Program
         });
 
         services.UseRESTInvalidModelStateResponse(
-            x => new RESTObjectResult<APIResponseCode>(new APIResponse(APIResponseCodeEnum.ErrorCollection) 
+            x => new RESTObjectResult<APIResponseCode>(new APIResponse(APIResponseCodeEnum.ErrorCollection)
             {
                 Data = null,
                 Errors = null

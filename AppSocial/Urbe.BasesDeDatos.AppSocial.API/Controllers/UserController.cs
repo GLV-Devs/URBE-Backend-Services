@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
-using Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
 using Urbe.BasesDeDatos.AppSocial.ModelServices.Implementations;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Interfaces;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
 using System.ComponentModel;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.AppSocial.ModelServices;
+using Urbe.Programacion.AppSocial.API.Controllers.Base;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Controllers;
+namespace Urbe.Programacion.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("/api/user")]
@@ -102,7 +102,7 @@ public class UserController : SocialAppController
     public async Task<IActionResult> GetFollowers(Guid key)
     {
         var u = await UserManager.GetUserAsync(User);
-        
+
         var foundEntity = await UserRepository.Find(u, key);
         return foundEntity is null ? NotFound() : Ok(await UserRepository.GetViews(u, await UserRepository.GetFollowers(u, foundEntity)));
     }
@@ -112,7 +112,7 @@ public class UserController : SocialAppController
     {
         var u = await UserManager.GetUserAsync(User);
 
-        SocialAppUser? foundEntity 
+        SocialAppUser? foundEntity
             = await UserManager.FindByIdAsync(userhandle) ?? await UserManager.FindByNameAsync(userhandle) ?? await UserManager.FindByEmailAsync(userhandle);
 
         if (foundEntity is null)

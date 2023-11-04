@@ -1,4 +1,4 @@
-﻿namespace Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
+﻿namespace Urbe.Programacion.AppSocial.ModelServices.API.Responses;
 
 public enum APIResponseCodeEnum : int
 {

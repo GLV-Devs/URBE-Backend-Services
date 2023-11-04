@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json.Serialization;
 
-namespace Urbe.BasesDeDatos.AppSocial.Common;
+namespace Urbe.Programacion.AppSocial.Common;
 
 public struct ErrorList : IEnumerable<ErrorMessage>
 {

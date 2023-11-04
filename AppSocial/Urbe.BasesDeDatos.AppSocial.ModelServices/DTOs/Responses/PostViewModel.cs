@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.API.Responses;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs;
+namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 
 public class PostViewModel : IResponseModel
 {
@@ -18,7 +18,7 @@ public class PostViewModel : IResponseModel
     public required string Content { get; init; }
     public required string PosterThenUsername { get; init; }
     public required DateTimeOffset DatePosted { get; init; }
-    public required long ? InResponseTo { get; init; }
+    public required long? InResponseTo { get; init; }
     public required HashSet<long>? Responses { get; init; }
 
     public static PostViewModel FromPost(Post post)

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Filters;
+namespace Urbe.Programacion.AppSocial.API.Filters;
 
 public sealed class SignInRefreshFilter : IAsyncActionFilter
 {

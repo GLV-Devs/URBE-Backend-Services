@@ -35,12 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.BasesDeDatos.AppSocial.ModelServices.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj" />
-    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Common\Urbe.Programacion.AppSocial.Common.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations\Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.Programacion.AppSocial.ModelServices.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.Programacion.AppSocial.Entities.csproj" />
+    <ProjectReference Include="..\Urbe.BasesDeDatos.AppSocial.Services\Urbe.Programacion.AppSocial.Services.csproj" />
   </ItemGroup>
 
 </Project>

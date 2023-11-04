@@ -1,8 +1,8 @@
 ﻿using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices;
+namespace Urbe.Programacion.AppSocial.ModelServices;
 
 public interface IPostRepository : IEntityCRDRepository<Post, Snowflake, PostCreationModel>
 {

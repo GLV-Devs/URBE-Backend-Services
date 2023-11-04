@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Urbe.BasesDeDatos.AppSocial.API.Controllers.Base;
-using Urbe.BasesDeDatos.AppSocial.Common;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 using Urbe.BasesDeDatos.AppSocial.Entities.Models;
-using Urbe.BasesDeDatos.AppSocial.ModelServices;
+using Urbe.Programacion.AppSocial.API.Controllers.Base;
+using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.ModelServices;
 
-namespace Urbe.BasesDeDatos.AppSocial.API.Controllers;
+namespace Urbe.Programacion.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("api/verification")]

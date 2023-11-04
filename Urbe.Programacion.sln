@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Entities", "AppSocial\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.BasesDeDatos.AppSocial.Entities.csproj", "{9F9BE47C-8A98-4602-B7AE-65040CCD9E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Entities", "AppSocial\Urbe.BasesDeDatos.AppSocial.Entities\Urbe.Programacion.AppSocial.Entities.csproj", "{9F9BE47C-8A98-4602-B7AE-65040CCD9E65}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DD011580-B254-4F40-A5E9-FB1800C48DE1}"
 EndProject
@@ -11,19 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{26CF868D-32E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F698DF42-F987-4B99-A1D3-8B24D3A735CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Common", "AppSocial\Urbe.BasesDeDatos.AppSocial.Common\Urbe.BasesDeDatos.AppSocial.Common.csproj", "{5D3CC0F9-2180-4CE8-92CF-F654481AE250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Common", "AppSocial\Urbe.BasesDeDatos.AppSocial.Common\Urbe.Programacion.AppSocial.Common.csproj", "{5D3CC0F9-2180-4CE8-92CF-F654481AE250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.ModelServices", "AppSocial\Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.BasesDeDatos.AppSocial.ModelServices.csproj", "{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.ModelServices", "AppSocial\Urbe.BasesDeDatos.AppSocial.ModelServices\Urbe.Programacion.AppSocial.ModelServices.csproj", "{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Services", "AppSocial\Urbe.BasesDeDatos.AppSocial.Services\Urbe.BasesDeDatos.AppSocial.Services.csproj", "{09858A29-B08E-45AD-909B-688097CB237A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Services", "AppSocial\Urbe.BasesDeDatos.AppSocial.Services\Urbe.Programacion.AppSocial.Services.csproj", "{09858A29-B08E-45AD-909B-688097CB237A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.API", "AppSocial\Urbe.BasesDeDatos.AppSocial.API\Urbe.BasesDeDatos.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.API", "AppSocial\Urbe.BasesDeDatos.AppSocial.API\Urbe.Programacion.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations", "AppSocial\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations.csproj", "{AF825A14-77C2-48B7-9546-5B371E5D410F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Entities.SQLiteMigrations", "AppSocial\Urbe.BasesDeDatos.AppSocial.Entities.SQLiteMigrations\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.csproj", "{AF825A14-77C2-48B7-9546-5B371E5D410F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations", "AppSocial\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations.csproj", "{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Entities.SQLServerMigrations", "AppSocial\Urbe.BasesDeDatos.AppSocial.Entities.SQLServerMigrations\Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.csproj", "{6AADC71A-02DC-4BC8-A6E2-6B0379720F66}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mail.NET", "..\Mail.NET\Mail.NET\Mail.NET.csproj", "{030AB3B1-0149-4120-97C4-B55492000E19}"
 EndProject

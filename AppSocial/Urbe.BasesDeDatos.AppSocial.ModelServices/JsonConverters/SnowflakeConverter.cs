@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Urbe.BasesDeDatos.AppSocial.Entities;
 
-namespace Urbe.BasesDeDatos.AppSocial.ModelServices.JsonConverters;
+namespace Urbe.Programacion.AppSocial.ModelServices.JsonConverters;
 
 public class SnowflakeConverter : JsonConverter<Snowflake>
 {
