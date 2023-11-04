@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Urbe.Programacion.AppSocial.Entities.Interfaces;
+﻿namespace Urbe.Programacion.Shared.Entities.Interfaces;
 
 public class ModifiableEntity
 {

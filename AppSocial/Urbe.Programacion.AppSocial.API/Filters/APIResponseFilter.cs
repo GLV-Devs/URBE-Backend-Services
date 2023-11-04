@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net;
-using DiegoG.REST.ASPNET;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Urbe.Programacion.AppSocial.Common;

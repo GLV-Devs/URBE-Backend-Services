@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Urbe.Programacion.AppSocial.ModelServices.Configuration;
+﻿namespace Urbe.Programacion.AppSocial.ModelServices.Configuration;
 
 public readonly record struct DatabaseConfiguration(DatabaseType DatabaseType, string SQLServerConnectionString, string SQLiteConnectionString)
 {

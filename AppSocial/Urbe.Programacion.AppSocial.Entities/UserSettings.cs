@@ -4,7 +4,7 @@
 public enum UserSettings : ulong
 {
     AllowRealNamePublicly = 1 << 0,
-    
+
     AllowNonFollowerViews = 1 << 1,
     AllowAnonymousViews = 1 << 2,
 

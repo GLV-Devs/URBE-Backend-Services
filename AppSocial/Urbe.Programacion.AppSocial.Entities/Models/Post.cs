@@ -1,8 +1,9 @@
-﻿using System.Numerics;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
-using Urbe.Programacion.AppSocial.Entities.Internal;
+using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Internal;
+using Urbe.Programacion.Shared.Entities.Models;
 
 namespace Urbe.Programacion.AppSocial.Entities.Models;
 

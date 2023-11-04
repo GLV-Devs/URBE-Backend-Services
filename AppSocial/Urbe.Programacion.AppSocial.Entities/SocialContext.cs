@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
 using Urbe.Programacion.AppSocial.Entities.Models;
+using Urbe.Programacion.Shared.Entities.Interfaces;
 
 namespace Urbe.Programacion.AppSocial.Entities;
 
@@ -30,7 +30,7 @@ public class SocialContext : DbContext
 
     private static void ChangeTracker_StateChanged(object? sender, Microsoft.EntityFrameworkCore.ChangeTracking.EntityStateChangedEventArgs e)
     {
-        if (e.Entry.State is EntityState.Modified && e.Entry.Entity is ModifiableEntity modifiable) 
+        if (e.Entry.State is EntityState.Modified && e.Entry.Entity is ModifiableEntity modifiable)
             modifiable.LastModified = DateTimeOffset.Now;
     }
 

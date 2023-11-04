@@ -1,13 +1,11 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
-using Urbe.Programacion.AppSocial.Entities;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
-using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
-using Urbe.Programacion.Shared.Services.Attributes;
+﻿using Microsoft.EntityFrameworkCore;
 using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.Entities;
+using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.Shared.Services.Attributes;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 

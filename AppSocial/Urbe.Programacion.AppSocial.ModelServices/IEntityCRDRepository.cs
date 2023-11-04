@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Urbe.Programacion.AppSocial.Entities;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
+﻿using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.Shared.Entities.Interfaces;
 
 namespace Urbe.Programacion.AppSocial.ModelServices;
 

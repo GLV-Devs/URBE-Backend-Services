@@ -1,15 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Interfaces;
 
-namespace Urbe.Programacion.AppSocial.Entities;
+namespace Urbe.Programacion.Shared.Entities;
 
 [StructLayout(LayoutKind.Explicit)]
 public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>, IParsable<Snowflake>, IFormattable, IConvertibleProperty
 {
-    private readonly static long ReferenceStampUtc;
+    private static readonly long ReferenceStampUtc;
 
     static Snowflake()
     {
@@ -33,7 +32,7 @@ public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>
     [FieldOffset(sizeof(int) + sizeof(ushort))]
     private readonly ushort machineId;
 
-    public Snowflake(int timeStamp, ushort index, ushort machineId) 
+    public Snowflake(int timeStamp, ushort index, ushort machineId)
     {
         this.timeStamp = timeStamp;
         this.index = index;
@@ -63,9 +62,9 @@ public readonly struct Snowflake : IEquatable<Snowflake>, IComparable<Snowflake>
     public long AsLong() => aslong;
 
     public DateTime TimeStamp => new(timeStamp + ReferenceStampUtc, DateTimeKind.Utc);
-    
+
     public ushort Index => index;
-    
+
     public ushort MachineId => machineId;
 
     public bool Equals(Snowflake other)

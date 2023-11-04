@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs;
-using Urbe.Programacion.AppSocial.ModelServices.Implementations;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
+
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
+using Urbe.Programacion.Shared.Entities.Interfaces;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
 

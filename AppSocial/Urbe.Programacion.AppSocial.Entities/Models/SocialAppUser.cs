@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Urbe.Programacion.AppSocial.Common;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Models;
 
 namespace Urbe.Programacion.AppSocial.Entities.Models;
 
@@ -44,15 +37,15 @@ public class SocialAppUser : IdentityUser<Guid>, IEntity, ISelfModelBuilder<Soci
         }
     }
 
-    public override string? Email 
-    { 
+    public override string? Email
+    {
         get => base.Email;
         set => UpdateEmail(value);
     }
 
-    public override string? NormalizedEmail 
-    { 
-        get => base.NormalizedEmail; 
+    public override string? NormalizedEmail
+    {
+        get => base.NormalizedEmail;
         set => UpdateEmail(value);
     }
 
@@ -60,9 +53,9 @@ public class SocialAppUser : IdentityUser<Guid>, IEntity, ISelfModelBuilder<Soci
 
     public string? ProfilePictureUrl { get; set; }
 
-    public override bool PhoneNumberConfirmed 
-    { 
-        get => true; 
+    public override bool PhoneNumberConfirmed
+    {
+        get => true;
         set { }
     }
 
@@ -79,9 +72,9 @@ public class SocialAppUser : IdentityUser<Guid>, IEntity, ISelfModelBuilder<Soci
         mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);
 
         mb.Property(x => x.Settings)
-            .HasDefaultValue(UserSettings.AllowAnonymousViews | 
-                             UserSettings.AllowNonFollowerViews | 
-                             UserSettings.AllowAnonymousPostViews | 
+            .HasDefaultValue(UserSettings.AllowAnonymousViews |
+                             UserSettings.AllowNonFollowerViews |
+                             UserSettings.AllowAnonymousPostViews |
                              UserSettings.AllowNonFollowerPostViews
                             );
 

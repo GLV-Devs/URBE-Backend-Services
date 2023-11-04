@@ -1,19 +1,15 @@
-﻿using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
+﻿using System.Buffers.Text;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Interfaces;
 
-namespace Urbe.Programacion.AppSocial.Entities;
+namespace Urbe.Programacion.Shared.Entities;
 
 public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<RandomKey, RandomKey, bool>, IFormattable, IParsable<RandomKey>, IConvertibleProperty
 {
@@ -81,7 +77,7 @@ public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<Ran
         H = h;
     }
 
-    public unsafe static RandomKey NewHashKey()
+    public static unsafe RandomKey NewHashKey()
     {
         var hashkey = new RandomKey();
         var longs = new Span<ulong>(&hashkey.A, LengthInLongs);
@@ -111,10 +107,10 @@ public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<Ran
     public bool Equals(RandomKey other)
         => EqualsCore(this, other);
 
-    public override bool Equals(object? obj) 
+    public override bool Equals(object? obj)
         => obj is RandomKey key && Equals(key);
 
-    public static bool operator ==(RandomKey left, RandomKey right) 
+    public static bool operator ==(RandomKey left, RandomKey right)
         => EqualsCore(left, right);
 
     public static bool operator !=(RandomKey left, RandomKey right)
@@ -142,7 +138,7 @@ public readonly struct RandomKey : IEquatable<RandomKey>, IEqualityOperators<Ran
         return TryParse(s, null, out var result) ? result : throw new FormatException("String was in an incorrect format");
     }
 
-    public unsafe static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out RandomKey result)
+    public static unsafe bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out RandomKey result)
     {
         if (s is null)
         {

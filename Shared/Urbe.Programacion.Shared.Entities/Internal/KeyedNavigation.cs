@@ -1,8 +1,8 @@
-﻿using Urbe.Programacion.AppSocial.Entities.Interfaces;
+﻿using Urbe.Programacion.Shared.Entities.Interfaces;
 
-namespace Urbe.Programacion.AppSocial.Entities.Internal;
+namespace Urbe.Programacion.Shared.Entities.Internal;
 
-internal class KeyedNavigation<TId, TEntity>
+public class KeyedNavigation<TId, TEntity>
     where TId : struct, IEquatable<TId>
     where TEntity : class, IEntity, IKeyed<TId>
 {

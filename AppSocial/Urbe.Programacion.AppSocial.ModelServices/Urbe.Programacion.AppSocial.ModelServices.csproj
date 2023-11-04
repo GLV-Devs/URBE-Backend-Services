@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="DiegoG.REST.Core" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

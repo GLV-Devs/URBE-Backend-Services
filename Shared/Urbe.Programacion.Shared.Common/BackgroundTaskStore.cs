@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 using Serilog;
 
 namespace Urbe.Programacion.AppSocial.Common;
 
 public static class BackgroundTaskStore
 {
-    private readonly static HashSet<Task> _tasks = new();
-    private readonly static ConcurrentQueue<Func<CancellationToken, Task>> _funcs = new();
+    private static readonly HashSet<Task> _tasks = new();
+    private static readonly ConcurrentQueue<Func<CancellationToken, Task>> _funcs = new();
     private static bool active = true;
 
     static BackgroundTaskStore()

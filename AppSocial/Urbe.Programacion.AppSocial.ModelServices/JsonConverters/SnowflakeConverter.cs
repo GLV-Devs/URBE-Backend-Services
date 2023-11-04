@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Urbe.Programacion.AppSocial.Entities;
+using Urbe.Programacion.Shared.Entities;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.JsonConverters;
 

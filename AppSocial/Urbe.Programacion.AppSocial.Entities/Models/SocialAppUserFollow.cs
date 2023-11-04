@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
-using Urbe.Programacion.AppSocial.Entities.Internal;
+﻿using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Internal;
 
 namespace Urbe.Programacion.AppSocial.Entities.Models;
 
@@ -11,8 +9,8 @@ public class SocialAppUserFollow : IKeyed<Guid>, IEntity
     private readonly KeyedNavigation<Guid, SocialAppUser> followednav = new();
 
     public Guid Id { get; }
-    
-    public Guid FollowerId 
+
+    public Guid FollowerId
     {
         get => followernav.Id;
         set => followernav.Id = value;

@@ -1,7 +1,4 @@
-﻿using Urbe.Programacion.AppSocial.Entities;
-using Urbe.Programacion.AppSocial.Entities.Models;
-
-namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+﻿namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
 
 public class PostCreationModel
 {

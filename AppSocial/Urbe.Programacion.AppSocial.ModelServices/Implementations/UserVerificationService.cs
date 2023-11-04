@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Mail.NET;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
+using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Services.Attributes;
-using Urbe.Programacion.AppSocial.Common;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 

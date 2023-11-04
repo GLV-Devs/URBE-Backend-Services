@@ -1,7 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using Urbe.Programacion.AppSocial.Entities.Models;
+﻿using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 

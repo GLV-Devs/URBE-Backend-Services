@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{883F7C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.ModelServices", "Shared\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj", "{4D1D368A-9BD5-4577-9BF6-7B98E1E8226F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.Entities", "Shared\Urbe.Programacion.Shared.Entities\Urbe.Programacion.Shared.Entities.csproj", "{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{4D1D368A-9BD5-4577-9BF6-7B98E1E8226F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D1D368A-9BD5-4577-9BF6-7B98E1E8226F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D1D368A-9BD5-4577-9BF6-7B98E1E8226F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{030AB3B1-0149-4120-97C4-B55492000E19} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 		{C6764D74-250E-44CD-A9C0-7E6FB1B0C6E4} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 		{4D1D368A-9BD5-4577-9BF6-7B98E1E8226F} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
+		{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}

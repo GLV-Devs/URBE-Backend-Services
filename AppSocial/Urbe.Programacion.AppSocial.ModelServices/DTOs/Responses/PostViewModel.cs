@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Urbe.Programacion.AppSocial.Entities;
-using Urbe.Programacion.AppSocial.Entities.Models;
+﻿using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 

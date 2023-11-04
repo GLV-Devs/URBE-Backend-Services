@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Identity.Client;
-using Urbe.Programacion.AppSocial.Entities;
-using Urbe.Programacion.AppSocial.Entities.Interfaces;
-using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.Shared.Services.Attributes;
 using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.AppSocial.Entities;
+using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Urbe.Programacion.Shared.Services.Attributes;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
