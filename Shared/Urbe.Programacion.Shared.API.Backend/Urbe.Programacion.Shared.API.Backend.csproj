@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DiegoG.REST.ASPNET" Version="1.1.1" />
+    <PackageReference Include="DiegoG.REST.Core" Version="1.0.1" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />	  
+	<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
+    <ProjectReference Include="..\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-
-using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Models;
 using Urbe.Programacion.Shared.ModelServices;
 
-namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
+namespace Urbe.Programacion.Shared.API.Backend.Controllers;
 
-public abstract class CRDController<TEntity, TKey, TCreationModel> : SocialAppController
+public abstract class CRDController<TAppUser, TEntity, TKey, TCreationModel> : AppController
+    where TAppUser : BaseAppUser
     where TEntity : IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
     protected IEntityCRDRepository<TEntity, TKey, TCreationModel> EntityCRDRepository { get; }
-    protected UserManager<SocialAppUser> UserManager { get; }
+    protected UserManager<TAppUser> UserManager { get; }
 
-    protected CRDController(IEntityCRDRepository<TEntity, TKey, TCreationModel> entityRepository, UserManager<SocialAppUser> userManager)
+    protected CRDController(IEntityCRDRepository<TEntity, TKey, TCreationModel> entityRepository, UserManager<TAppUser> userManager)
     {
         EntityCRDRepository = entityRepository ?? throw new ArgumentNullException(nameof(entityRepository));
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));

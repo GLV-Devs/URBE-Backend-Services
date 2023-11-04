@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Urbe.Programacion.AppSocial.API.Controllers.Base;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
+using Urbe.Programacion.Shared.API.Backend.Controllers;
 using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 
@@ -12,7 +12,7 @@ namespace Urbe.Programacion.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("api/verification")]
-public class Verification : SocialAppController
+public class Verification : AppController
 {
     public IUserVerificationService UserVerificationService { get; }
 

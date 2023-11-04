@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.En
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.API.Common", "Shared\Urbe.Programacion.Shared.API.Common\Urbe.Programacion.Shared.API.Common.csproj", "{547E573E-A529-42F1-8193-20EAC373E737}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.API.Backend", "Shared\Urbe.Programacion.Shared.API.Backend\Urbe.Programacion.Shared.API.Backend.csproj", "{97EC00F9-7EB4-496A-BB51-6E2615FEC5AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{547E573E-A529-42F1-8193-20EAC373E737}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{547E573E-A529-42F1-8193-20EAC373E737}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{547E573E-A529-42F1-8193-20EAC373E737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97EC00F9-7EB4-496A-BB51-6E2615FEC5AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97EC00F9-7EB4-496A-BB51-6E2615FEC5AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97EC00F9-7EB4-496A-BB51-6E2615FEC5AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97EC00F9-7EB4-496A-BB51-6E2615FEC5AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{4D1D368A-9BD5-4577-9BF6-7B98E1E8226F} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 		{EC033F7E-73B6-4EF3-9C2D-BD7CDF34EB80} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 		{547E573E-A529-42F1-8193-20EAC373E737} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
+		{97EC00F9-7EB4-496A-BB51-6E2615FEC5AE} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}

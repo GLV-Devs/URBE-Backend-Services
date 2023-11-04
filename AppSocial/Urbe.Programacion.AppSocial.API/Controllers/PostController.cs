@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Urbe.Programacion.AppSocial.API.Controllers.Base;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.Shared.API.Backend.Controllers;
 using Urbe.Programacion.Shared.Entities;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("/api/post")]
-public class PostController : CRDController<Post, Snowflake, PostCreationModel>
+public class PostController : CRDController<SocialAppUser, Post, Snowflake, PostCreationModel>
 {
     protected IPostRepository PostRepository { get; }
     protected IUserRepository UserRepository { get; }

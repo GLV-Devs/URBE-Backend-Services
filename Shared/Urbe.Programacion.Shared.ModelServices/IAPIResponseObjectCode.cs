@@ -7,4 +7,5 @@ public interface IAPIResponseObjectCode<TObjectCode>
     public static abstract TObjectCode ErrorCollection { get; }
     public static abstract TObjectCode Success { get; }
     public static abstract TObjectCode UnspecifiedError { get; }
+    public static abstract TObjectCode Exception { get; }
 }

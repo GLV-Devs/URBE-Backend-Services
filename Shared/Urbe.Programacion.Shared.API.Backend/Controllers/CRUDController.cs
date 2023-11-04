@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Models;
 using Urbe.Programacion.Shared.ModelServices;
 
-namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
+namespace Urbe.Programacion.Shared.API.Backend.Controllers;
 
-public abstract class CRUDController<TEntity, TKey, TCreationModel, TUpdateModel> : CRDController<TEntity, TKey, TCreationModel>
+public abstract class CRUDController<TAppUser, TEntity, TKey, TCreationModel, TUpdateModel> : CRDController<TAppUser, TEntity, TKey, TCreationModel>
+    where TAppUser : BaseAppUser
     where TEntity : IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
     protected IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> EntityCRUDRepository { get; }
 
-    protected CRUDController(IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> entityRepository, UserManager<SocialAppUser> userManager)
+    protected CRUDController(IEntityCRUDRepository<TEntity, TKey, TCreationModel, TUpdateModel> entityRepository, UserManager<TAppUser> userManager)
         : base(entityRepository, userManager)
     {
         EntityCRUDRepository = entityRepository;

@@ -24,6 +24,7 @@ public static class AppUserIdentityEntityFrameworkBuilderExtensions
         where TDbContext : DbContext
     {
         builder.Services.AddScoped<IUserStore<TAppUser>>(x => new AppUserStore<TAppUser, TDbContext>(x.GetRequiredService<TDbContext>()));
+        builder.Services.AddScoped<IUserStore<TAppUser>>(x => new AppUserStore<TAppUser, TDbContext>(x.GetRequiredService<TDbContext>()));
         return builder;
     }
 }

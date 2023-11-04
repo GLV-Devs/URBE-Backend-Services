@@ -24,6 +24,8 @@ using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.ModelServices.Configuration;
 using Urbe.Programacion.Shared.Services;
 using Urbe.Programacion.Shared.API.Common.Services;
+using Urbe.Programacion.Shared.ModelServices;
+using Urbe.Programacion.Shared.API.Backend.Services;
 
 namespace Urbe.Programacion.AppSocial.API;
 
@@ -152,26 +154,14 @@ public static class Program
             options.SlidingExpiration = true;
         });
 
-        services.UseRESTInvalidModelStateResponse(
-            x => new RESTObjectResult<SocialAPIResponseCode>(new APIResponse(APIResponseCodeEnum.ErrorCollection)
-            {
-                Data = null,
-                Errors = null
-            })
-        );
+        services.UseAPIResponseInvalidModelStateResponse<SocialAPIResponseCode>();
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseRESTExceptionHandler((r, e, s, c) => Task.FromResult(new ExceptionRESTResponse<SocialAPIResponseCode>(
-                new APIResponse(APIResponseCodeEnum.Exception)
-                {
-                    Exception = e?.ToString() ?? "Unknown error"
-                },
-                HttpStatusCode.InternalServerError
-            )));
+            app.UseVerboseExceptionHandler<SocialAPIResponseCode>();
             app.UseSwagger();
             app.UseSwaggerUI();
         }
@@ -179,18 +169,7 @@ public static class Program
         {
             app.UseHsts();
 
-            app.UseRESTExceptionHandler((r, e, s, c) =>
-            {
-                var errors = new ErrorList();
-                errors.AddError(ErrorMessages.InternalError());
-                return Task.FromResult(new ExceptionRESTResponse<SocialAPIResponseCode>(
-                    new APIResponse(APIResponseCodeEnum.ErrorCollection)
-                    {
-                        Errors = errors
-                    },
-                    HttpStatusCode.InternalServerError
-                ));
-            });
+            app.UseObfuscatedExceptionHandler<SocialAPIResponseCode>();
         }
 
         app.UseHttpsRedirection();

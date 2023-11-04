@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Urbe.Programacion.AppSocial.API.Controllers.Base;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.Shared.API.Backend.Controllers;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers;
 
 [ApiController]
 [Route("/api/user")]
-public class UserController : SocialAppController
+public class UserController : AppController
 {
     protected IUserRepository UserRepository { get; }
     protected UserManager<SocialAppUser> UserManager { get; }

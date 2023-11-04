@@ -16,7 +16,7 @@
     <PackageReference Include="DiegoG.REST.ASPNET" Version="1.1.1" />
     <PackageReference Include="DiegoG.REST.Json" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.API.Backend\Urbe.Programacion.Shared.API.Backend.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.API.Common\Urbe.Programacion.Shared.API.Common.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.csproj" />

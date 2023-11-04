@@ -30,4 +30,5 @@ public readonly record struct SocialAPIResponseCode(APIResponseCodeEnum Response
     public static SocialAPIResponseCode ErrorCollection => APIResponseCodeEnum.ErrorCollection;
     public static SocialAPIResponseCode Success => APIResponseCodeEnum.Success;
     public static SocialAPIResponseCode UnspecifiedError => APIResponseCodeEnum.UnspecifiedError;
+    public static SocialAPIResponseCode Exception => APIResponseCodeEnum.Exception;
 }
