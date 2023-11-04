@@ -4,10 +4,9 @@ using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Interfaces;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
-using Urbe.Programacion.AppSocial.Services.Attributes;
+using Urbe.Programacion.Shared.Services.Attributes;
 using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Urbe.Programacion.AppSocial.Services.Attributes;
+namespace Urbe.Programacion.Shared.Services.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class RegisterServiceAttribute : Attribute

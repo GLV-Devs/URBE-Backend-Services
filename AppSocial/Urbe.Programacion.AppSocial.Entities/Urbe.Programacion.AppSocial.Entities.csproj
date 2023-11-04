@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Urbe.Programacion.AppSocial.Common\Urbe.Programacion.AppSocial.Common.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
   </ItemGroup>
 
 </Project>

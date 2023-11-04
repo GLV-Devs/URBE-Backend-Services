@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.Services.Attributes;
+using Urbe.Programacion.Shared.Services.Attributes;
 using Urbe.Programacion.AppSocial.Common;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;

@@ -22,12 +22,12 @@ using Urbe.Programacion.AppSocial.ModelServices.Configuration;
 using Urbe.Programacion.AppSocial.ModelServices.Implementations;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
 using Urbe.Programacion.AppSocial.Common;
-using Urbe.Programacion.AppSocial.Services;
 using Urbe.Programacion.AppSocial.API.Filters;
 using Urbe.Programacion.AppSocial.API.Options;
 using Urbe.Programacion.AppSocial.API.Services;
 using Urbe.Programacion.AppSocial.API.Workers;
 using Urbe.Programacion.AppSocial.API.Middleware;
+using Urbe.Programacion.Shared.Services;
 
 namespace Urbe.Programacion.AppSocial.API;
 

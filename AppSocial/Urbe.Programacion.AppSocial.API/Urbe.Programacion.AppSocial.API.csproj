@@ -35,12 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Urbe.Programacion.AppSocial.Common\Urbe.Programacion.AppSocial.Common.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities.SQLServerMigrations\Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.ModelServices\Urbe.Programacion.AppSocial.ModelServices.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities\Urbe.Programacion.AppSocial.Entities.csproj" />
-    <ProjectReference Include="..\Urbe.Programacion.AppSocial.Services\Urbe.Programacion.AppSocial.Services.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Services\Urbe.Programacion.Shared.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,8 +13,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Mail.NET\Mail.NET.MailKit\Mail.NET.MailKit.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Services\Urbe.Programacion.Shared.Services.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities\Urbe.Programacion.AppSocial.Entities.csproj" />
-    <ProjectReference Include="..\Urbe.Programacion.AppSocial.Services\Urbe.Programacion.AppSocial.Services.csproj" />
   </ItemGroup>
 
 </Project>
