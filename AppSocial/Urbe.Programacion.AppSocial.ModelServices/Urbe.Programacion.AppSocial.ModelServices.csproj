@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DiegoG.REST.Core" Version="1.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Mail.NET\Mail.NET.MailKit\Mail.NET.MailKit.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Services\Urbe.Programacion.Shared.Services.csproj" />

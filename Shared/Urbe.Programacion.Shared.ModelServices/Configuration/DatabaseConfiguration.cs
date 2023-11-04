@@ -1,4 +1,4 @@
-﻿namespace Urbe.Programacion.AppSocial.ModelServices.Configuration;
+﻿namespace Urbe.Programacion.Shared.ModelServices.Configuration;
 
 public readonly record struct DatabaseConfiguration(DatabaseType DatabaseType, string SQLServerConnectionString, string SQLiteConnectionString)
 {

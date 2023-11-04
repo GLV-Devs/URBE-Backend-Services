@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Services.Attributes;
 

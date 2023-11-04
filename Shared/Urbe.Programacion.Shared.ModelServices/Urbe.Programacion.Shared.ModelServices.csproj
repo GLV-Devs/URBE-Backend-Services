@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DiegoG.REST.Core" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
+    <ProjectReference Include="..\Urbe.Programacion.Shared.Entities\Urbe.Programacion.Shared.Entities.csproj" />
+    <ProjectReference Include="..\Urbe.Programacion.Shared.Services\Urbe.Programacion.Shared.Services.csproj" />
+  </ItemGroup>
+
 </Project>

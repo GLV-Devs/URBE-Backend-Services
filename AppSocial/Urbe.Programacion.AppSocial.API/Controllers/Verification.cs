@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Urbe.Programacion.AppSocial.API.Controllers.Base;
-using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers;

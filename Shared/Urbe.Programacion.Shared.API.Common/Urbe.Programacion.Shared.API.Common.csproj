@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="3.0.1" />
+	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
+    <ProjectReference Include="..\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Urbe.Programacion.AppSocial.Common;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
 

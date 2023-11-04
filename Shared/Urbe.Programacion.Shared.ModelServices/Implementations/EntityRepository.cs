@@ -1,19 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Urbe.Programacion.AppSocial.Entities;
-
-using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Models;
 
-namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
+namespace Urbe.Programacion.Shared.ModelServices.Implementations;
 
 public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
     where TEntity : class, IEntity, IKeyed<TKey>
     where TKey : struct, IEquatable<TKey>
 {
-    protected readonly SocialContext context;
+    protected readonly DbContext context;
     protected readonly IServiceProvider provider;
 
-    public EntityRepository(SocialContext context, IServiceProvider provider)
+    public EntityRepository(DbContext context, IServiceProvider provider)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
         this.provider = provider ?? throw new ArgumentNullException(nameof(provider));
@@ -25,10 +23,10 @@ public class EntityRepository<TEntity, TKey> : IEntityRepository<TEntity, TKey>
     public virtual IQueryable<TEntity> Query()
         => context.Set<TEntity>();
 
-    public virtual async ValueTask<TEntity?> Find(SocialAppUser? Requester, TKey key)
+    public virtual async ValueTask<TEntity?> Find(BaseAppUser? Requester, TKey key)
         => await context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(key));
 
-    public virtual IQueryable<TEntity> Query(SocialAppUser? Requester)
+    public virtual IQueryable<TEntity> Query(BaseAppUser? Requester)
         => context.Set<TEntity>();
 
     public virtual async ValueTask<int> SaveChanges()

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Serilog;
 
-namespace Urbe.Programacion.AppSocial.Common;
+namespace Urbe.Programacion.Shared.Common;
 
 public static class BackgroundTaskStore
 {

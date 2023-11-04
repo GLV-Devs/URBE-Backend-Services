@@ -2,11 +2,12 @@
 using DiegoG.REST;
 using Urbe.Programacion.Shared.Common;
 
-namespace Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+namespace Urbe.Programacion.Shared.ModelServices;
 
-public class APIResponse : RESTObject<SocialAPIResponseCode>
+public class APIResponse<TObjectCode> : RESTObject<TObjectCode>
+    where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
 {
-    public APIResponse(SocialAPIResponseCode code) : base(code) { }
+    public APIResponse(TObjectCode code) : base(code) { }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public object? Data { get; init; }

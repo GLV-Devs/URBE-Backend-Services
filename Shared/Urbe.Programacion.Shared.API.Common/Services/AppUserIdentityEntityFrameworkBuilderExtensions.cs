@@ -2,15 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Identity;
-using Urbe.Programacion.AppSocial.Entities;
-using Urbe.Programacion.AppSocial.Entities.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Urbe.Programacion.Shared.Entities.Models;
 
-namespace Urbe.Programacion.AppSocial.API.Services;
+namespace Urbe.Programacion.Shared.API.Common.Services;
 
 /// <summary>
 /// Contains extension methods to <see cref="IdentityBuilder"/> for adding entity framework stores.
 /// </summary>
-public static class SocialAppUserIdentityEntityFrameworkBuilderExtensions
+public static class AppUserIdentityEntityFrameworkBuilderExtensions
 {
     /// <summary>
     /// Adds an Entity Framework implementation of identity information stores.
@@ -18,9 +19,11 @@ public static class SocialAppUserIdentityEntityFrameworkBuilderExtensions
     /// <typeparam name="TContext">The Entity Framework database context to use.</typeparam>
     /// <param name="builder">The <see cref="IdentityBuilder"/> instance this method extends.</param>
     /// <returns>The <see cref="IdentityBuilder"/> instance this method extends.</returns>
-    public static IdentityBuilder AddEntityFrameworkSocialContextStores(this IdentityBuilder builder)
+    public static IdentityBuilder AddEntityFrameworkSocialContextStores<TAppUser, TDbContext>(this IdentityBuilder builder)
+        where TAppUser : BaseAppUser
+        where TDbContext : DbContext
     {
-        builder.Services.AddScoped<IUserStore<SocialAppUser>>(x => new SocialAppUserStore(x.GetRequiredService<SocialContext>()));
+        builder.Services.AddScoped<IUserStore<TAppUser>>(x => new AppUserStore<TAppUser, TDbContext>(x.GetRequiredService<TDbContext>()));
         return builder;
     }
 }

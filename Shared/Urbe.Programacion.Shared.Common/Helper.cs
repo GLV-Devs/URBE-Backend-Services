@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Urbe.Programacion.AppSocial.Common;
+namespace Urbe.Programacion.Shared.Common;
 public static class Helper
 {
     public static bool IsUpdating(string? original, [NotNullWhen(true)] string? update, StringComparison comparison = StringComparison.OrdinalIgnoreCase)

@@ -1,6 +1,7 @@
-﻿using Urbe.Programacion.AppSocial.Common;
+﻿using Microsoft.Extensions.Hosting;
+using Urbe.Programacion.Shared.Common;
 
-namespace Urbe.Programacion.AppSocial.API.Workers;
+namespace Urbe.Programacion.Shared.API.Common.Workers;
 
 public class BackgroundTaskStoreSweeper : BackgroundService
 {

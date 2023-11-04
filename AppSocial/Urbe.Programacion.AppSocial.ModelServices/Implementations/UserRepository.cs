@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
 using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.Shared.Common;
+using Urbe.Programacion.Shared.Entities.Models;
+using Urbe.Programacion.Shared.ModelServices;
+using Urbe.Programacion.Shared.ModelServices.Implementations;
 using Urbe.Programacion.Shared.Services.Attributes;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
@@ -15,14 +18,18 @@ namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCreationModel, UserUpdateModel>, IUserRepository
 {
     protected readonly UserManager<SocialAppUser> userManager;
+    protected new readonly SocialContext context;
 
     public UserRepository(SocialContext context, UserManager<SocialAppUser> userManager, IServiceProvider provider) : base(context, provider)
     {
         this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        this.context = context;
     }
 
-    public override async ValueTask<SuccessResult> Update(SocialAppUser? requester, SocialAppUser entity, UserUpdateModel update)
+    public override async ValueTask<SuccessResult> Update(BaseAppUser? r, SocialAppUser entity, UserUpdateModel update)
     {
+        var requester = (SocialAppUser?)r;
+
         var errors = new ErrorList();
 
         if (requester is null || requester.Id != entity.Id)
@@ -32,7 +39,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         }
 
         if (Helper.IsUpdating(entity.Email, update.Email)
-                && Helper.IsTooLong(ref errors, update.Email, SocialAppUser.EmailMaxLength, "Correo electronico") is false)
+                && Helper.IsTooLong(ref errors, update.Email, BaseAppUser.EmailMaxLength, "Correo electronico") is false)
         {
             errors.AddError(ErrorMessages.NotSupported("Correo Electrónico", "Cambiar"));
             //var match = Regexes.Email().Match(update.Email);
@@ -47,7 +54,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         }
 
         if (Helper.IsUpdating(entity.UserName, update.Username)
-                && Helper.IsTooLong(ref errors, update.Username, SocialAppUser.UserNameMaxLength, "Nombre de Usuario") is false)
+                && Helper.IsTooLong(ref errors, update.Username, BaseAppUser.UserNameMaxLength, "Nombre de Usuario") is false)
         {
             if (await userManager.FindByNameAsync(update.Username) is not null)
                 errors.AddError(ErrorMessages.UsernameAlreadyInUse(update.Username));
@@ -60,36 +67,36 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         }
 
         if (Helper.IsUpdating(entity.RealName, update.RealName, StringComparison.Ordinal)
-                && Helper.IsTooLong(ref errors, update.RealName, SocialAppUser.RealNameMaxLength, "Nombre Real") is false)
+                && Helper.IsTooLong(ref errors, update.RealName, BaseAppUser.RealNameMaxLength, "Nombre Real") is false)
             entity.RealName = update.RealName;
 
         if (Helper.IsUpdating(entity.Pronouns, update.Pronouns, StringComparison.Ordinal)
-                && Helper.IsTooLong(ref errors, update.Pronouns, SocialAppUser.PronounsMaxLength, "Pronombres") is false)
+                && Helper.IsTooLong(ref errors, update.Pronouns, BaseAppUser.PronounsMaxLength, "Pronombres") is false)
             entity.Pronouns = update.Pronouns;
 
         if (Helper.IsUpdating(entity.ProfileMessage, update.ProfileMessage, StringComparison.Ordinal)
-                && Helper.IsTooLong(ref errors, update.ProfileMessage, SocialAppUser.ProfileMessageMaxLength, "Mensaje de Perfil") is false)
+                && Helper.IsTooLong(ref errors, update.ProfileMessage, BaseAppUser.ProfileMessageMaxLength, "Mensaje de Perfil") is false)
             entity.ProfileMessage = update.ProfileMessage;
 
         if (Helper.IsUpdating(entity.ProfilePictureUrl, update.ProfilePictureUrl, StringComparison.Ordinal)
-                && Helper.IsTooLong(ref errors, update.ProfilePictureUrl, SocialAppUser.ProfilePictureUrlMaxLength, "URL de Foto de Perfil") is false)
+                && Helper.IsTooLong(ref errors, update.ProfilePictureUrl, BaseAppUser.ProfilePictureUrlMaxLength, "URL de Foto de Perfil") is false)
             entity.ProfilePictureUrl = update.ProfilePictureUrl;
 
         return new(errors);
     }
 
-    public override async ValueTask<SuccessResult<SocialAppUser>> Create(SocialAppUser? requester, UserCreationModel model)
+    public override async ValueTask<SuccessResult<SocialAppUser>> Create(BaseAppUser? requester, UserCreationModel model)
     {
         var errors = new ErrorList();
 
-        if (Helper.IsTooLong(ref errors, model.Username, SocialAppUser.UserNameMaxLength, "Nombre de Usuario") is false
+        if (Helper.IsTooLong(ref errors, model.Username, BaseAppUser.UserNameMaxLength, "Nombre de Usuario") is false
             && await userManager.FindByNameAsync(model.Username) is not null)
         {
             errors.AddError(ErrorMessages.UsernameAlreadyInUse(model.Username));
             return new SuccessResult<SocialAppUser>(errors);
         }
 
-        if (Helper.IsTooLong(ref errors, model.Email, SocialAppUser.EmailMaxLength, "Correo Electrónico") is false
+        if (Helper.IsTooLong(ref errors, model.Email, BaseAppUser.EmailMaxLength, "Correo Electrónico") is false
             && await userManager.FindByEmailAsync(model.Email) is not null)
         {
             errors.AddError(ErrorMessages.EmailAlreadyInUse(model.Email));
@@ -146,8 +153,10 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return new SuccessResult<SocialAppUser>(newuser);
     }
 
-    public override async ValueTask<SuccessResult<object>> GetView(SocialAppUser? requester, SocialAppUser entity)
+    public override async ValueTask<SuccessResult<object>> GetView(BaseAppUser? r, SocialAppUser entity)
     {
+        var requester = (SocialAppUser?)r;
+
         if (requester is null || requester.Id != entity.Id)
         {
             UserViewModel view;
@@ -209,7 +218,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     public async ValueTask<bool> UnfollowUser(SocialAppUser requester, SocialAppUser followed)
         => await context.SocialAppUserFollows.Where(x => x.Follower == requester && x.Followed == followed).ExecuteDeleteAsync() > 0;
 
-    public override ValueTask<IQueryable<object>?> GetViews(SocialAppUser? requester, IQueryable<SocialAppUser>? users)
+    public override ValueTask<IQueryable<object>?> GetViews(BaseAppUser? requester, IQueryable<SocialAppUser>? users)
         => ValueTask.FromResult<IQueryable<object>?>(
             users is null
             ? null
@@ -252,10 +261,13 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 })
            );
 
-    public override IQueryable<SocialAppUser> Query(SocialAppUser? Requester)
-        => Requester is not null
-            ? Query().Where(x => x.Id != Requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || Requester.FollowedUsers != null && Requester.FollowedUsers.Contains(x)))
-            : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
+    public override IQueryable<SocialAppUser> Query(BaseAppUser? r)
+    {
+        var requester = (SocialAppUser?)r;
+        return requester is not null
+                ? Query().Where(x => x.Id != requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || requester.FollowedUsers != null && requester.FollowedUsers.Contains(x)))
+                : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
+    }
 
     private async ValueTask<bool> CanView(SocialAppUser? requester, SocialAppUser entity)
         => requester?.Id.Equals(entity.Id) is true

@@ -11,19 +11,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Urbe.Programacion.AppSocial.API.Filters;
 using Urbe.Programacion.AppSocial.API.Middleware;
 using Urbe.Programacion.AppSocial.API.Options;
-using Urbe.Programacion.AppSocial.API.Services;
-using Urbe.Programacion.AppSocial.API.Workers;
-using Urbe.Programacion.AppSocial.Common;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
-using Urbe.Programacion.AppSocial.ModelServices.Configuration;
 using Urbe.Programacion.AppSocial.ModelServices.Implementations;
 using Urbe.Programacion.AppSocial.ModelServices.JsonConverters;
+using Urbe.Programacion.Shared.API.Common.Filters;
+using Urbe.Programacion.Shared.API.Common.Workers;
+using Urbe.Programacion.Shared.Common;
+using Urbe.Programacion.Shared.ModelServices.Configuration;
 using Urbe.Programacion.Shared.Services;
+using Urbe.Programacion.Shared.API.Common.Services;
 
 namespace Urbe.Programacion.AppSocial.API;
 
@@ -69,12 +69,12 @@ public static class Program
         services.AddHostedService<BackgroundTaskStoreSweeper>();
 
         services.AddRESTObjectSerializer(
-            x => new JsonRESTSerializer<APIResponseCode>(x.GetRequiredService<IOptions<JsonOptions>>().Value.SerializerOptions));
+            x => new JsonRESTSerializer<SocialAPIResponseCode>(x.GetRequiredService<IOptions<JsonOptions>>().Value.SerializerOptions));
 
         services.AddMvc(o =>
         {
-            o.Filters.Add(APIResponseFilter.Instance);
-            o.Filters.Add<SignInRefreshFilter>();
+            o.Filters.Add(APIResponseFilter<SocialAPIResponseCode>.Instance);
+            o.Filters.Add<SignInRefreshFilter<SocialAppUser>>();
         });
 
         services.RegisterDecoratedServices();
@@ -138,7 +138,7 @@ public static class Program
         })
         .AddSignInManager()
         .AddDefaultTokenProviders()
-        .AddEntityFrameworkSocialContextStores();
+        .AddEntityFrameworkSocialContextStores<SocialAppUser, SocialContext>();
 
         services.ConfigureApplicationCookie(options =>
         {
@@ -153,7 +153,7 @@ public static class Program
         });
 
         services.UseRESTInvalidModelStateResponse(
-            x => new RESTObjectResult<APIResponseCode>(new APIResponse(APIResponseCodeEnum.ErrorCollection)
+            x => new RESTObjectResult<SocialAPIResponseCode>(new APIResponse(APIResponseCodeEnum.ErrorCollection)
             {
                 Data = null,
                 Errors = null
@@ -165,7 +165,7 @@ public static class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseRESTExceptionHandler((r, e, s, c) => Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
+            app.UseRESTExceptionHandler((r, e, s, c) => Task.FromResult(new ExceptionRESTResponse<SocialAPIResponseCode>(
                 new APIResponse(APIResponseCodeEnum.Exception)
                 {
                     Exception = e?.ToString() ?? "Unknown error"
@@ -183,7 +183,7 @@ public static class Program
             {
                 var errors = new ErrorList();
                 errors.AddError(ErrorMessages.InternalError());
-                return Task.FromResult(new ExceptionRESTResponse<APIResponseCode>(
+                return Task.FromResult(new ExceptionRESTResponse<SocialAPIResponseCode>(
                     new APIResponse(APIResponseCodeEnum.ErrorCollection)
                     {
                         Errors = errors

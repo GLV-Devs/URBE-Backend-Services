@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Urbe.Programacion.AppSocial.Entities.Models;
+using Urbe.Programacion.Shared.Entities.Models;
 
-namespace Urbe.Programacion.AppSocial.API.Filters;
+namespace Urbe.Programacion.Shared.API.Common.Filters;
 
-public sealed class SignInRefreshFilter : IAsyncActionFilter
+public sealed class SignInRefreshFilter<TAppUser> : IAsyncActionFilter
+    where TAppUser : BaseAppUser
 {
-    private SignInManager<SocialAppUser> SignInManager { get; }
-    private UserManager<SocialAppUser> UserManager { get; }
-    public SignInRefreshFilter(SignInManager<SocialAppUser> signInManager, UserManager<SocialAppUser> userManager)
+    private SignInManager<TAppUser> SignInManager { get; }
+    private UserManager<TAppUser> UserManager { get; }
+    public SignInRefreshFilter(SignInManager<TAppUser> signInManager, UserManager<TAppUser> userManager)
     {
         SignInManager = signInManager;
         UserManager = userManager;

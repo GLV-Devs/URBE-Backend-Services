@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices;
 using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.ModelServices;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers.Base;
 

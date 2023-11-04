@@ -1,10 +1,11 @@
 ﻿using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.Shared.ModelServices.DTOs;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 
-public class UserSelfViewModel : IResponseModel
+public class UserSelfViewModel : IResponseModel<SocialAPIResponseCode>
 {
     public required Guid Id { get; set; }
     public required string Username { get; set; }
@@ -30,5 +31,5 @@ public class UserSelfViewModel : IResponseModel
             Pronouns = user.Pronouns
         };
 
-    APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.UserSelfView;
+    SocialAPIResponseCode IResponseModel<SocialAPIResponseCode>.APIResponseCode => APIResponseCodeEnum.UserSelfView;
 }

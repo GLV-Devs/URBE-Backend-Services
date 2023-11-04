@@ -1,9 +1,10 @@
 ﻿using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
+using Urbe.Programacion.Shared.ModelServices.DTOs;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
 
-public class PostViewModel : IResponseModel
+public class PostViewModel : IResponseModel<SocialAPIResponseCode>
 {
     public required long Id { get; init; }
     public required UserViewModel? Poster { get; init; }
@@ -27,5 +28,5 @@ public class PostViewModel : IResponseModel
             Responses = post.Responses?.Select(x => x.Id.AsLong()).ToHashSet()
         };
 
-    APIResponseCode IResponseModel.APIResponseCode => APIResponseCodeEnum.PostView;
+    SocialAPIResponseCode IResponseModel<SocialAPIResponseCode>.APIResponseCode => APIResponseCodeEnum.PostView;
 }

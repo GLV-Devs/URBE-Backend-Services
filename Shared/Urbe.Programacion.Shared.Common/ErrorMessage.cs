@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Net;
 
-namespace Urbe.Programacion.AppSocial.Common;
+namespace Urbe.Programacion.Shared.Common;
 
 public struct ErrorList : IEnumerable<ErrorMessage>
 {
