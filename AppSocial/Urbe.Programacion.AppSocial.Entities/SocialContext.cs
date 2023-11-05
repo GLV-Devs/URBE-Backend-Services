@@ -1,38 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities;
 
 namespace Urbe.Programacion.AppSocial.Entities;
 
-public class SocialContext : DbContext
+public class SocialContext : BaseAppContext
 {
-    private static readonly object migrationsync = new();
-    private static bool migrated = false;
-
-    public SocialContext(DbContextOptions<SocialContext> options) : base(options)
-    {
-        if (migrated is false)
-            lock (migrationsync)
-                if (migrated is false)
-                {
-                    Database.Migrate();
-                    migrated = true;
-                }
-
-        ChangeTracker.StateChanged += ChangeTracker_StateChanged;
-    }
-
+    public SocialContext(DbContextOptions<SocialContext> options) : base(options) { }
     public DbSet<SocialAppUser> SocialAppUsers => Set<SocialAppUser>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<PendingMailConfirmation> PendingMailConfirmations => Set<PendingMailConfirmation>();
     public DbSet<SocialAppUserFollow> SocialAppUserFollows => Set<SocialAppUserFollow>();
-
-    private static void ChangeTracker_StateChanged(object? sender, Microsoft.EntityFrameworkCore.ChangeTracking.EntityStateChangedEventArgs e)
-    {
-        if (e.Entry.State is EntityState.Modified && e.Entry.Entity is ModifiableEntity modifiable)
-            modifiable.LastModified = DateTimeOffset.Now;
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -17,7 +17,6 @@ using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
 using Urbe.Programacion.AppSocial.ModelServices.Implementations;
-using Urbe.Programacion.AppSocial.ModelServices.JsonConverters;
 using Urbe.Programacion.Shared.API.Common.Filters;
 using Urbe.Programacion.Shared.API.Common.Workers;
 using Urbe.Programacion.Shared.Common;
@@ -26,6 +25,7 @@ using Urbe.Programacion.Shared.Services;
 using Urbe.Programacion.Shared.API.Common.Services;
 using Urbe.Programacion.Shared.ModelServices;
 using Urbe.Programacion.Shared.API.Backend.Services;
+using Urbe.Programacion.Shared.ModelServices.JsonConverters;
 
 namespace Urbe.Programacion.AppSocial.API;
 
@@ -38,7 +38,7 @@ public static class Program
         var builder = WebApplication.CreateBuilder(Environment.GetCommandLineArgs());
 
         var services = builder.Services;
-        builder.Configuration.AddJsonFile("appsettings.Secret.json");
+        builder.Configuration.AddJsonFile("appsettings.Secret.json", true);
 
         // Add services to the container.
 
@@ -140,7 +140,7 @@ public static class Program
         })
         .AddSignInManager()
         .AddDefaultTokenProviders()
-        .AddEntityFrameworkSocialContextStores<SocialAppUser, SocialContext>();
+        .AddEntityFrameworkDbContextStores<SocialAppUser, SocialContext>();
 
         services.ConfigureApplicationCookie(options =>
         {

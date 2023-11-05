@@ -19,7 +19,7 @@ public static class AppUserIdentityEntityFrameworkBuilderExtensions
     /// <typeparam name="TContext">The Entity Framework database context to use.</typeparam>
     /// <param name="builder">The <see cref="IdentityBuilder"/> instance this method extends.</param>
     /// <returns>The <see cref="IdentityBuilder"/> instance this method extends.</returns>
-    public static IdentityBuilder AddEntityFrameworkSocialContextStores<TAppUser, TDbContext>(this IdentityBuilder builder)
+    public static IdentityBuilder AddEntityFrameworkDbContextStores<TAppUser, TDbContext>(this IdentityBuilder builder)
         where TAppUser : BaseAppUser
         where TDbContext : DbContext
     {
