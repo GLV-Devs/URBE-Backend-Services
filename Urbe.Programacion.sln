@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppVehicu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations", "AppVehiculos\Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations\Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.csproj", "{718748E6-861F-4023-A42C-CF9F71821B1F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppVehiculos.Entities", "AppVehiculos\Urbe.Programacion.AppVehiculos.Entities\Urbe.Programacion.AppVehiculos.Entities.csproj", "{2C395054-6CE3-4157-8E10-F34F886C4467}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{718748E6-861F-4023-A42C-CF9F71821B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{718748E6-861F-4023-A42C-CF9F71821B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{718748E6-861F-4023-A42C-CF9F71821B1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C395054-6CE3-4157-8E10-F34F886C4467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C395054-6CE3-4157-8E10-F34F886C4467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C395054-6CE3-4157-8E10-F34F886C4467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C395054-6CE3-4157-8E10-F34F886C4467}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,6 +153,7 @@ Global
 		{9517C929-0C4C-4C1D-879B-0ED988257734} = {70DFAEA4-1107-469D-A7FB-90E27735EC94}
 		{F7EFE971-B9FF-47DE-A2FC-18DD3FD44566} = {9517C929-0C4C-4C1D-879B-0ED988257734}
 		{718748E6-861F-4023-A42C-CF9F71821B1F} = {9517C929-0C4C-4C1D-879B-0ED988257734}
+		{2C395054-6CE3-4157-8E10-F34F886C4467} = {9517C929-0C4C-4C1D-879B-0ED988257734}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}

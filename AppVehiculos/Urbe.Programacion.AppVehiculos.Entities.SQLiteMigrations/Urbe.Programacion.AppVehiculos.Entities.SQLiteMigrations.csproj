@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Urbe.Programacion.AppVehiculos.Entities\Urbe.Programacion.AppVehiculos.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

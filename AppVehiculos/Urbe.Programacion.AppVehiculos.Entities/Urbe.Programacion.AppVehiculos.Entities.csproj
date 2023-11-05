@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Urbe.Programacion.AppVehiculos.Entities\Urbe.Programacion.AppVehiculos.Entities.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Entities\Urbe.Programacion.Shared.Entities.csproj" />
   </ItemGroup>
 
 </Project>

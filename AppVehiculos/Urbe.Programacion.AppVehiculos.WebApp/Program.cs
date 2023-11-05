@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Urbe.Programacion.AppVehiculos.WebApp.Data;
-using Urbe.Programacion.AppVehiculos.WebApp.Data.Entities;
+using Urbe.Programacion.AppVehiculos.Entities.Data;
+using Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 using Urbe.Programacion.Shared.API.Common.Filters;
 using Urbe.Programacion.Shared.API.Common.Services;
 using Urbe.Programacion.Shared.API.Common.Workers;

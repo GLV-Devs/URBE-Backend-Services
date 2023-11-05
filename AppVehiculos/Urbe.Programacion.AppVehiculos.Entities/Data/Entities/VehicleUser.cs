@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Urbe.Programacion.Shared.Entities.Models;
 
-namespace Urbe.Programacion.AppVehiculos.WebApp.Data.Entities;
+namespace Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 
 public class VehicleUser : BaseAppUser, ISelfModelBuilder<VehicleUser>
 {

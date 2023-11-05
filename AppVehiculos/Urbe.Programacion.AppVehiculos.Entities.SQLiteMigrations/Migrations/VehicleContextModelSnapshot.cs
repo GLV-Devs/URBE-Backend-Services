@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Urbe.Programacion.AppVehiculos.WebApp.Data;
+using Urbe.Programacion.AppVehiculos.Entities.Data;
 
 #nullable disable
 

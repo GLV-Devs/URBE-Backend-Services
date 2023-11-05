@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Urbe.Programacion.AppVehiculos.WebApp.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Models;
 
-namespace Urbe.Programacion.AppVehiculos.WebApp.Data;
+namespace Urbe.Programacion.AppVehiculos.Entities.Data;
 public class VehicleContext : BaseAppContext
 {
     public VehicleContext(DbContextOptions<VehicleContext> options)

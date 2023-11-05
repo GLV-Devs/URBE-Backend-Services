@@ -1,4 +1,4 @@
-﻿namespace Urbe.Programacion.AppVehiculos.WebApp.Data.Entities;
+﻿namespace Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 
 [Flags]
 public enum VehicleMaintenanceType

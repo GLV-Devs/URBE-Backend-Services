@@ -4,7 +4,7 @@ using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Internal;
 using Urbe.Programacion.Shared.Entities.Models;
 
-namespace Urbe.Programacion.AppVehiculos.WebApp.Data.Entities;
+namespace Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 
 public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Guid>, ISelfModelBuilder<VehicleReport>
 {
