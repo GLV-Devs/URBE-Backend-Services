@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Internal;
 using Urbe.Programacion.Shared.Entities.Models;
 
 namespace Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 
-public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Guid>, ISelfModelBuilder<VehicleReport>
+public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelfModelBuilder<VehicleReport>
 {
     public static IEnumerable<string> KnownVehicleMakes { get; } = new List<string>()
     {
@@ -47,7 +48,7 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Guid>, ISelfModel
     public const int VehicleDataMaxLength = 100;
     private readonly KeyedNavigation<Guid, VehicleUser> ownerNav = new();
 
-    public Guid Id { get; }
+    public Snowflake Id { get; }
 
     public string? VehicleModel { get; set; }
 
@@ -74,6 +75,7 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Guid>, ISelfModel
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleReport> mb)
     {
         mb.HasKey(x => x.Id);
+        mb.Property(x => x.Id).HasConversion(Snowflake.ValueConverter);
         mb.Property(x => x.VehicleModel).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.LicensePlate).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.VehicleCountryAlpha3Code).HasMaxLength(3);
