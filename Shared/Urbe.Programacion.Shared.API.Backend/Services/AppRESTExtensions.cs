@@ -48,7 +48,7 @@ public static class AppRESTExtensions
             return Task.FromResult(new ExceptionRESTResponse<TApiResponseCode>(
                 new APIResponse<TApiResponseCode>(TApiResponseCode.ErrorCollection)
                 {
-                    Errors = errors
+                    Errors = errors.Errors
                 },
                 HttpStatusCode.InternalServerError
             ));

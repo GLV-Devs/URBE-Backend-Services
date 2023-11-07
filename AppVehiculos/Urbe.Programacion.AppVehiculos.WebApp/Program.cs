@@ -32,6 +32,7 @@ public static class Program
         services.AddMvc(o => o.Filters.Add<SignInRefreshFilter<VehicleUser>>());
 
         services.RegisterDecoratedServices();
+        services.RegisterDecoratedOptions(builder.Configuration);
 
         builder.Logging.AddSerilog();
 
@@ -94,16 +95,16 @@ public static class Program
         })
         .AddSignInManager()
         .AddDefaultTokenProviders()
-        .AddEntityFrameworkDbContextStores<VehicleUser, VehicleContext>();
+        .AddEntityFrameworkDbContextStores<VehicleUser, VehicleUserRole, VehicleContext>();
 
         services.ConfigureApplicationCookie(options =>
         {
             // Cookie settings
-            options.Cookie.Name = "SessionCookie";
+            options.Cookie.Name = "AppVehiculos-SessionCookie";
             options.Cookie.HttpOnly = false;
-            options.LoginPath = "/auth/login";
-            options.LogoutPath = "/auth/logout";
-            options.ClaimsIssuer = "DiegoGarcia-Urbe.Programacion.AppVehiculos.API";
+            options.LoginPath = "/Identity/LogIn";
+            options.LogoutPath = "/Identity/LogOut";
+            options.ClaimsIssuer = "DiegoGarcia-Urbe.Programacion.AppVehiculos.WebApp";
             options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             options.SlidingExpiration = true;
         });

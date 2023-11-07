@@ -38,7 +38,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             errors.RecommendedCode = System.Net.HttpStatusCode.Unauthorized;
         }
 
-        if (Helper.IsUpdating(entity.Email, update.Email)
+        if (Helper.IsUpdatingString(entity.Email, update.Email)
                 && Helper.IsTooLong(ref errors, update.Email, BaseAppUser.EmailMaxLength, "Correo electronico") is false)
         {
             errors.AddError(ErrorMessages.NotSupported("Correo Electrónico", "Cambiar"));
@@ -53,7 +53,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             //}
         }
 
-        if (Helper.IsUpdating(entity.UserName, update.Username)
+        if (Helper.IsUpdatingString(entity.UserName, update.Username)
                 && Helper.IsTooLong(ref errors, update.Username, BaseAppUser.UserNameMaxLength, "Nombre de Usuario") is false)
         {
             if (await userManager.FindByNameAsync(update.Username) is not null)
@@ -66,19 +66,19 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             }
         }
 
-        if (Helper.IsUpdating(entity.RealName, update.RealName, StringComparison.Ordinal)
+        if (Helper.IsUpdatingString(entity.RealName, update.RealName, StringComparison.Ordinal)
                 && Helper.IsTooLong(ref errors, update.RealName, BaseAppUser.RealNameMaxLength, "Nombre Real") is false)
             entity.RealName = update.RealName;
 
-        if (Helper.IsUpdating(entity.Pronouns, update.Pronouns, StringComparison.Ordinal)
-                && Helper.IsTooLong(ref errors, update.Pronouns, BaseAppUser.PronounsMaxLength, "Pronombres") is false)
+        if (Helper.IsUpdatingString(entity.Pronouns, update.Pronouns, StringComparison.Ordinal)
+                && Helper.IsTooLong(ref errors, update.Pronouns, SocialAppUser.PronounsMaxLength, "Pronombres") is false)
             entity.Pronouns = update.Pronouns;
 
-        if (Helper.IsUpdating(entity.ProfileMessage, update.ProfileMessage, StringComparison.Ordinal)
+        if (Helper.IsUpdatingString(entity.ProfileMessage, update.ProfileMessage, StringComparison.Ordinal)
                 && Helper.IsTooLong(ref errors, update.ProfileMessage, BaseAppUser.ProfileMessageMaxLength, "Mensaje de Perfil") is false)
             entity.ProfileMessage = update.ProfileMessage;
 
-        if (Helper.IsUpdating(entity.ProfilePictureUrl, update.ProfilePictureUrl, StringComparison.Ordinal)
+        if (Helper.IsUpdatingString(entity.ProfilePictureUrl, update.ProfilePictureUrl, StringComparison.Ordinal)
                 && Helper.IsTooLong(ref errors, update.ProfilePictureUrl, BaseAppUser.ProfilePictureUrlMaxLength, "URL de Foto de Perfil") is false)
             entity.ProfilePictureUrl = update.ProfilePictureUrl;
 

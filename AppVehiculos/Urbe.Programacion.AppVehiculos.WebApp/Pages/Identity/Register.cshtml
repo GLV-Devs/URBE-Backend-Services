@@ -1,0 +1,103 @@
+﻿@page
+@model Urbe.Programacion.AppVehiculos.WebApp.Pages.Identity.RegisterModel
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Registrar Cuenta</h1>
+    <h2>Por favor, introduzca sus datos</h2>
+</div>
+<div>
+    <br />
+
+    <div class="card align-items-center">
+        @if (Model.Errors.Count > 0)
+        {
+            <br />
+            <div class="error-box" />
+
+            @foreach (var error in Model.Errors.Errors)
+            {
+                <p class="error-line">@error.DefaultMessageES</p>
+            }
+        }
+
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label for="realName">Nombre</label>
+                    <input 
+                        id="realName" 
+                        name="RealName" 
+                        aria-describedby="realnameHelp" 
+                        type="text" 
+                        class="form-control" 
+                        value="@Model.RealName"
+                        placeholder="Introduzca su nombre real (completo)">
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <label for="inputUsername">Nombre de Usuario</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="inputUsername"
+                        name="Username"
+                        aria-describedby="usernameHelp"
+                        value="@Model.Username"
+                        placeholder="Introduzca su nombre de usuario">
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <label for="inputEmail">Correo electrónico</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="inputEmail"
+                        name="Email"
+                        value="@Model.Email"
+                        placeholder="Introduzca su correo electrónico">
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <label for="confirmEmail">Confirmar correo electrónico</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="confirmEmail"
+                        name="ConfirmEmail"
+                        value="@Model.ConfirmEmail"
+                        placeholder="Confirme su correo electrónico">
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <label for="inputPassword">Contraseña</label>
+                    <input type="password" class="form-control" id="inputPassword" name="Password" placeholder="Introduzca su contraseña">
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar contraseña</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" placeholder="Confirme su contraseña">
+                </div>
+
+                <hr />
+
+                <button type="submit" class="center btn btn-primary">Crear Usuario</button>
+                <br /> <br />
+
+                <small class="form-text text-muted privacy-notice">@PrivacyModel.PrivacyNotice</small>
+            </form>
+        </div>
+    </div>
+</div>

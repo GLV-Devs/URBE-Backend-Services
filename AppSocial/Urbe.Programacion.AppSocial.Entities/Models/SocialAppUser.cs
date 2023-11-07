@@ -8,6 +8,8 @@ namespace Urbe.Programacion.AppSocial.Entities.Models;
 
 public class SocialAppUser : BaseAppUser
 {
+    public const int PronounsMaxLength = 30;
+
     public string? ProfileMessage { get; set; }
 
     public UserSettings Settings { get; set; }
@@ -19,6 +21,8 @@ public class SocialAppUser : BaseAppUser
     public int FollowerCount { get; init; }
 
     public string? ProfilePictureUrl { get; set; }
+
+    public string? Pronouns { get; set; }
 
     public override bool PhoneNumberConfirmed
     {

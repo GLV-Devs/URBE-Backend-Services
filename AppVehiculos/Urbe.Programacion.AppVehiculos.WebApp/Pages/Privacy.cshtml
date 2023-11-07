@@ -1,8 +1,13 @@
 ﻿@page
-@model PrivacyModel
+@model Urbe.Programacion.AppVehiculos.WebApp.Pages.PrivacyModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacidad";
 }
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="text-center">
+    <h1 class="display-4">Noticia de Privacidad</h1>
+    <h2>¿Qué hacemos con sus datos?</h2>
+    <br />
+    <p class="privacy-notice">
+        @PrivacyModel.PrivacyNotice
+    </p>
+</div>

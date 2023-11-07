@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Urbe.Programacion.Shared.Common;
 
-public struct ErrorList : IEnumerable<ErrorMessage>
+public struct ErrorList 
 {
     internal List<ErrorMessage>? _errors;
 
@@ -12,12 +12,6 @@ public struct ErrorList : IEnumerable<ErrorMessage>
     public readonly IEnumerable<ErrorMessage> Errors => _errors ?? (IEnumerable<ErrorMessage>)Array.Empty<ErrorMessage>();
 
     public HttpStatusCode? RecommendedCode { get; set; }
-
-    public readonly IEnumerator<ErrorMessage> GetEnumerator()
-        => Errors.GetEnumerator();
-
-    readonly IEnumerator IEnumerable.GetEnumerator()
-        => GetEnumerator();
 }
 
 public static class ErrorListExtensions
@@ -25,6 +19,11 @@ public static class ErrorListExtensions
     public static void AddError(this ref ErrorList list, ErrorMessage message)
     {
         (list._errors ??= new()).Add(message);
+    }
+
+    public static void AddErrorRange(this ref ErrorList list, IEnumerable<ErrorMessage> messages)
+    {
+        (list._errors ??= new()).AddRange(messages);
     }
 }
 

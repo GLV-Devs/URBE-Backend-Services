@@ -17,6 +17,25 @@ namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("IdentityUserClaim<Guid>");
+                });
+
             modelBuilder.Entity("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleReport", b =>
                 {
                     b.Property<long>("Id")
@@ -32,7 +51,7 @@ namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MaintenanceType")
+                    b.Property<uint>("MaintenanceType")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("OwnerId")
@@ -66,6 +85,7 @@ namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -96,10 +116,6 @@ namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Pronouns")
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("RealName")
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
@@ -117,10 +133,76 @@ namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedEmail")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique();
+
                     b.HasIndex("UserName")
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique();
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUserRoleAssignation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserRoleId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserRoleId");
+
+                    b.ToTable("UserRoleAssignations");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleReport", b =>
@@ -132,6 +214,25 @@ namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUserRoleAssignation", b =>
+                {
+                    b.HasOne("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUserRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("Urbe.Programacion.AppVehiculos.Entities.Data.Entities.VehicleUser", b =>

@@ -48,7 +48,7 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelf
     public const int VehicleDataMaxLength = 100;
     private readonly KeyedNavigation<Guid, VehicleUser> ownerNav = new();
 
-    public Snowflake Id { get; }
+    public Snowflake Id { get; init; }
 
     public string? VehicleModel { get; set; }
 

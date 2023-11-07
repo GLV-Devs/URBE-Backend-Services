@@ -34,7 +34,7 @@ public sealed class APIResponseFilter<TObjectCode> : IAsyncResultFilter
                     pdlist.AddError(new ErrorMessage($"{problem.Title}: {problem.Detail}", "Unknown", null));
                     objresult.Value = new APIResponse<TObjectCode>(TObjectCode.ErrorCollection)
                     {
-                        Errors = pdlist,
+                        Errors = pdlist.Errors,
                         TraceId = context.HttpContext.TraceIdentifier
                     };
                     break;

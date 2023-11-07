@@ -1,4 +1,6 @@
-﻿namespace Urbe.Programacion.Shared.Common;
+﻿using System.Reflection;
+
+namespace Urbe.Programacion.Shared.Common;
 
 public static class ErrorMessages
 {
@@ -23,6 +25,16 @@ public static class ErrorMessages
             new ErrorMessageProperty[]
             {
                 new(nameof(action), action)
+            }
+        );
+
+    public static ErrorMessage ConfirmationNotSame(string property)
+        => new(
+            $"El campo de confirmación para la propiedad '{property}' no coincide con la misma",
+            nameof(ConfirmationNotSame),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(property), property)
             }
         );
 
@@ -98,6 +110,26 @@ public static class ErrorMessages
             }
         );
 
+    public static ErrorMessage InvalidProperty(string property)
+        => new(
+            $"La propiedad es inválida: {property}",
+            nameof(InvalidProperty),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(property), property)
+            }
+        );
+
+    public static ErrorMessage EmptyProperty(string property)
+        => new(
+            $"La propiedad no puede permanecer vacía: {property}",
+            nameof(EmptyProperty),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(property), property)
+            }
+        );
+
     public static ErrorMessage BadPassword()
         => new(
             "La contraseña ingresada es inválida",
@@ -120,6 +152,16 @@ public static class ErrorMessages
                 }
             );
     }
+
+    public static ErrorMessage TimedOut(string action)
+        => new(
+            $"La acción expiró y ya no está disponible: {action}",
+            nameof(TimedOut),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(action), action)
+            }
+        );
 
     public static ErrorMessage NoPermission()
         => new(
@@ -165,4 +207,74 @@ public static class ErrorMessages
                 new(nameof(action), action)
             }
         );
+
+    public static ErrorMessage PasswordRequiredUniqueChars(int uniqueCharCount = 4)
+        => new(
+            $"La contraseña debe contener al menos {uniqueCharCount} caracteres únicos",
+            nameof(PasswordTooShort),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(uniqueCharCount), uniqueCharCount.ToString())
+            }
+        );
+
+    public static ErrorMessage PasswordTooShort(int minimumLength = 6)
+        => new(
+            $"La contraseña debe contener al menos {minimumLength} caracteres",
+            nameof(PasswordTooShort),
+            new ErrorMessageProperty[]
+            {
+                new(nameof(minimumLength), minimumLength.ToString())
+            }
+        );
+
+    public static ErrorMessage PasswordRequiresLower()
+        => new(
+            $"La contraseña debe contener al menos un caracter en minúscula",
+            nameof(PasswordRequiresLower),
+            null
+        );
+
+    public static ErrorMessage PasswordRequiresNonAlphanumeric()
+        => new(
+            $"La contraseña debe contener al menos un caracter que no sea alfanumerico",
+            nameof(PasswordRequiresNonAlphanumeric),
+            null
+        );
+
+    public static ErrorMessage PasswordRequiresUpper()
+        => new(
+            $"La contraseña debe contener al menos un caracter en mayúscula",
+            nameof(PasswordRequiresUpper),
+            null
+        );
+
+    public static ErrorMessage TryBindError(string key, string? description, params object[]? arguments)
+    {
+        var method = typeof(ErrorMessages).GetMethods(BindingFlags.Static | BindingFlags.Public).FirstOrDefault(x => x.Name.Equals(key));
+        if (method is not null)
+        {
+            var parameters = method.GetParameters();
+            if (parameters.Length != arguments?.Length)
+            {
+                if (parameters.Length > (arguments?.Length ?? 0))
+                {
+                    var newargs = new object[parameters.Length];
+                    for (int i = 0; i < parameters.Length; i++)
+                        if (i < (arguments?.Length ?? 0))
+                            newargs[i] = arguments![i];
+                        else if (parameters[i].HasDefaultValue)
+                            newargs[i] = parameters[i].DefaultValue!;
+                        else
+                            return new ErrorMessage(description, key, null);
+
+                    return (ErrorMessage)method.Invoke(null, newargs)!;
+                }
+            }
+
+            return (ErrorMessage)method.Invoke(null, arguments)!;
+        }
+
+        return new ErrorMessage(description, key, null);
+    }
 }

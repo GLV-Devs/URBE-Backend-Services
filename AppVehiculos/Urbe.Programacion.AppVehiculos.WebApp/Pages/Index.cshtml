@@ -1,10 +1,33 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Página Principal";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bienvenide</h1>
+    <h2>¿Qué desea hacer?</h2>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="card">
+                    <img class="card-img-top" src="./img/VehiculosCargados.png" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Revisar los reportes de tus vehiculos que nos has mandado</p>
+                        <a href="#" class="card-title btn btn-primary">Ver reportes de Vehiculo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card">
+                    <img class="card-img-top" src="./img/VehiculosNuevoReporte.png" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Crear un nuevo reporte sobre el estado de reparacion de uno de tus vehiculos</p>
+                        <a href="#" class="card-title btn btn-primary">Reportar un nuevo Vehiculo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
