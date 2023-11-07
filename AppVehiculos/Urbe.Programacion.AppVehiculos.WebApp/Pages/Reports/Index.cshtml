@@ -1,0 +1,158 @@
+﻿@page
+@model Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports.IndexModel
+
+@{
+    ViewData["Title"] = "Listado de Reportes";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1 class="display-4">Listado de Reportes</h1>
+    <h2>Revise todos sus reportes</h2>
+</div>
+<div>
+    <br />
+    <div class="card align-items-center">
+        <div class="card-body">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Modelo de Vehículo
+                        </th>
+                        <th>
+                            Marca de Vehículo
+                        </th>
+                        <th>
+                            Numero de Licencia
+                        </th>
+                        <th>
+                            Color
+                        </th>
+                        <th>
+                            País de Precedencia
+                        </th>
+                        <th>
+                            Tipo de Mantenimiento
+                        </th>
+                        <th>
+                            Registrante del Vehículo
+                        </th>
+                        <th>
+                            Fecha de Creación de Reporte
+                        </th>
+                        <th>
+                            Última Modificación de Reporte
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.VehicleReport)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VehicleModel)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VehicleMake)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LicensePlate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VehicleColor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VehicleCountryAlpha3Code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MaintenanceType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OwnerName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastEdited)
+                            </td>
+                            <td>
+                                <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#details-@item.Id">Detalles</button>
+                            </td>
+                            <td>
+                                <a asp-page="./Edit" class="btn btn-secondary" asp-route-id="@item.Id">Editar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @foreach (var item in Model.VehicleReport)
+            {
+                <div class="modal fade" id="details-@item.Id" tabindex="-1" role="dialog" aria-labelledby="detailslabel-@item.Id" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailslabel-@item.Id">Detalles de Reporte</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <tr><th>Modelo de Vehículo</th><td>@item.VehicleModel</td></tr>
+
+                                    <tr><th>Marca de Vehículo</th><td>@item.VehicleMake</td></tr>
+                                
+                                    <tr><th>Numero de Licencia</th><td>@item.LicensePlate</td></tr>
+                                
+                                    <tr><th>Color</th><td>@item.VehicleColor</td></tr>
+                                
+                                    <tr><th>País de Precedencia</th><td>@item.VehicleCountryAlpha3Code</td></tr>
+                                
+                                    <tr><th>Tipo de Mantenimiento</th><td>@item.MaintenanceType</td></tr>
+                                
+                                    <tr><th>Registrante del Vehículo</th><td>@item.OwnerName</td></tr>
+                                
+                                    <tr><th>Fecha de Creación de Reporte</th><td>@item.Created</td></tr>
+
+                                    <tr><th>Última Modificación de Reporte</th><td>@item.LastEdited</td></tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button data-bs-toggle="modal" data-bs-target="#details-@item.Id" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-labelledby="deletelabel-@item.Id" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deletelabel-@item.Id">Desea eliminar éste reporte?</h5>
+                            </div>
+                            <div>
+                                <form asp-route="./Index?delete=@item.Id" method="post">
+                                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<div>
+    <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a>
+</div>

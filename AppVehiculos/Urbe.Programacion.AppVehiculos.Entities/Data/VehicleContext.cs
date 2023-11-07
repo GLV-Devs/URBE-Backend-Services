@@ -28,13 +28,3 @@ public class VehicleContext : BaseAppContext
         iuc.HasOne<VehicleUser>().WithMany().HasForeignKey(x => x.UserId);
     }
 }
-public class VehicleContextFactory : IDesignTimeDbContextFactory<VehicleContext>
-{
-    public VehicleContext CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<VehicleContext>();
-        optionsBuilder.UseSqlServer();
-
-        return new VehicleContext(optionsBuilder.Options);
-    }
-}

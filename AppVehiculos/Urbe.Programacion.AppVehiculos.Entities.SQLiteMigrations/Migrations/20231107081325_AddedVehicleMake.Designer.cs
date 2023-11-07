@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Urbe.Programacion.AppVehiculos.Entities.Data;
 
@@ -10,9 +11,11 @@ using Urbe.Programacion.AppVehiculos.Entities.Data;
 namespace Urbe.Programacion.AppVehiculos.Entities.SQLiteMigrations.Migrations
 {
     [DbContext(typeof(VehicleContext))]
-    partial class VehicleContextModelSnapshot : ModelSnapshot
+    [Migration("20231107081325_AddedVehicleMake")]
+    partial class AddedVehicleMake
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");

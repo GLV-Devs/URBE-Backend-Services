@@ -52,6 +52,8 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelf
 
     public string? VehicleModel { get; set; }
 
+    public string? VehicleMake { get; set; }
+
     public string? LicensePlate { get; set; }
 
     public uint? VehicleColor { get; set; }
@@ -75,8 +77,10 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelf
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleReport> mb)
     {
         mb.HasKey(x => x.Id);
+        mb.HasIndex(x => x.VehicleMake).IsUnique(false);
         mb.Property(x => x.Id).HasConversion(Snowflake.ValueConverter);
         mb.Property(x => x.VehicleModel).HasMaxLength(VehicleDataMaxLength);
+        mb.Property(x => x.VehicleMake).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.LicensePlate).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.VehicleCountryAlpha3Code).HasMaxLength(3);
         mb.HasOne(x => x.Owner).WithMany(x => x.Reports).HasForeignKey(x => x.OwnerId);

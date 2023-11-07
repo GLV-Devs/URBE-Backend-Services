@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Entities\Urbe.Programacion.Shared.Entities.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
   </ItemGroup>
 
 </Project>

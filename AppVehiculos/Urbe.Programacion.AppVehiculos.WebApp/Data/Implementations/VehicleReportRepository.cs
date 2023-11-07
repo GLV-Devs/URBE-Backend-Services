@@ -44,6 +44,9 @@ public class VehicleReportRepository
         if (Helper.IsUpdatingString(entity.VehicleModel!, update.VehicleModel))
             Helper.IsTooLong(ref errors, update.VehicleModel, VehicleReport.VehicleDataMaxLength, "Modelo");
 
+        if (Helper.IsUpdatingString(entity.VehicleMake!, update.VehicleMake))
+            Helper.IsTooLong(ref errors, update.VehicleMake, VehicleReport.VehicleDataMaxLength, "Marca");
+
         if (Helper.IsUpdatingString(entity.LicensePlate!, update.LicensePlate))
             Helper.IsTooLong(ref errors, update.LicensePlate, VehicleReport.VehicleDataMaxLength, "Placa");
 
@@ -59,6 +62,9 @@ public class VehicleReportRepository
         
         if (string.IsNullOrWhiteSpace(update.VehicleModel) is false)
             entity.VehicleModel = update.VehicleModel;
+
+        if (string.IsNullOrWhiteSpace(update.VehicleMake) is false)
+            entity.VehicleMake = update.VehicleMake;
 
         if (string.IsNullOrWhiteSpace(update.LicensePlate) is false)
             entity.LicensePlate = update.LicensePlate;
@@ -81,6 +87,9 @@ public class VehicleReportRepository
 
         if (Helper.IsEmpty(ref errors, model.VehicleModel, "Modelo") is false)
             Helper.IsTooLong(ref errors, model.VehicleModel, VehicleReport.VehicleDataMaxLength, "Modelo");
+
+        if (Helper.IsEmpty(ref errors, model.VehicleMake, "Marca") is false)
+            Helper.IsTooLong(ref errors, model.VehicleMake, VehicleReport.VehicleDataMaxLength, "Marca");
 
         if (Helper.IsEmpty(ref errors, model.LicensePlate, "Placa") is false)
             Helper.IsTooLong(ref errors, model.LicensePlate, VehicleReport.VehicleDataMaxLength, "Placa");
@@ -110,7 +119,8 @@ public class VehicleReportRepository
             Owner = requester,
             VehicleColor = model.VehicleColor,
             VehicleCountryAlpha3Code = model.VehicleCountryAlpha3Code,
-            VehicleModel = model.VehicleModel
+            VehicleModel = model.VehicleModel,
+            VehicleMake = model.VehicleMake
         };
 
         context.Reports.Add(n);
@@ -124,19 +134,27 @@ public class VehicleReportRepository
             return SuccessResult<object>.Failure;
 
         var manager = provider.GetRequiredService<UserManager<VehicleUser>>();
-        return requester.Id != entity.OwnerId || await manager.IsInRoleAsync(requester, VehicleUserRole.AdminReportViewerRole) is false
-            ? SuccessResult<object>.Failure
-            : new SuccessResult<object>(new VehicleReportView(
-            entity.Id,
-            entity.OwnerId,
-            entity.VehicleModel!,
-            entity.LicensePlate!,
-            entity.VehicleCountryAlpha3Code!,
-            entity.MaintenanceType,
-            entity.VehicleColor,
-            entity.LastModified,
-            entity.CreatedDate
-        ));
+        if (requester.Id != entity.OwnerId || await manager.IsInRoleAsync(requester, VehicleUserRole.AdminReportViewerRole) is false)
+            return SuccessResult<object>.Failure;
+        else
+        {
+            var oid = entity.OwnerId;
+            var owner = entity.Owner ?? await context.Users.FirstAsync(x => x.Id == oid); 
+
+            return new SuccessResult<object>(new VehicleReportView(
+                entity.Id,
+                oid,
+                entity.VehicleModel!,
+                entity.LicensePlate!,
+                entity.VehicleCountryAlpha3Code!,
+                entity.MaintenanceType,
+                entity.VehicleColor,
+                entity.LastModified,
+                entity.CreatedDate,
+                owner.RealName!,
+                entity.VehicleMake!
+            ));
+        }
     }
 
     public override async ValueTask<IQueryable<object>?> GetViews(BaseAppUser? r, IQueryable<VehicleReport>? users)
@@ -147,7 +165,7 @@ public class VehicleReportRepository
 
         var manager = provider.GetRequiredService<UserManager<VehicleUser>>();
         return await manager.IsInRoleAsync(requester, VehicleUserRole.AdminReportViewerRole) is false
-            ? users.AsNoTracking().OrderBy(x => x.OwnerId).Select(x => new VehicleReportView(
+            ? users.AsNoTracking().Include(x => x.Owner).OrderBy(x => x.OwnerId).Select(x => new VehicleReportView(
                 x.Id,
                 x.OwnerId,
                 x.VehicleModel!,
@@ -156,9 +174,11 @@ public class VehicleReportRepository
                 x.MaintenanceType,
                 x.VehicleColor,
                 x.LastModified,
-                x.CreatedDate
+                x.CreatedDate,
+                x.Owner!.RealName!,
+                x.VehicleMake!
             ))
-            : users.AsNoTracking().Where(x => reqid == x.OwnerId).Select(x => new VehicleReportView(
+            : users.AsNoTracking().Include(x => x.Owner).Where(x => reqid == x.OwnerId).Select(x => new VehicleReportView(
                 x.Id,
                 x.OwnerId,
                 x.VehicleModel!,
@@ -167,7 +187,9 @@ public class VehicleReportRepository
                 x.MaintenanceType,
                 x.VehicleColor,
                 x.LastModified,
-                x.CreatedDate
+                x.CreatedDate,
+                x.Owner!.RealName!,
+                x.VehicleMake!
             ));
     }
     

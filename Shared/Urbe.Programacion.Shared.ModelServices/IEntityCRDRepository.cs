@@ -1,4 +1,5 @@
-﻿using Urbe.Programacion.Shared.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Models;
 
@@ -12,6 +13,7 @@ public interface IEntityCRDRepository<TEntity, TKey, TCreationModel> : IEntityRe
 
     public ValueTask<SuccessResult<object>> GetView(BaseAppUser? requester, TEntity entity);
 
+    [return: NotNullIfNotNull(nameof(users))]
     public ValueTask<IQueryable<object>?> GetViews(BaseAppUser? requester, IQueryable<TEntity>? users);
 
     public ValueTask<SuccessResult> Delete(BaseAppUser? requester, TEntity entity);

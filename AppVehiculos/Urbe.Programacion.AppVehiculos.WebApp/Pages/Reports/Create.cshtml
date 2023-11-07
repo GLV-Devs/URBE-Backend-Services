@@ -1,14 +1,14 @@
 ﻿@page
-@model Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports.EditModel
+@model Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports.CreateModel
 
 @{
-    ViewData["Title"] = "Editar Reporte";
+    ViewData["Title"] = "Crear Reporte";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Editar Reporte</h1>
-    <h2>Por favor, modifique los datos de su reporte</h2>
+    <h1 class="display-4">Crear Reporte</h1>
+    <h2>Por favor, indique los datos de su reporte</h2>
 </div>
 <div>
     <br />
@@ -27,9 +27,8 @@
         <div class="card-body">
 
             <form method="post">
-                <input type="text" asp-for="Report.Id" readonly />
                 <div class="form-group">
-                    <label asp-for="UpdateModel.VehicleModel" class="control-label">Modelo de Vehículo</label>
+                    <label asp-for="UpdateModel.VehicleColor" class="control-label">Modelo de Vehículo</label>
                     <input asp-for="UpdateModel.VehicleModel" class="form-control" />
                 </div>
                 <br />
@@ -59,13 +58,15 @@
                 </div>
                 <br />
                 <div class="form-group">
-                    <input type="submit" value="Actualizar" class="btn btn-primary" />
+                    <input type="submit" value="Crear" class="btn btn-primary" />
                 </div>
             </form>
 
         </div>
     </div>
 </div>
+
+<br/>
 
 <div>
     <a asp-page="./Index">Regresar a la lista</a>
