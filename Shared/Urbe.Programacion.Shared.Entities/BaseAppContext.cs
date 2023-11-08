@@ -18,13 +18,28 @@ public abstract class BaseAppContext : DbContext
                     Database.Migrate();
                     migrated = true;
                 }
-
-        ChangeTracker.StateChanged += ChangeTracker_StateChanged;
     }
 
-    private static void ChangeTracker_StateChanged(object? sender, EntityStateChangedEventArgs e)
+    private void UpdateEntities()
     {
-        if (e.Entry.State is EntityState.Modified && e.Entry.Entity is ModifiableEntity modifiable)
-            modifiable.LastModified = DateTimeOffset.Now;
+        if (ChangeTracker.HasChanges())
+        {
+            foreach (var i in ChangeTracker.Entries()
+                    .Where(x => x.State is EntityState.Modified or EntityState.Added && x.Entity is ModifiableEntity)
+                    .Select(x => (ModifiableEntity)x.Entity))
+                i.LastModified = DateTimeOffset.Now;
+        }
+    }
+
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        UpdateEntities();
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        UpdateEntities();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

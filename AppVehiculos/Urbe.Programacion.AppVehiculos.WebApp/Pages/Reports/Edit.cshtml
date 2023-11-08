@@ -1,4 +1,5 @@
 ﻿@page
+@using Urbe.Programacion.AppVehiculos.WebApp.Data;
 @model Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports.EditModel
 
 @{
@@ -27,7 +28,11 @@
         <div class="card-body">
 
             <form method="post">
-                <input type="text" asp-for="Report.Id" readonly />
+                <div class="form-group">
+                    <label asp-for="Report.Id" class="control-label">Reporte</label>
+                    <input class="no-border" type="text" asp-for="Report.Id" readonly />
+                </div>
+                <br />
                 <div class="form-group">
                     <label asp-for="UpdateModel.VehicleModel" class="control-label">Modelo de Vehículo</label>
                     <input asp-for="UpdateModel.VehicleModel" class="form-control" />
@@ -45,17 +50,31 @@
                 <br />
                 <div class="form-group">
                     <label asp-for="UpdateModel.VehicleColor" class="control-label">Color</label>
-                    <input asp-for="UpdateModel.VehicleColor" class="form-control" />
+                    @Html.DropDownListFor(
+                        x => x.UpdateModel.VehicleColor, 
+                        SharedPageData.GetColorSelectListFor(Model.UpdateModel.VehicleColor), 
+                        null,
+                        SharedPageData.FormControlModel
+                    )
                 </div>
                 <br />
                 <div class="form-group">
                     <label asp-for="UpdateModel.VehicleCountryAlpha3Code" class="control-label">País de Precedencia</label>
-                    <input asp-for="UpdateModel.VehicleCountryAlpha3Code" class="form-control" />
+                    @Html.DropDownListFor(
+                        x => x.UpdateModel.VehicleCountryAlpha3Code,
+                        SharedPageData.GetCountrySelectListFor(Model.UpdateModel.VehicleCountryAlpha3Code),
+                        null,
+                        SharedPageData.FormControlModel
+                    )
                 </div>
                 <br />
                 <div class="form-group">
-                    <label asp-for="UpdateModel.MaintenanceType" class="control-label">Tipo de Mantenimiento</label>
-                    <input asp-for="UpdateModel.MaintenanceType" class="form-control" />
+                    <label asp-for="UpdateModel.CorrectiveMaintenance" class="control-label">¿Mantenimiento Correctivo?</label>
+                    @Html.CheckBoxFor(x => x.UpdateModel.CorrectiveMaintenance)
+
+                    <br />
+                    <label asp-for="UpdateModel.PreventiveMaintenance" class="control-label">¿Mantenimiento Preventivo?</label>
+                    @Html.CheckBoxFor(x => x.UpdateModel.PreventiveMaintenance)
                 </div>
                 <br />
                 <div class="form-group">

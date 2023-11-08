@@ -74,7 +74,7 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelf
         set => ownerNav.Id = value;
     }
 
-    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleReport> mb)
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleReport> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
         mb.HasIndex(x => x.VehicleMake).IsUnique(false);
@@ -83,6 +83,10 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelf
         mb.Property(x => x.VehicleMake).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.LicensePlate).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.VehicleCountryAlpha3Code).HasMaxLength(3);
+
+        mb.Property(x => x.CreatedDate).DateTimeOffsetAsTicksIfSQLite(context);
+        mb.Property(x => x.LastModified).DateTimeOffsetAsTicksIfSQLite(context);
+
         mb.HasOne(x => x.Owner).WithMany(x => x.Reports).HasForeignKey(x => x.OwnerId);
     }
 }

@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Urbe.Programacion.AppVehiculos.Entities.Data;
 using Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 using Urbe.Programacion.AppVehiculos.WebApp.Data;
 using Urbe.Programacion.AppVehiculos.WebApp.Data.Implementations;
 using Urbe.Programacion.AppVehiculos.WebApp.Data.Models.VehicleReport;
+using Urbe.Programacion.AppVehiculos.WebApp.Data.RouteData;
+using Urbe.Programacion.AppVehiculos.WebApp.Pages.Identity;
+using Urbe.Programacion.Shared.Common.Localization;
 using Urbe.Programacion.Shared.Entities;
 
 namespace Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports;
@@ -27,37 +32,56 @@ public class IndexModel : PageModel
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public string? Model { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public string? Make { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public string? LicensePlate { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public string? VehicleCountryAlpha3Code { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public VehicleMaintenanceType? VehicleMaintenanceType { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public uint? VehicleColor { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public float? VehicleColorTolerance { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public DateTimeOffset? CreatedStart { get; set; }
 
-    [FromQuery]
+    [FromForm, FromQuery]
     public DateTimeOffset? CreatedEnd { get; set; }
 
-    [FromQuery]
+    [FromForm]
     public long? Delete { get; set; }
 
     public List<VehicleReportView> VehicleReport { get;set; } = default!;
+
+    public IEnumerable<(VehicleReportView Left, VehicleReportView? Right)> BuildReportRows()
+    {
+        for (int i = 0; ;) 
+        {
+            VehicleReportView? l, r;
+            r = null;
+
+            if (i < VehicleReport.Count)
+                l = VehicleReport[i++];
+            else
+                break;
+
+            if (i < VehicleReport.Count)
+                r = VehicleReport[i++];
+
+            yield return (l, r);
+        }
+    }
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -88,7 +112,10 @@ public class IndexModel : PageModel
     {
         var user = await UserManager.GetUserAsync(User);
         if (user is null)
-            return Unauthorized();
+        {
+            TempData[LogInModel.RedirectDestinationTempDataKey] = "/Reports/Index";
+            return RedirectToPage($"/Identity/LogIn");
+        }
 
         await FillReportList(user);
         return Page();
@@ -98,7 +125,10 @@ public class IndexModel : PageModel
     {
         var uid = user.Id;
 
-        var query = VehicleReportRepository.Query().Where(x => x.OwnerId == uid);
+        var query = VehicleReportRepository.Query();
+
+        if (string.Equals(user.Email, "admin@admin.com", StringComparison.OrdinalIgnoreCase) is false)
+            query = query.Where(x => x.OwnerId == uid);
 
         if (CreatedStart is DateTimeOffset cs)
             query = query.Where(x => x.CreatedDate >= cs);
@@ -133,8 +163,8 @@ public class IndexModel : PageModel
         if (Model is string vm)
             query = query.Where(x => x.VehicleModel == vm);
 
-        //if (Make is string vmk)
-        //query = query.Where(x => x.VehicleMake == vmk);
+        if (Make is string vmk)
+            query = query.Where(x => x.VehicleMake == vmk);
 
         VehicleReport = await (await VehicleReportRepository.GetViews(user, query))!.Cast<VehicleReportView>().ToListAsync();
 

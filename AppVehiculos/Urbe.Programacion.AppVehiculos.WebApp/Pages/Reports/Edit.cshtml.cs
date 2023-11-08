@@ -12,6 +12,8 @@ using Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 using Urbe.Programacion.AppVehiculos.WebApp.Data;
 using Urbe.Programacion.AppVehiculos.WebApp.Data.Implementations;
 using Urbe.Programacion.AppVehiculos.WebApp.Data.Models.VehicleReport;
+using Urbe.Programacion.AppVehiculos.WebApp.Data.RouteData;
+using Urbe.Programacion.AppVehiculos.WebApp.Pages.Identity;
 using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 
@@ -45,7 +47,14 @@ public class EditModel : PageModel
             return NotFound();
 
         var user = await UserManager.GetUserAsync(User);
-        if (user is null || await VehicleReportRepository.CanEditReport(user, vehiclereport) is false)
+
+        if (user is null)
+        {
+            TempData[LogInModel.RedirectDestinationTempDataKey] = $"/Reports/Edit/{rid}";
+            return RedirectToRoute($"/Identity/LogIn");
+        }
+
+        if (await VehicleReportRepository.CanEditReport(user, vehiclereport) is false)
             return Unauthorized();
 
         Report = vehiclereport;
@@ -53,7 +62,8 @@ public class EditModel : PageModel
         UpdateModel = new VehicleReportUpdateModel()
         {
             LicensePlate = vehiclereport.LicensePlate,
-            MaintenanceType = vehiclereport.MaintenanceType,
+            CorrectiveMaintenance = vehiclereport.MaintenanceType.HasFlag(VehicleMaintenanceType.Corrective),
+            PreventiveMaintenance = vehiclereport.MaintenanceType.HasFlag(VehicleMaintenanceType.Preventive),
             VehicleColor = vehiclereport.VehicleColor,
             VehicleCountryAlpha3Code = vehiclereport.VehicleCountryAlpha3Code,
             VehicleModel = vehiclereport.VehicleModel,

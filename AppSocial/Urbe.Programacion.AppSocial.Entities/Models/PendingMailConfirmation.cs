@@ -31,7 +31,7 @@ public class PendingMailConfirmation : IEntity, IKeyed<RandomKey>, ISelfModelBui
 
     public TimeSpan Validity { get; init; }
 
-    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<PendingMailConfirmation> mb)
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<PendingMailConfirmation> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
         mb.HasOne(x => x.User).WithOne().HasForeignKey<PendingMailConfirmation>(x => x.UserId).IsRequired(true);

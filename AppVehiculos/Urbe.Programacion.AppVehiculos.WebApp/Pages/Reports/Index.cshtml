@@ -1,4 +1,7 @@
 ﻿@page
+@using Urbe.Programacion.AppVehiculos.WebApp.Data;
+@using Urbe.Programacion.Shared.Common.Localization;
+@using Urbe.Programacion.AppVehiculos.WebApp.Pages.Shared;
 @model Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports.IndexModel
 
 @{
@@ -9,86 +12,138 @@
     <h1 class="display-4">Listado de Reportes</h1>
     <h2>Revise todos sus reportes</h2>
 </div>
+
+<br />
+
+<div>
+    <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a>
+    <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#filter">Filtrar</button>
+</div>
+
 <div>
     <br />
     <div class="card align-items-center">
         <div class="card-body">
+            @foreach (var (left, right) in Model.BuildReportRows())
+            {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Reporte #@left.Id</h5>
+                                    <table class="table">
+                                        <tr><th>Modelo de Vehículo</th><td>@left.VehicleModel</td></tr>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Modelo de Vehículo
-                        </th>
-                        <th>
-                            Marca de Vehículo
-                        </th>
-                        <th>
-                            Numero de Licencia
-                        </th>
-                        <th>
-                            Color
-                        </th>
-                        <th>
-                            País de Precedencia
-                        </th>
-                        <th>
-                            Tipo de Mantenimiento
-                        </th>
-                        <th>
-                            Registrante del Vehículo
-                        </th>
-                        <th>
-                            Fecha de Creación de Reporte
-                        </th>
-                        <th>
-                            Última Modificación de Reporte
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.VehicleReport)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.VehicleModel)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.VehicleMake)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LicensePlate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.VehicleColor)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.VehicleCountryAlpha3Code)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MaintenanceType)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OwnerName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Created)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastEdited)
-                            </td>
-                            <td>
-                                <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#details-@item.Id">Detalles</button>
-                            </td>
-                            <td>
-                                <a asp-page="./Edit" class="btn btn-secondary" asp-route-id="@item.Id">Editar</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                        <tr><th>Marca de Vehículo</th><td>@left.VehicleMake</td></tr>
+
+                                        <tr><th>Numero de Licencia</th><td>@left.LicensePlate</td></tr>
+
+                                        <tr>
+                                            <th>Color</th>
+                                            <td style="color: @SharedPageData.ToHex(@left.VehicleColor!.Value);">
+                                                @SharedPageData.GetColorName(@left.VehicleColor!.Value)
+                                                <div class="color-label" style="background-color: @SharedPageData.ToHex(@left.VehicleColor!.Value);"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr><th>País de Precedencia</th><td>@SharedPageData.GetCountryName(@left)</td></tr>
+
+                                        <tr><th>Tipo de Mantenimiento</th><td>@left.MaintenanceType.ToStringESP()</td></tr>
+
+                                        <tr><th>Registrante del Vehículo</th><td>@left.OwnerName</td></tr>
+
+                                        <tr>
+                                            <th>Fecha de Creación de Reporte</th>
+                                            <td>
+                                                <script type="text/javascript">
+                                                    var strDate = new String('@left.Created.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+                                                    var localTime = new Date(strDate);
+                                                    document.write(localTime.toLocaleString());
+                                                </script>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Última Modificación</th>
+                                            <td>
+                                                <script type="text/javascript">
+                                                    var strDate = new String('@left.LastEdited.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+                                                    var localTime = new Date(strDate);
+                                                    document.write(localTime.toLocaleString());
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#details-@left.Id">Eliminar</button>
+                                    |
+                                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-rid="@left.Id">Modificar</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            @if (right is not null)
+                            {
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Reporte #@right.Id</h5>
+                                        <table class="table">
+                                            <tr><th>Modelo de Vehículo</th><td>@right.VehicleModel</td></tr>
+
+                                            <tr><th>Marca de Vehículo</th><td>@right.VehicleMake</td></tr>
+
+                                            <tr><th>Numero de Licencia</th><td>@right.LicensePlate</td></tr>
+
+                                            <tr>
+                                                <th>Color</th>
+                                                <td style="color: @SharedPageData.ToHex(@right.VehicleColor!.Value);">
+                                                    @SharedPageData.GetColorName(@right.VehicleColor!.Value)
+                                                    <div class="color-label" style="background-color: @SharedPageData.ToHex(@right.VehicleColor!.Value);"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr><th>País de Precedencia</th><td>@SharedPageData.GetCountryName(@right)</td></tr>
+
+                                            <tr><th>Tipo de Mantenimiento</th><td>@right.MaintenanceType.ToStringESP()</td></tr>
+
+                                            <tr><th>Registrante del Vehículo</th><td>@right.OwnerName</td></tr>
+
+                                            <tr>
+                                                <th>Fecha de Creación de Reporte</th>
+                                                <td>
+                                                    <script type="text/javascript">
+                                                        var strDate = new String('@right.Created.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+                                                        var localTime = new Date(strDate);
+                                                        document.write(localTime.toLocaleString());
+                                                    </script>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Última Modificación</th>
+                                                <td>
+                                                    <script type="text/javascript">
+                                                        var strDate = new String('@right.LastEdited.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+                                                        var localTime = new Date(strDate);
+                                                        document.write(localTime.toLocaleString());
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#details-@right.Id">Eliminar</button> |
+                                        <a class="btn btn-secondary" asp-page="/Reports/Edit" asp-route-rid="@right.Id">Modificar</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
 
             @foreach (var item in Model.VehicleReport)
             {
@@ -96,10 +151,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="detailslabel-@item.Id">Detalles de Reporte</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <h5 class="modal-title" id="detailslabel-@item.Id">¿Segure de que desea eliminar éste reporte?</h5>
                             </div>
                             <div class="modal-body">
                                 <table class="table">
@@ -108,39 +160,59 @@
                                     <tr><th>Marca de Vehículo</th><td>@item.VehicleMake</td></tr>
                                 
                                     <tr><th>Numero de Licencia</th><td>@item.LicensePlate</td></tr>
-                                
-                                    <tr><th>Color</th><td>@item.VehicleColor</td></tr>
-                                
-                                    <tr><th>País de Precedencia</th><td>@item.VehicleCountryAlpha3Code</td></tr>
-                                
-                                    <tr><th>Tipo de Mantenimiento</th><td>@item.MaintenanceType</td></tr>
+
+                                    <tr>
+                                        <th>Color</th>
+                                        <td style="color: @SharedPageData.ToHex(@item.VehicleColor!.Value);">
+                                            @SharedPageData.GetColorName(@item.VehicleColor!.Value)
+                                            <div class="color-label" style="background-color: @SharedPageData.ToHex(@item.VehicleColor!.Value);"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr><th>País de Precedencia</th><td>@SharedPageData.GetCountryName(@item)</td></tr>
+
+                                    <tr><th>Tipo de Mantenimiento</th><td>@item.MaintenanceType.ToStringESP()</td></tr>
                                 
                                     <tr><th>Registrante del Vehículo</th><td>@item.OwnerName</td></tr>
-                                
-                                    <tr><th>Fecha de Creación de Reporte</th><td>@item.Created</td></tr>
 
-                                    <tr><th>Última Modificación de Reporte</th><td>@item.LastEdited</td></tr>
+                                    <tr>
+                                        <th>Fecha de Creación de Reporte</th>
+                                        <td>
+                                            <script type="text/javascript">
+                                                var strDate = new String('@item.Created.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+                                                var localTime = new Date(strDate);
+                                                document.write(localTime.toLocaleString());
+                                            </script>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Última Modificación</th>
+                                        <td>
+                                            <script type="text/javascript">
+                                                var strDate = new String('@item.LastEdited.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+                                                var localTime = new Date(strDate);
+                                                document.write(localTime.toLocaleString());
+                                            </script>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button data-bs-toggle="modal" data-bs-target="#details-@item.Id" class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-labelledby="deletelabel-@item.Id" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deletelabel-@item.Id">Desea eliminar éste reporte?</h5>
-                            </div>
-                            <div>
-                                <form asp-route="./Index?delete=@item.Id" method="post">
+                                <form asp-route="./Index" method="post">
                                     <input type="submit" value="Eliminar" class="btn btn-danger" />
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <input type="hidden" name="Delete" value="@item.Id" />
+                                    <input type="hidden" name="Model" value="@Model.Model" />
+                                    <input type="hidden" name="Make" value="@Model.Make" />
+                                    <input type="hidden" name="LicensePlate" value="@Model.LicensePlate" />
+                                    <input type="hidden" name="VehicleCountryAlpha3Code" value="@Model.VehicleCountryAlpha3Code" />
+                                    <input type="hidden" name="VehicleMaintenanceType" value="@Model.VehicleMaintenanceType" />
+                                    <input type="hidden" name="VehicleColor" value="@Model.VehicleColor" />
+                                    <input type="hidden" name="VehicleColorTolerance" value="@Model.VehicleColorTolerance" />
+                                    <input type="hidden" name="CreatedStart" value="@Model.CreatedStart" />
+                                    <input type="hidden" name="CreatedEnd" value="@Model.CreatedEnd" />
                                 </form>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                     </div>
@@ -155,4 +227,117 @@
 
 <div>
     <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a>
+    <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#filter">Filtrar</button>
+</div>
+
+<div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-labelledby="filterlabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterlabel">Opciones de Filtración</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form asp-route="./Index" method="post">
+                <div class="modal-body">
+
+                    <label for="model">Modelo de Vehículo</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder=""
+                        id="model"
+                        name="Model"
+                        value="@Model.Model" />
+                    <br />
+                    
+                    <label for="make">Marca de Vehículo</label>
+                    <input
+                        type="text" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="make" 
+                        name="Make" 
+                        value="@Model.Make" />
+                    <br />
+                    
+                    <label for="licensePlate">Número de Placa</label>
+                    <input
+                        type="text" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="licensePlate" 
+                        name="LicensePlate" 
+                        value="@Model.LicensePlate" />
+                    <br />
+                    
+                    <label for="vehicleCountryAlpha3Code">País de Precedencia</label>
+                    <input
+                        type="text" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="vehicleCountryAlpha3Code" 
+                        name="VehicleCountryAlpha3Code" 
+                        value="@Model.VehicleCountryAlpha3Code" />
+                    <br />
+                    
+                    <label for="vehicleMaintenanceType">Tipo de Mantenimiento</label>
+                    <input
+                        type="text" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="vehicleMaintenanceType" 
+                        name="VehicleMaintenanceType" 
+                        value="@Model.VehicleMaintenanceType" />
+                    <br />
+                    
+                    <label for="vehicleColor">Color de Vehículo</label>
+                    <input
+                        type="text" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="vehicleColor" 
+                        name="VehicleColor" 
+                        value="@Model.VehicleColor" />
+                    <br />
+                    
+                    <label for="vehicleColorTolerance">Tolerancia de Color (porcentaje)</label>
+                    <input
+                        type="range" min="0" max="1" value="0" step="0.1"
+                        class="form-control" 
+                        placeholder="" 
+                        id="vehicleColorTolerance" 
+                        name="VehicleColorTolerance" 
+                        value="@Model.VehicleColorTolerance" />
+                    <br />
+                    
+                    <label for="createdStart">Fecha de Creación (Desde)</label>
+                    <input
+                        type="date" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="createdStart" 
+                        name="CreatedStart" 
+                        value="@Model.CreatedStart" />
+                    <br />
+                    
+                    <label for="createdEnd">Fecha de Creación (Hasta)</label>
+                    <input
+                        type="date" 
+                        class="form-control" 
+                        placeholder="" 
+                        id="createdEnd" 
+                        name="CreatedEnd" 
+                        value="@Model.CreatedEnd" />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Filtrar" class="btn btn-primary" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

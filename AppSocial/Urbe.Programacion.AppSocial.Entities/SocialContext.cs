@@ -15,9 +15,9 @@ public class SocialContext : BaseAppContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        SocialAppUser.BuildModel(modelBuilder, modelBuilder.Entity<SocialAppUser>());
-        PendingMailConfirmation.BuildModel(modelBuilder, modelBuilder.Entity<PendingMailConfirmation>());
-        Post.BuildModel(modelBuilder, modelBuilder.Entity<Post>());
+        SocialAppUser.BuildModel(modelBuilder, modelBuilder.Entity<SocialAppUser>(), this);
+        PendingMailConfirmation.BuildModel(modelBuilder, modelBuilder.Entity<PendingMailConfirmation>(), this);
+        Post.BuildModel(modelBuilder, modelBuilder.Entity<Post>(), this);
 
         var iucmb = modelBuilder.Entity<IdentityUserClaim<Guid>>();
         iucmb.HasKey(x => x.Id);

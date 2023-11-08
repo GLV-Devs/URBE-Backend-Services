@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage;
+using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Models;
 
 namespace Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
@@ -10,13 +13,15 @@ public class VehicleUser : BaseAppUser, ISelfModelBuilder<VehicleUser>
 
     public HashSet<VehicleUserRole>? Roles { get; set; }
 
-    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleUser> mb)
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleUser> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
         mb.HasIndex(x => x.UserName).IsUnique(true);
         mb.HasIndex(x => x.NormalizedUserName).IsUnique(true);
         mb.HasIndex(x => x.Email).IsUnique(true);
         mb.HasIndex(x => x.NormalizedEmail).IsUnique(true);
+
+        mb.Property(x => x.LockoutEnd).DateTimeOffsetAsTicksIfSQLite(context);
 
         var rolemb = mb.HasMany(x => x.Roles).WithMany().UsingEntity<VehicleUserRoleAssignation>();
         rolemb.HasKey(x => x.Id);

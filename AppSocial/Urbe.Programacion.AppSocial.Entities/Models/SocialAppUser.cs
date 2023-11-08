@@ -6,7 +6,7 @@ using Urbe.Programacion.Shared.Entities.Models;
 
 namespace Urbe.Programacion.AppSocial.Entities.Models;
 
-public class SocialAppUser : BaseAppUser
+public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
 {
     public const int PronounsMaxLength = 30;
 
@@ -30,7 +30,7 @@ public class SocialAppUser : BaseAppUser
         set { }
     }
 
-    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<SocialAppUser> mb)
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<SocialAppUser> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
         mb.HasIndex(x => x.UserName).IsUnique(true);

@@ -8,7 +8,7 @@ public class VehicleUserRole : BaseAppRole, ISelfModelBuilder<VehicleUserRole>
 {
     public const string AdminReportViewerRole = "ReportViewer";
 
-    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleUserRole> mb)
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<VehicleUserRole> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
         mb.HasIndex(x => x.Name).IsUnique(true);

@@ -91,7 +91,9 @@ public class RegisterModel : LogInModel
                     if (result.IsSuccess && result.TryGetResult(out var user))
                     {
                         await UserRepository.SaveChanges();
+
                         await SignInManager.PasswordSignInAsync(user, creation.Password, true, false);
+
                         return ReturnToDestination();
                     }
                     else

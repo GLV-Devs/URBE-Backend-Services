@@ -1,0 +1,10 @@
+﻿@code {
+    [Parameter]
+    public DateTimeOffset DateTime { get; set; }
+}
+
+<script type="text/javascript">
+  var strDate = new String('@DateTime.ToString("MM/dd/yyyy hh:mm:ss tt") UTC');
+  var localTime = new Date(strDate);
+  document.write(localTime.toLocaleString());
+</script>

@@ -58,7 +58,7 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 
     Snowflake IKeyed<Snowflake>.Id => Id;
 
-    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<Post> mb)
+    public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<Post> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
         mb.Property(x => x.Id).HasConversion(Snowflake.ValueConverter);

@@ -11,7 +11,7 @@ namespace Urbe.Programacion.AppVehiculos.WebApp.Pages.Identity;
 
 public class LogInModel : PageModel
 {
-    public const string RedirectDestinationQuery = "redirect_destination";
+    public const string RedirectDestinationTempDataKey = "login_redirect_destination";
 
     protected ErrorList errorList;
 
@@ -25,6 +25,8 @@ public class LogInModel : PageModel
         SignInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
+
+    public string DestinationUri => TempData.TryGetValue(RedirectDestinationTempDataKey, out var dest) ? (string)dest! : "/";
 
     public virtual async Task<IActionResult> OnGet()
     {
@@ -50,6 +52,7 @@ public class LogInModel : PageModel
             else
             {
                 var result = await SignInManager.PasswordSignInAsync(loggedUser, login.Password, true, false);
+
                 if (result.IsLockedOut)
                 {
                     errorList.AddError(ErrorMessages.LoginLockedOut(login.UserName));
@@ -81,5 +84,5 @@ public class LogInModel : PageModel
     }
 
     protected IActionResult ReturnToDestination() 
-        => Redirect(Request.Query[RedirectDestinationQuery].FirstOrDefault() ?? "/");
+        => Redirect(DestinationUri);
 }

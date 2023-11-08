@@ -9,5 +9,11 @@ public class VehicleReportUpdateModel
     public string? LicensePlate { get; set; }
     public uint? VehicleColor { get; set; }
     public string? VehicleCountryAlpha3Code { get; set; }
-    public VehicleMaintenanceType? MaintenanceType { get; set; }
+
+    public bool PreventiveMaintenance { get; set; }
+    public bool CorrectiveMaintenance { get; set; }
+
+    public VehicleMaintenanceType MaintenanceType
+        => (PreventiveMaintenance ? VehicleMaintenanceType.Preventive : 0) | (CorrectiveMaintenance ? VehicleMaintenanceType.Corrective : 0);
+
 }

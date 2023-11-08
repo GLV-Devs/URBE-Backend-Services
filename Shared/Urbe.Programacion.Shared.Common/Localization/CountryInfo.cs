@@ -16,6 +16,20 @@ public sealed class CountryInfo
     public CountryInfo(string name, string officialStateName, string sovereignty, string alpha2Code, string alpha3Code, int numericCodeInt, string internetccTL)
     {
         Name = name;
+        NameESP = name;
+        OfficialStateName = officialStateName;
+        Sovereignty = sovereignty;
+        Alpha2Code = alpha2Code;
+        Alpha3Code = alpha3Code;
+        NumericCodeInt = numericCodeInt;
+        InternetccTL = internetccTL;
+        NumericCode = NumericCodeInt.ToString("000");
+    }
+
+    public CountryInfo(string name, string nameESP, string officialStateName, string sovereignty, string alpha2Code, string alpha3Code, int numericCodeInt, string internetccTL)
+    {
+        Name = name;
+        NameESP = nameESP;
         OfficialStateName = officialStateName;
         Sovereignty = sovereignty;
         Alpha2Code = alpha2Code;
@@ -26,6 +40,7 @@ public sealed class CountryInfo
     }
 
     public string Name { get; }
+    public string NameESP { get; }
     public string OfficialStateName { get; }
     public string Sovereignty { get; }
     public string Alpha2Code { get; }
@@ -33,6 +48,10 @@ public sealed class CountryInfo
     public int NumericCodeInt { get; }
     public string InternetccTL { get; }
     public string NumericCode { get; }
+
+    private string? str;
+    public override string ToString()
+        => str ??= $"{Name} ({Alpha3Code})";
 
     private readonly static object sync = new();
 
@@ -107,6 +126,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Afghanistan { get; } = new(
         "Afghanistan",
+        "Afghanistan",
         "The Islamic Republic of Afghanistan",
         "UN member state",
         "AF",
@@ -116,8 +136,9 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo AlandIslands { get; } = new(
-        "Ã…land Islands",
-        "Ã…land",
+        "Ãland",
+        "Ãland",
+        "Ãland",
         "Finland",
         "AX",
         "ALA",
@@ -126,6 +147,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Albania { get; } = new(
+        "Albania",
         "Albania",
         "The Republic of Albania",
         "UN member state",
@@ -137,6 +159,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Algeria { get; } = new(
         "Algeria",
+        "Algeria",
         "The People's Democratic Republic of Algeria",
         "UN member state",
         "DZ",
@@ -147,6 +170,7 @@ public sealed class CountryInfo
 
     public static CountryInfo AmericanSamoa { get; } = new(
         "American Samoa",
+        "Samoa Americana",
         "The Territory of American Samoa",
         "United States",
         "AS",
@@ -157,6 +181,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Andorra { get; } = new(
         "Andorra",
+        "Andorra",
         "The Principality of Andorra",
         "UN member state",
         "AD",
@@ -166,6 +191,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Angola { get; } = new(
+        "Angola",
         "Angola",
         "The Republic of Angola",
         "UN member state",
@@ -178,6 +204,7 @@ public sealed class CountryInfo
     public static CountryInfo Anguilla { get; } = new(
         "Anguilla",
         "Anguilla",
+        "Anguilla",
         "United Kingdom",
         "AI",
         "AIA",
@@ -187,6 +214,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Antarctica { get; } = new(
         "Antarctica",
+        "Antártica",
         "All land and ice shelves south of the 60th parallel south",
         "Antarctic Treaty",
         "AQ",
@@ -197,6 +225,7 @@ public sealed class CountryInfo
 
     public static CountryInfo AntiguaandBarbuda { get; } = new(
         "Antigua and Barbuda",
+        "Antigua y Barbuda",
         "Antigua and Barbuda",
         "UN member state",
         "AG",
@@ -207,6 +236,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Argentina { get; } = new(
         "Argentina",
+        "Argentina",
         "The Argentine Republic",
         "UN member state",
         "AR",
@@ -216,6 +246,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Armenia { get; } = new(
+        "Armenia",
         "Armenia",
         "The Republic of Armenia",
         "UN member state",
@@ -228,6 +259,7 @@ public sealed class CountryInfo
     public static CountryInfo Aruba { get; } = new(
         "Aruba",
         "Aruba",
+        "Aruba",
         "Netherlands",
         "AW",
         "ABW",
@@ -236,6 +268,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Australia { get; } = new(
+        "Australia",
         "Australia",
         "The Commonwealth of Australia",
         "UN member state",
@@ -247,6 +280,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Austria { get; } = new(
         "Austria",
+        "Austria",
         "The Republic of Austria",
         "UN member state",
         "AT",
@@ -257,6 +291,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Azerbaijan { get; } = new(
         "Azerbaijan",
+        "Azerbaiyán",
         "The Republic of Azerbaijan",
         "UN member state",
         "AZ",
@@ -267,6 +302,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Bahamas { get; } = new(
         "Bahamas (the)",
+        "Bahamas (las)",
         "The Commonwealth of The Bahamas",
         "UN member state",
         "BS",
@@ -277,6 +313,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Bahrain { get; } = new(
         "Bahrain",
+        "Baréin (Reino de)",
         "The Kingdom of Bahrain",
         "UN member state",
         "BH",
@@ -286,6 +323,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Bangladesh { get; } = new(
+        "Bangladesh",
         "Bangladesh",
         "The People's Republic of Bangladesh",
         "UN member state",
@@ -298,6 +336,7 @@ public sealed class CountryInfo
     public static CountryInfo Barbados { get; } = new(
         "Barbados",
         "Barbados",
+        "Barbados",
         "UN member state",
         "BB",
         "BRB",
@@ -307,6 +346,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Belarus { get; } = new(
         "Belarus",
+        "Bielorrusia",
         "The Republic of Belarus",
         "UN member state",
         "BY",
@@ -317,6 +357,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Belgium { get; } = new(
         "Belgium",
+        "Bélgica",
         "The Kingdom of Belgium",
         "UN member state",
         "BE",
@@ -327,6 +368,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Belize { get; } = new(
         "Belize",
+        "Belice",
         "Belize",
         "UN member state",
         "BZ",
@@ -337,6 +379,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Benin { get; } = new(
         "Benin",
+        "Benín",
         "The Republic of Benin",
         "UN member state",
         "BJ",
@@ -347,6 +390,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Bermuda { get; } = new(
         "Bermuda",
+        "Bermudas",
         "Bermuda",
         "United Kingdom",
         "BM",
@@ -357,6 +401,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Bhutan { get; } = new(
         "Bhutan",
+        "Bután",
         "The Kingdom of Bhutan",
         "UN member state",
         "BT",
@@ -366,7 +411,8 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Bolivia { get; } = new(
-        "Bolivia (Plurinational State of)",
+        "Bolivia",
+        "Bolivia",
         "The Plurinational State of Bolivia",
         "UN member state",
         "BO",
@@ -376,6 +422,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Bonaire { get; } = new(
+        "Bonaire",
         "Bonaire",
         "Bonaire, Sint Eustatius and Saba",
         "Netherlands",
@@ -387,6 +434,7 @@ public sealed class CountryInfo
 
     public static CountryInfo BosniaandHerzegovina { get; } = new(
         "Bosnia and Herzegovina",
+        "Bosnia y Herzegovina",
         "Bosnia and Herzegovina",
         "UN member state",
         "BA",
@@ -397,6 +445,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Botswana { get; } = new(
         "Botswana",
+        "Botsuana",
         "The Republic of Botswana",
         "UN member state",
         "BW",
@@ -407,6 +456,7 @@ public sealed class CountryInfo
 
     public static CountryInfo BouvetIsland { get; } = new(
         "Bouvet Island",
+        "Isla Bouvet",
         "Bouvet Island",
         "Norway",
         "BV",
@@ -417,6 +467,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Brazil { get; } = new(
         "Brazil",
+        "Brasil",
         "The Federative Republic of Brazil",
         "UN member state",
         "BR",
@@ -427,6 +478,7 @@ public sealed class CountryInfo
 
     public static CountryInfo BritishIndianOceanTerritory { get; } = new(
         "British Indian Ocean Territory (the)",
+        "Territorio Británico del Océano Índico",
         "The British Indian Ocean Territory",
         "United Kingdom",
         "IO",
@@ -437,6 +489,7 @@ public sealed class CountryInfo
 
     public static CountryInfo BruneiDarussalam { get; } = new(
         "Brunei Darussalam",
+        "Brunéi",
         "The Nation of Brunei, the Abode of Peace",
         "UN member state",
         "BN",
@@ -446,6 +499,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Bulgaria { get; } = new(
+        "Bulgaria",
         "Bulgaria",
         "The Republic of Bulgaria",
         "UN member state",
@@ -458,6 +512,7 @@ public sealed class CountryInfo
     public static CountryInfo BurkinaFaso { get; } = new(
         "Burkina Faso",
         "Burkina Faso",
+        "Burkina Faso",
         "UN member state",
         "BF",
         "BFA",
@@ -466,6 +521,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Burundi { get; } = new(
+        "Burundi",
         "Burundi",
         "The Republic of Burundi",
         "UN member state",
@@ -477,6 +533,7 @@ public sealed class CountryInfo
 
     public static CountryInfo CaboVerde { get; } = new(
         "Cabo Verde",
+        "Cabo Verde",
         "The Republic of Cabo Verde",
         "UN member state",
         "CV",
@@ -486,6 +543,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Cambodia { get; } = new(
+        "Cambodia",
         "Cambodia",
         "The Kingdom of Cambodia",
         "UN member state",
@@ -497,6 +555,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Cameroon { get; } = new(
         "Cameroon",
+        "Camerún",
         "The Republic of Cameroon",
         "UN member state",
         "CM",
@@ -508,6 +567,7 @@ public sealed class CountryInfo
     public static CountryInfo Canada { get; } = new(
         "Canada",
         "Canada",
+        "Canada",
         "UN member state",
         "CA",
         "CAN",
@@ -517,6 +577,7 @@ public sealed class CountryInfo
 
     public static CountryInfo CaymanIslands { get; } = new(
         "Cayman Islands (the)",
+        "Islas Caimán",
         "The Cayman Islands",
         "United Kingdom",
         "KY",
@@ -527,6 +588,7 @@ public sealed class CountryInfo
 
     public static CountryInfo CentralAfricanRepublic { get; } = new(
         "Central African Republic (the)",
+        "República Centroafricana",
         "The Central African Republic",
         "UN member state",
         "CF",
@@ -536,6 +598,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Chad { get; } = new(
+        "Chad",
         "Chad",
         "The Republic of Chad",
         "UN member state",
@@ -547,6 +610,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Chile { get; } = new(
         "Chile",
+        "Chile",
         "The Republic of Chile",
         "UN member state",
         "CL",
@@ -556,6 +620,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo China { get; } = new(
+        "China",
         "China",
         "The People's Republic of China",
         "UN member state",
@@ -567,6 +632,7 @@ public sealed class CountryInfo
 
     public static CountryInfo ChristmasIsland { get; } = new(
         "Christmas Island",
+        "Kiritimati",
         "The Territory of Christmas Island",
         "Australia",
         "CX",
@@ -577,6 +643,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Cocos { get; } = new(
         "Cocos (Keeling) Islands (the)",
+        "Islas Cocos",
         "The Territory of Cocos (Keeling) Islands",
         "Australia",
         "CC",
@@ -586,6 +653,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Colombia { get; } = new(
+        "Colombia",
         "Colombia",
         "The Republic of Colombia",
         "UN member state",
@@ -597,6 +665,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Comoros { get; } = new(
         "Comoros (the)",
+        "Comoras",
         "The Union of the Comoros",
         "UN member state",
         "KM",
@@ -607,6 +676,7 @@ public sealed class CountryInfo
 
     public static CountryInfo DemocraticRepublicOfCongo { get; } = new(
         "Congo (the Democratic Republic of the)",
+        "República Democratica del Congo",
         "The Democratic Republic of the Congo",
         "UN member state",
         "CD",
@@ -617,6 +687,7 @@ public sealed class CountryInfo
 
     public static CountryInfo RepublicOfCongo { get; } = new(
         "Congo (the)",
+        "El Congo",
         "The Republic of the Congo",
         "UN member state",
         "CG",
@@ -627,6 +698,7 @@ public sealed class CountryInfo
 
     public static CountryInfo CookIslands { get; } = new(
         "Cook Islands (the)",
+        "Islas Cook",
         "The Cook Islands",
         "New Zealand",
         "CK",
@@ -636,6 +708,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo CostaRica { get; } = new(
+        "Costa Rica",
         "Costa Rica",
         "The Republic of Costa Rica",
         "UN member state",
@@ -647,6 +720,7 @@ public sealed class CountryInfo
 
     public static CountryInfo CatedIvoire { get; } = new(
         "CÃ´te d'Ivoire",
+        "Islas de Marfíl",
         "The Republic of CÃ´te d'Ivoire",
         "UN member state",
         "CI",
@@ -657,6 +731,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Croatia { get; } = new(
         "Croatia",
+        "Croacia",
         "The Republic of Croatia",
         "UN member state",
         "HR",
@@ -667,6 +742,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Cuba { get; } = new(
         "Cuba",
+        "Cuba",
         "The Republic of Cuba",
         "UN member state",
         "CU",
@@ -676,8 +752,9 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Curacao { get; } = new(
-        "CuraÃ§ao",
-        "The Country of CuraÃ§ao",
+        "Curacao",
+        "Curacao",
+        "The Country of Curacao",
         "Netherlands",
         "CW",
         "CUW",
@@ -687,6 +764,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Cyprus { get; } = new(
         "Cyprus",
+        "Chipre",
         "The Republic of Cyprus",
         "UN member state",
         "CY",
@@ -697,6 +775,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Czechia { get; } = new(
         "Czechia",
+        "República Checa",
         "The Czech Republic",
         "UN member state",
         "CZ",
@@ -707,6 +786,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Denmark { get; } = new(
         "Denmark",
+        "Dinamarca",
         "The Kingdom of Denmark",
         "UN member state",
         "DK",
@@ -717,6 +797,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Djibouti { get; } = new(
         "Djibouti",
+        "Yibuti",
         "The Republic of Djibouti",
         "UN member state",
         "DJ",
@@ -726,6 +807,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Dominica { get; } = new(
+        "Dominica",
         "Dominica",
         "The Commonwealth of Dominica",
         "UN member state",
@@ -737,6 +819,7 @@ public sealed class CountryInfo
 
     public static CountryInfo DominicanRepublic { get; } = new(
         "Dominican Republic (the)",
+        "República Dominicana",
         "The Dominican Republic",
         "UN member state",
         "DO",
@@ -746,6 +829,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Ecuador { get; } = new(
+        "Ecuador",
         "Ecuador",
         "The Republic of Ecuador",
         "UN member state",
@@ -757,6 +841,7 @@ public sealed class CountryInfo
 
     public static CountryInfo Egypt { get; } = new(
         "Egypt",
+        "Egipto",
         "The Arab Republic of Egypt",
         "UN member state",
         "EG",
@@ -766,6 +851,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo ElSalvador { get; } = new(
+        "El Salvador",
         "El Salvador",
         "The Republic of El Salvador",
         "UN member state",
@@ -777,6 +863,7 @@ public sealed class CountryInfo
 
     public static CountryInfo EquatorialGuinea { get; } = new(
         "Equatorial Guinea",
+        "Guinea Ecuatorial",
         "The Republic of Equatorial Guinea",
         "UN member state",
         "GQ",
@@ -796,6 +883,7 @@ public sealed class CountryInfo
     );
 
     public static CountryInfo Estonia { get; } = new(
+        "Estonia",
         "Estonia",
         "The Republic of Estonia",
         "UN member state",

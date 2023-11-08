@@ -19,9 +19,9 @@ public class VehicleContext : BaseAppContext
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
-        mb.BuildModel<VehicleUser>();
-        mb.BuildModel<VehicleReport>();
-        mb.BuildModel<VehicleUserRole>();
+        mb.BuildModel<VehicleUser>(this);
+        mb.BuildModel<VehicleReport>(this);
+        mb.BuildModel<VehicleUserRole>(this);
 
         var iuc = mb.Entity<IdentityUserClaim<Guid>>();
         iuc.HasKey(x => x.UserId);

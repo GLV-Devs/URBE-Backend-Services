@@ -13,6 +13,10 @@ public class VehicleReportView
     public string VehicleCountryAlpha3Code { get; set; }
     public string OwnerName { get; set; }
     public VehicleMaintenanceType MaintenanceType { get; set; }
+
+    public bool PreventiveMaintenance { get; set; }
+    public bool CorrectiveMaintenance { get; set; }
+
     public uint? VehicleColor { get; set; }
     public DateTimeOffset LastEdited { get; set; }
     public DateTimeOffset Created { get; set; }
