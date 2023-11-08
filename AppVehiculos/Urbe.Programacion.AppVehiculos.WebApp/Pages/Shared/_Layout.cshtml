@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="~/Urbe.Programacion.AppVehiculos.WebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip()
+        })
+    </script>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -24,6 +29,18 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacidad</a>
+                        </li>
+                        <li class="nav-item">
+                            <a 
+                                data-bs-toggle="tooltip"
+                                data-bs-html="true"
+                                title="El código fuente de ésta aplicación, junto con otras que comparten código. La solución (.sln) de éste proyecto está bajo la carpeta 'AppVehiculos'"
+                                class="nav-link text-dark" 
+                                target="_blank"
+                                href="https://github.com/GLV-Devs/URBE-Backend-Services">
+                                <img class="gh-link" src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" />
+                                Código Fuente
+                            </a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

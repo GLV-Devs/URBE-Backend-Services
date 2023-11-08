@@ -45,7 +45,10 @@ public class IndexModel : PageModel
     public string? VehicleCountryAlpha3Code { get; set; }
 
     [FromForm, FromQuery]
-    public VehicleMaintenanceType? VehicleMaintenanceType { get; set; }
+    public bool CorrectiveMaintenance { get; set; }
+
+    [FromForm, FromQuery]
+    public bool PreventiveMaintenance { get; set; }
 
     [FromForm, FromQuery]
     public uint? VehicleColor { get; set; }
@@ -151,8 +154,11 @@ public class IndexModel : PageModel
                 }
         }
 
-        if (VehicleMaintenanceType is VehicleMaintenanceType vmt)
-            query = query.Where(x => x.MaintenanceType == vmt);
+        if (PreventiveMaintenance ^ CorrectiveMaintenance)
+            if (PreventiveMaintenance)
+                query = query.Where(x => x.MaintenanceType.HasFlag(VehicleMaintenanceType.Preventive));
+            else if (CorrectiveMaintenance)
+                query = query.Where(x => x.MaintenanceType.HasFlag(VehicleMaintenanceType.Corrective));
 
         if (VehicleCountryAlpha3Code is string vca3c)
             query = query.Where(x => x.VehicleCountryAlpha3Code == vca3c);

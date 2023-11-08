@@ -16,7 +16,7 @@
 <br />
 
 <div>
-    <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a>
+    <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a> |
     <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#filter">Filtrar</button>
 </div>
 
@@ -206,7 +206,8 @@
                                     <input type="hidden" name="Make" value="@Model.Make" />
                                     <input type="hidden" name="LicensePlate" value="@Model.LicensePlate" />
                                     <input type="hidden" name="VehicleCountryAlpha3Code" value="@Model.VehicleCountryAlpha3Code" />
-                                    <input type="hidden" name="VehicleMaintenanceType" value="@Model.VehicleMaintenanceType" />
+                                    <input type="hidden" name="CorrectiveMaintenance" value="@Model.CorrectiveMaintenance" />
+                                    <input type="hidden" name="PreventiveMaintenance" value="@Model.PreventiveMaintenance" />
                                     <input type="hidden" name="VehicleColor" value="@Model.VehicleColor" />
                                     <input type="hidden" name="VehicleColorTolerance" value="@Model.VehicleColorTolerance" />
                                     <input type="hidden" name="CreatedStart" value="@Model.CreatedStart" />
@@ -226,7 +227,7 @@
 <br/>
 
 <div>
-    <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a>
+    <a class="btn btn-primary" asp-page="./Create">Crear nuevo Reporte</a> |
     <button data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#filter">Filtrar</button>
 </div>
 
@@ -282,35 +283,29 @@
                         name="VehicleCountryAlpha3Code" 
                         value="@Model.VehicleCountryAlpha3Code" />
                     <br />
-                    
-                    <label for="vehicleMaintenanceType">Tipo de Mantenimiento</label>
-                    <input
-                        type="text" 
-                        class="form-control" 
-                        placeholder="" 
-                        id="vehicleMaintenanceType" 
-                        name="VehicleMaintenanceType" 
-                        value="@Model.VehicleMaintenanceType" />
+
+                    <div class="form-group">
+                        <label asp-for="CorrectiveMaintenance" class="control-label">Mantenimiento Correctivo</label>
+                        @Html.CheckBoxFor(x => x.CorrectiveMaintenance)
+
+                        <br />
+                        <label asp-for="PreventiveMaintenance" class="control-label">Mantenimiento Preventivo</label>
+                        @Html.CheckBoxFor(x => x.PreventiveMaintenance)
+                    </div>
                     <br />
                     
                     <label for="vehicleColor">Color de Vehículo</label>
-                    <input
-                        type="text" 
-                        class="form-control" 
-                        placeholder="" 
-                        id="vehicleColor" 
-                        name="VehicleColor" 
-                        value="@Model.VehicleColor" />
-                    <br />
-                    
-                    <label for="vehicleColorTolerance">Tolerancia de Color (porcentaje)</label>
-                    <input
-                        type="range" min="0" max="1" value="0" step="0.1"
-                        class="form-control" 
-                        placeholder="" 
-                        id="vehicleColorTolerance" 
-                        name="VehicleColorTolerance" 
-                        value="@Model.VehicleColorTolerance" />
+                    @Html.DropDownListFor(
+                        x => x.VehicleColor, 
+                        SharedPageData.GetColorSelectListFor(null).Append(new SelectListItem()
+                        {
+                            Selected = true,
+                            Text = "Todos",
+                            Value = null
+                        }), 
+                        null,
+                        SharedPageData.FormControlModel
+                    )
                     <br />
                     
                     <label for="createdStart">Fecha de Creación (Desde)</label>

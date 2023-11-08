@@ -8,6 +8,11 @@ html {
   }
 }
 
+.gh-link {
+    width: 1.5rem;
+    vertical-align: top;
+}
+
 .privacy-notice {
     white-space: pre-line;
 }

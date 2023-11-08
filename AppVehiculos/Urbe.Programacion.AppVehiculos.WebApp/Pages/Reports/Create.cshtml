@@ -35,7 +35,13 @@
                 <br />
                 <div class="form-group">
                     <label asp-for="UpdateModel.VehicleMake" class="control-label">Marca de Vehículo</label>
-                    <input asp-for="UpdateModel.VehicleMake" class="form-control" />
+                    <input asp-for="UpdateModel.VehicleMake" class="form-control" list="vehiclemakelist" />
+                    <datalist id="vehiclemakelist">
+                        @foreach (var make in VehicleReport.KnownVehicleMakes)
+                        {
+                            <option>@make</option>
+                        }
+                    </datalist>
                 </div>
                 <br />
                 <div class="form-group">
