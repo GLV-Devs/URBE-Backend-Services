@@ -1,5 +1,5 @@
 ﻿using Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
-using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppVehiculos.WebApp.Data.Models.VehicleReport;
 

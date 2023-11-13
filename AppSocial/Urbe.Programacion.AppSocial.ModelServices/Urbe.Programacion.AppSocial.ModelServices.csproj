@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\..\Mail.NET\Mail.NET.MailKit\Mail.NET.MailKit.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Services\Urbe.Programacion.Shared.Services.csproj" />
+    <ProjectReference Include="..\..\Urbe.Programacion.AppSocial.DataTransfer\Urbe.Programacion.AppSocial.DataTransfer.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities\Urbe.Programacion.AppSocial.Entities.csproj" />
   </ItemGroup>
 

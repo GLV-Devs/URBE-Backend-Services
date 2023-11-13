@@ -10,8 +10,8 @@ public class BaseAppRole : IdentityRole<Guid>, IEntity, IKeyed<Guid>
 
 public class BaseAppUser : IdentityUser<Guid>, IEntity, IKeyed<Guid>
 {
-    public const int EmailMaxLength = 300;
-    public const int RealNameMaxLength = 200;
+    public const int EmailMaxLength = 100;
+    public const int RealNameMaxLength = 100;
     public const int UserNameMaxLength = 20;
     public const int ProfileMessageMaxLength = 80;
     public const int ProfilePictureUrlMaxLength = 1000;

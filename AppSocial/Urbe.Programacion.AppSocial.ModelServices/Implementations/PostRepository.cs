@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.Common;
-using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Models;
 using Urbe.Programacion.Shared.ModelServices;
 using Urbe.Programacion.Shared.ModelServices.Implementations;
 using Urbe.Programacion.Shared.Services.Attributes;
+using Urbe.Programacion.AppSocial.DataTransfer;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
@@ -96,8 +96,27 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         var requester = (SocialAppUser?)r;
         var errorlist = new ErrorList();
 
-        if (await CanView(requester, await GetPoster(entity)))
-            return new SuccessResult<object>(PostViewModel.FromPost(entity));
+        var poster = await GetPoster(entity);
+        if (await CanView(requester, poster))
+        {
+            return new SuccessResult<object>(new PostViewModel()
+            {
+                Content = entity.Content,
+                DatePosted = entity.DatePosted,
+                Id = entity.Id.AsLong(),
+                Poster = new UserViewModel()
+                {
+                    UserId = poster.Id,
+                    Username = poster.UserName!,
+                    ProfilePictureUrl = poster.ProfilePictureUrl,
+                    Pronouns = poster.Pronouns
+                },
+                InResponseTo = entity.InResponseToId?.AsLong(),
+                PosterId = entity.Poster!.Id,
+                PosterThenUsername = entity.PosterThenUsername,
+                Responses = entity.Responses?.Select(x => entity.Id.AsLong()).ToHashSet()
+            });
+        }
         else
         {
             errorlist.AddError(ErrorMessages.NoPermission());

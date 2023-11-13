@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Urbe.Programacion.Shared.Common;
-using Urbe.Programacion.Shared.ModelServices;
 using Urbe.Programacion.Shared.ModelServices.DTOs;
 
 namespace Urbe.Programacion.Shared.API.Common.Filters;

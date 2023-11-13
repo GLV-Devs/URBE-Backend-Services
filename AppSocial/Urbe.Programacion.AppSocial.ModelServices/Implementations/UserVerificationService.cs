@@ -7,7 +7,6 @@ using Microsoft.Extensions.Options;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.Shared.Common;
-using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Services.Attributes;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;

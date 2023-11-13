@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.Shared.ModelServices.JsonConverters;
 

@@ -34,6 +34,8 @@
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.API.Backend\Urbe.Programacion.Shared.API.Backend.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.API.Common\Urbe.Programacion.Shared.API.Common.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
+    <ProjectReference Include="..\..\Urbe.Programacion.AppSocial.DataTransfer\Urbe.Programacion.AppSocial.DataTransfer.csproj" />
+    <ProjectReference Include="..\..\Urbe.Programacion.Shared.REST\Urbe.Programacion.Shared.REST.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.Entities.SQLServerMigrations\Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.AppSocial.ModelServices\Urbe.Programacion.AppSocial.ModelServices.csproj" />

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Urbe.Programacion.AppSocial.DataTransfer;
 using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Models;
 
@@ -33,11 +34,19 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<SocialAppUser> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
-        mb.HasIndex(x => x.UserName).IsUnique(true);
 
-        mb.Property(x => x.Email).HasMaxLength(EmailMaxLength);
-        mb.Property(x => x.RealName).HasMaxLength(RealNameMaxLength);
+        mb.HasIndex(x => x.UserName).IsUnique(true);
+        mb.HasIndex(x => x.NormalizedUserName).IsUnique(true);
+        mb.HasIndex(x => x.Email).IsUnique(true);
+        mb.HasIndex(x => x.NormalizedEmail).IsUnique(true);
+
+        mb.Property(x => x.Email).HasMaxLength(EmailMaxLength).IsRequired(true);
+        mb.Property(x => x.NormalizedEmail).HasMaxLength(EmailMaxLength).IsRequired(true);
+        
         mb.Property(x => x.UserName).HasMaxLength(UserNameMaxLength).IsRequired(true);
+        mb.Property(x => x.NormalizedUserName).HasMaxLength(UserNameMaxLength).IsRequired(true);
+
+        mb.Property(x => x.RealName).HasMaxLength(RealNameMaxLength);
         mb.Property(x => x.Pronouns).HasMaxLength(PronounsMaxLength);
         mb.Property(x => x.ProfilePictureUrl).HasMaxLength(ProfilePictureUrlMaxLength);
         mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);
@@ -55,5 +64,6 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
         );
 
         followmb.HasKey(x => x.Id);
+        followmb.ToTable(x => x.HasCheckConstraint("CK_SocialAppUserFollow_NoSelfFollow", "FollowedId <> FollowerId"));
     }
 }

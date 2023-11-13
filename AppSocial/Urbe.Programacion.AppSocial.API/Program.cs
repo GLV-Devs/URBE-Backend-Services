@@ -15,7 +15,6 @@ using Urbe.Programacion.AppSocial.API.Middleware;
 using Urbe.Programacion.AppSocial.API.Options;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices.API.Responses;
 using Urbe.Programacion.AppSocial.ModelServices.Implementations;
 using Urbe.Programacion.Shared.API.Common.Filters;
 using Urbe.Programacion.Shared.API.Common.Workers;
@@ -26,6 +25,10 @@ using Urbe.Programacion.Shared.API.Common.Services;
 using Urbe.Programacion.Shared.ModelServices;
 using Urbe.Programacion.Shared.API.Backend.Services;
 using Urbe.Programacion.Shared.ModelServices.JsonConverters;
+using Urbe.Programacion.AppSocial.DataTransfer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc.Cors;
 
 namespace Urbe.Programacion.AppSocial.API;
 
@@ -35,12 +38,33 @@ public static class Program
 
     static Program()
     {
+        var z = Environment.GetCommandLineArgs();
         var builder = WebApplication.CreateBuilder(Environment.GetCommandLineArgs());
+
+        builder.Logging.AddSerilog();
 
         var services = builder.Services;
         builder.Configuration.AddJsonFile("appsettings.Secret.json", true);
+        builder.Configuration.AddEnvironmentVariables();
 
         // Add services to the container.
+
+        var corsconf = builder.Configuration.GetRequiredSection("CorsOrigins").Get<string[]>()
+            ?? throw new InvalidDataException("CorsOrigins returned null");
+
+        if (corsconf.Length is 0)
+            throw new InvalidDataException("No CORS Origins configured");
+
+        Log.Information("Configuring cors with the following origins: {origins}", corsconf);
+
+        services.AddCors(options => options.AddDefaultPolicy(builder
+            => builder
+                .WithOrigins(corsconf)
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .AllowAnyHeader()
+                .WithExposedHeaders("Access-Control-Allow-Origin")
+        ));
 
         services.ConfigureHttpJsonOptions(x => x.SerializerOptions.Converters.Add(SnowflakeConverter.Instance));
         services.AddSingleton<IAuthorizationMiddlewareResultHandler, SocialAppAuthorizationMiddlewareResultHandler>();
@@ -80,8 +104,6 @@ public static class Program
         });
 
         services.RegisterDecoratedServices();
-
-        builder.Logging.AddSerilog();
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
@@ -157,20 +179,22 @@ public static class Program
         services.UseAPIResponseInvalidModelStateResponse<SocialAPIResponseCode>();
 
         var app = builder.Build();
-
+        var isdev = app.Environment.IsDevelopment();
+        
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
+
+        if (isdev)
             app.UseVerboseExceptionHandler<SocialAPIResponseCode>();
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
         else
-        {
+            app.UseObfuscatedExceptionHandler<SocialAPIResponseCode>();
+
+        app.UseCors();
+
+        if (isdev is false) // Due to me not being a true expert, and MiddleWare being as finnicky as it is, we ask twice
             app.UseHsts();
 
-            app.UseObfuscatedExceptionHandler<SocialAPIResponseCode>();
-        }
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
 

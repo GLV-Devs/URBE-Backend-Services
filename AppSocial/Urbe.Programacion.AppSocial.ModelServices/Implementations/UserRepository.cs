@@ -2,13 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Urbe.Programacion.AppSocial.Entities;
 using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities.Models;
 using Urbe.Programacion.Shared.ModelServices;
 using Urbe.Programacion.Shared.ModelServices.Implementations;
 using Urbe.Programacion.Shared.Services.Attributes;
+using Urbe.Programacion.AppSocial.DataTransfer;
+using System.Net;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
@@ -24,6 +26,20 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     {
         this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         this.context = context;
+    }
+
+    public override async ValueTask<SuccessResult> Delete(BaseAppUser? requester, SocialAppUser entity)
+    {
+        var result = await userManager.DeleteAsync(entity);
+        if (result.Succeeded is false)
+        {
+            ErrorList errors = new();
+            foreach (var error in result.Errors)
+                errors.AddError(ErrorMessages.TryBindError(error.Code, error.Description));
+            return new SuccessResult(errors);
+        }
+
+        return SuccessResult.Success;
     }
 
     public override async ValueTask<SuccessResult> Update(BaseAppUser? r, SocialAppUser entity, UserUpdateModel update)
@@ -82,6 +98,9 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 && Helper.IsTooLong(ref errors, update.ProfilePictureUrl, BaseAppUser.ProfilePictureUrlMaxLength, "URL de Foto de Perfil") is false)
             entity.ProfilePictureUrl = update.ProfilePictureUrl;
 
+        if (Helper.IsUpdating(entity.Settings, update.UserSettings))
+            entity.Settings = update.UserSettings.Value;
+
         return new(errors);
     }
 
@@ -93,6 +112,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             && await userManager.FindByNameAsync(model.Username) is not null)
         {
             errors.AddError(ErrorMessages.UsernameAlreadyInUse(model.Username));
+            errors.RecommendedCode = HttpStatusCode.Conflict;
             return new SuccessResult<SocialAppUser>(errors);
         }
 
@@ -100,6 +120,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             && await userManager.FindByEmailAsync(model.Email) is not null)
         {
             errors.AddError(ErrorMessages.EmailAlreadyInUse(model.Email));
+            errors.RecommendedCode = HttpStatusCode.Conflict;
             return new SuccessResult<SocialAppUser>(errors);
         }
 
@@ -121,6 +142,8 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                     null
                 ));
 
+            errors.RecommendedCode = HttpStatusCode.BadRequest;
+
             return new SuccessResult<SocialAppUser>(errors);
         }
 
@@ -136,6 +159,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                     null
                 ));
 
+            errors.RecommendedCode = HttpStatusCode.BadRequest;
             return new SuccessResult<SocialAppUser>(errors);
         }
         //else
@@ -153,6 +177,20 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         return new SuccessResult<SocialAppUser>(newuser);
     }
 
+    public ValueTask<SuccessResult<object>> GetSelfView(SocialAppUser user)
+        => ValueTask.FromResult(new SuccessResult<object>(new UserSelfViewModel()
+        {
+            Email = user.Email,
+            EmailVerified = user.EmailConfirmed,
+            UserId = user.Id,
+            ProfileMessage = user.ProfileMessage,
+            ProfilePictureUrl = user.ProfilePictureUrl,
+            Pronouns = user.Pronouns,
+            RealName = user.RealName,
+            Settings = user.Settings,
+            Username = user.UserName!
+        }));
+
     public override async ValueTask<SuccessResult<object>> GetView(BaseAppUser? r, SocialAppUser entity)
     {
         var requester = (SocialAppUser?)r;
@@ -162,23 +200,49 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             UserViewModel view;
             if (await CanView(requester, entity))
             {
-                view = UserViewModel.FromUser(entity);
+                view = new UserViewModel()
+                {
+                    UserId = entity.Id,
+                    Username = entity.UserName!,
+                    ProfilePictureUrl = entity.ProfilePictureUrl,
+                    Pronouns = entity.Pronouns
+                };
+
                 if (requester is not null)
                     view.FollowsRequester = await IsFollowing(requester, entity);
             }
             else
-                view = UserViewModel.FromHiddenUser(entity);
+                view = new UserViewModel()
+                {
+                    UserId = entity.Id,
+                    Username = entity.UserName!,
+                    ProfilePictureUrl = entity.ProfilePictureUrl,
+                    RealName = entity.Settings.HasFlag(UserSettings.AllowRealNamePublicly) ? entity.RealName : null,
+                    Pronouns = entity.Pronouns
+                };
+
             return new SuccessResult<object>(view);
         }
 
-        return new SuccessResult<object>(UserSelfViewModel.FromUser(entity));
+        return new SuccessResult<object>(new UserViewModel()
+        {
+            UserId = entity.Id,
+            Username = entity.UserName!,
+            ProfilePictureUrl = entity.ProfilePictureUrl,
+            RealName = entity.RealName,
+            FollowsRequester = false,
+            ProfileMessage = entity.ProfileMessage,
+            Pronouns = entity.Pronouns
+        });
     }
 
     public async ValueTask<SocialAppUser?> FindByUsername(string username)
         => await userManager.FindByNameAsync(username);
 
-    public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser followed)
-        => requester.FollowedUsers?.Contains(followed) is true || await context.SocialAppUserFollows.AnyAsync(x => x.FollowerId == requester.Id && x.FollowedId == followed.Id);
+    public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser followed) 
+        => requester.Id != followed.Id
+            && (requester.FollowedUsers?.Contains(followed) is true
+            || await context.SocialAppUserFollows.AnyAsync(x => x.FollowerId == requester.Id && x.FollowedId == followed.Id));
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowers(SocialAppUser requester)
         => ValueTask.FromResult(context.SocialAppUserFollows.Where(x => x.FollowedId == requester.Id).Select(x => x.Follower!));
@@ -203,7 +267,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
 
     public async ValueTask<bool> FollowUser(SocialAppUser requester, SocialAppUser followed)
     {
-        if (await IsFollowing(requester, followed))
+        if (requester.Id == followed.Id || await IsFollowing(requester, followed))
             return false;
 
         context.SocialAppUserFollows.Add(new SocialAppUserFollow()
@@ -216,7 +280,10 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     }
 
     public async ValueTask<bool> UnfollowUser(SocialAppUser requester, SocialAppUser followed)
-        => await context.SocialAppUserFollows.Where(x => x.Follower == requester && x.Followed == followed).ExecuteDeleteAsync() > 0;
+    {
+        return requester.Id != followed.Id
+            && await context.SocialAppUserFollows.Where(x => x.Follower == requester && x.Followed == followed).ExecuteDeleteAsync() > 0;
+    }
 
     public override ValueTask<IQueryable<object>?> GetViews(BaseAppUser? requester, IQueryable<SocialAppUser>? users)
         => ValueTask.FromResult<IQueryable<object>?>(

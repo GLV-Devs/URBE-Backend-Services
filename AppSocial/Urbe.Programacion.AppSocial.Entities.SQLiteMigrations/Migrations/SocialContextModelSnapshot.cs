@@ -47,12 +47,23 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.Migrations
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("Validity")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("PendingMailConfirmations");
                 });
@@ -101,7 +112,8 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(300)
+                        .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
@@ -117,9 +129,13 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
+                        .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedUserName")
+                        .IsRequired()
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
@@ -144,7 +160,7 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RealName")
-                        .HasMaxLength(200)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SecurityStamp")
@@ -164,6 +180,15 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedEmail")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique();
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -204,8 +229,8 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.Migrations
             modelBuilder.Entity("Urbe.Programacion.AppSocial.Entities.Models.PendingMailConfirmation", b =>
                 {
                     b.HasOne("Urbe.Programacion.AppSocial.Entities.Models.SocialAppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("Urbe.Programacion.AppSocial.Entities.Models.PendingMailConfirmation", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

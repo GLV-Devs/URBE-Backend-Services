@@ -10,8 +10,8 @@ public abstract class AppController : Controller
         => new ObjectResult(value) { StatusCode = (int)HttpStatusCode.Forbidden };
 
     protected virtual IActionResult FailureResult(SuccessResult result)
-        => new ObjectResult(result.ErrorMessages.Errors) { StatusCode = (int)(result.ErrorMessages.RecommendedCode ?? HttpStatusCode.InternalServerError) };
+        => new ObjectResult(result.ErrorMessages.Errors) { StatusCode = (int?)result.ErrorMessages.RecommendedCode ?? 418 };
 
     protected virtual IActionResult FailureResult<T>(SuccessResult<T> result)
-        => new ObjectResult(result.ErrorMessages.Errors) { StatusCode = (int)(result.ErrorMessages.RecommendedCode ?? HttpStatusCode.InternalServerError) };
+        => new ObjectResult(result.ErrorMessages.Errors) { StatusCode = (int?)result.ErrorMessages.RecommendedCode ?? 418 };
 }

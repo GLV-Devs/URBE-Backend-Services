@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Internal;
@@ -36,6 +37,6 @@ public class PendingMailConfirmation : IEntity, IKeyed<RandomKey>, ISelfModelBui
         mb.HasKey(x => x.Id);
         mb.HasOne(x => x.User).WithOne().HasForeignKey<PendingMailConfirmation>(x => x.UserId).IsRequired(true);
         mb.HasIndex(x => x.Token).IsUnique(true);
-        mb.Property(x => x.Id).HasConversion(RandomKey.ValueConverter);
+        mb.Property(x => x.Id).HasConversion(Conversions.RandomKeyValueConverter);
     }
 }

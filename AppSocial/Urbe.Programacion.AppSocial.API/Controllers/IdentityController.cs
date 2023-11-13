@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
 using Urbe.Programacion.Shared.API.Backend.Controllers;
 using Urbe.Programacion.Shared.Common;
+using Microsoft.AspNetCore.Cors;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers;
 
@@ -17,23 +18,25 @@ public sealed class IdentityController : AppController
     private readonly UserManager<SocialAppUser> UserManager;
     private readonly SignInManager<SocialAppUser> SignInManager;
     private readonly ILogger<IdentityController> Logger;
+    private readonly IUserRepository UserRepository;
 
-    public IdentityController(UserManager<SocialAppUser> userManager, ILogger<IdentityController> logger, SignInManager<SocialAppUser> signInManager)
+    public IdentityController(IUserRepository userRepository, UserManager<SocialAppUser> userManager, ILogger<IdentityController> logger, SignInManager<SocialAppUser> signInManager)
     {
+        UserRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         SignInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateEntity([FromBody] UserCreationModel creationModel, [FromServices] IUserRepository userRepository)
+    public async Task<IActionResult> CreateEntity([FromBody] UserCreationModel creationModel)
     {
-        var result = await userRepository.Create(null, creationModel);
+        var result = await UserRepository.Create(null, creationModel);
 
         if (result.TryGetResult(out var created))
         {
-            await userRepository.SaveChanges();
-            var viewresult = await userRepository.GetView(null, created);
+            await UserRepository.SaveChanges();
+            var viewresult = await UserRepository.GetSelfView(created);
             return viewresult.TryGetResult(out var view) ? Ok(view) : FailureResult(viewresult);
         }
 
@@ -75,7 +78,8 @@ public sealed class IdentityController : AppController
         if (result.Succeeded)
         {
             Logger.LogInformation("Succesfully logged in as user {user} ({userid})", userLogin.UserNameOrEmail, user.Id);
-            return Ok();
+            var viewresult = await UserRepository.GetSelfView(user);
+            return viewresult.TryGetResult(out var view) ? Ok(view) : FailureResult(viewresult);
         }
         else if (result.IsLockedOut)
         {
@@ -109,5 +113,22 @@ public sealed class IdentityController : AppController
     {
         await SignInManager.SignOutAsync();
         return Ok();
+    }
+
+    [Authorize]
+    [HttpDelete("{userId}")]
+    public async Task<IActionResult> DeleteUser(Guid userId)
+    {
+        var u = await UserManager.GetUserAsync(User);
+        if (u is null || string.Equals(u.Email, "admin@admin.com", StringComparison.OrdinalIgnoreCase) is false)
+            return Unauthorized();
+
+        var entity = await UserRepository.Find(userId);
+        if (entity is null)
+            return NotFound();
+
+        var result = await UserRepository.Delete(u, entity);
+        
+        return result.IsSuccess ? Ok() : FailureResult(result);
     }
 }

@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Responses;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.API.Backend.Controllers;
+using Microsoft.AspNetCore.Cors;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers;
 
@@ -180,7 +181,7 @@ public class UserController : AppController
         if (u is null)
             return NotFound();
 
-        var viewresult = await UserRepository.GetView(u, u);
+        var viewresult = await UserRepository.GetSelfView(u);
         return viewresult.TryGetResult(out var view) ? Ok(view) : FailureResult(viewresult);
     }
 

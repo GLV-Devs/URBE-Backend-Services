@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Internal;
@@ -78,7 +79,7 @@ public class VehicleReport : ModifiableEntity, IEntity, IKeyed<Snowflake>, ISelf
     {
         mb.HasKey(x => x.Id);
         mb.HasIndex(x => x.VehicleMake).IsUnique(false);
-        mb.Property(x => x.Id).HasConversion(Snowflake.ValueConverter);
+        mb.Property(x => x.Id).HasConversion(Conversions.SnowflakeValueConverter);
         mb.Property(x => x.VehicleModel).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.VehicleMake).HasMaxLength(VehicleDataMaxLength);
         mb.Property(x => x.LicensePlate).HasMaxLength(VehicleDataMaxLength);

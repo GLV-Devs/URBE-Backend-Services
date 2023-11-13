@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities;
 using Urbe.Programacion.Shared.Entities.Interfaces;
 using Urbe.Programacion.Shared.Entities.Internal;
@@ -61,7 +62,7 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<Post> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
-        mb.Property(x => x.Id).HasConversion(Snowflake.ValueConverter);
+        mb.Property(x => x.Id).HasConversion(Conversions.SnowflakeValueConverter);
         mb.HasOne(x => x.Poster).WithMany(x => x.Posts).HasForeignKey(x => x.PosterId).IsRequired(true);
         mb.HasOne(x => x.InResponseTo).WithMany(x => x.Responses).HasForeignKey(x => x.InResponseToId).IsRequired(false);
     }

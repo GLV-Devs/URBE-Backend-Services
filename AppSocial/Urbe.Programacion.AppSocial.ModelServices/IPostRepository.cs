@@ -1,7 +1,7 @@
 ﻿using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
-using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
 using Urbe.Programacion.Shared.ModelServices;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.ModelServices;
 

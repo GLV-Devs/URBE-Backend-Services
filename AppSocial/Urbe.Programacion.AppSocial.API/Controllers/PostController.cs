@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Urbe.Programacion.AppSocial.Entities.Models;
 using Urbe.Programacion.AppSocial.ModelServices;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
 using Urbe.Programacion.Shared.API.Backend.Controllers;
-using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.Shared.Common;
+using Microsoft.AspNetCore.Cors;
 
 namespace Urbe.Programacion.AppSocial.API.Controllers;
 

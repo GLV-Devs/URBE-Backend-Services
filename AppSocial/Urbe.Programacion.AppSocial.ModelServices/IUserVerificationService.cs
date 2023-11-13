@@ -1,5 +1,5 @@
 ﻿using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.Shared.Entities;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.ModelServices;
 

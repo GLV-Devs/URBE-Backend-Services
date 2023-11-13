@@ -13,7 +13,6 @@ using Urbe.Programacion.AppVehiculos.WebApp.Data.Models.VehicleReport;
 using Urbe.Programacion.AppVehiculos.WebApp.Data.RouteData;
 using Urbe.Programacion.AppVehiculos.WebApp.Pages.Identity;
 using Urbe.Programacion.Shared.Common;
-using Urbe.Programacion.Shared.Common.Localization;
 using Urbe.Programacion.Shared.Entities;
 
 namespace Urbe.Programacion.AppVehiculos.WebApp.Pages.Reports;

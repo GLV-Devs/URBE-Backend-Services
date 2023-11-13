@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Urbe.Programacion.AppVehiculos.Entities.Data.Entities;
 using Urbe.Programacion.AppVehiculos.WebApp.Data.Models.VehicleReport;
-using Urbe.Programacion.Shared.Common.Localization;
+using Urbe.Programacion.Shared.Entities.Localization;
 
 namespace Urbe.Programacion.AppVehiculos.WebApp.Data;
 

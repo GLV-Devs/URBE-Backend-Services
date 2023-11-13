@@ -1,6 +1,7 @@
 ﻿using Urbe.Programacion.AppSocial.Entities.Models;
-using Urbe.Programacion.AppSocial.ModelServices.DTOs.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
 using Urbe.Programacion.Shared.ModelServices;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.ModelServices;
 
@@ -17,7 +18,7 @@ public interface IUserRepository : IEntityCRUDRepository<SocialAppUser, Guid, Us
     public ValueTask<IQueryable<SocialAppUser>?> GetFollowers(SocialAppUser? requester, SocialAppUser user);
     public ValueTask<IQueryable<SocialAppUser>?> GetFollowing(SocialAppUser? requester, SocialAppUser user);
     public ValueTask<IQueryable<SocialAppUser>?> GetMutuals(SocialAppUser? requester, SocialAppUser user);
-
+    public ValueTask<SuccessResult<object>> GetSelfView(SocialAppUser user);
     public ValueTask<bool> FollowUser(SocialAppUser requester, SocialAppUser followed);
 
     public ValueTask<bool> UnfollowUser(SocialAppUser requester, SocialAppUser followed);
