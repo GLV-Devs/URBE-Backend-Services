@@ -25,7 +25,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
     <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.Entities\Urbe.Programacion.Shared.Entities.csproj" />
-    <ProjectReference Include="..\..\Urbe.Programacion.AppSocial.DataTransfer\Urbe.Programacion.AppSocial.DataTransfer.csproj" />
+    <ProjectReference Include="..\..\Shared\Urbe.Programacion.Shared.REST\Urbe.Programacion.Shared.REST.csproj" />
+    <ProjectReference Include="..\Urbe.Programacion.AppSocial.DataTransfer\Urbe.Programacion.AppSocial.DataTransfer.csproj" />
   </ItemGroup>
 
 </Project>

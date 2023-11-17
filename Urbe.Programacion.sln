@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.Services", "Shared\Urbe.Programacion.Shared.Services\Urbe.Programacion.Shared.Services.csproj", "{09858A29-B08E-45AD-909B-688097CB237A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.API", "AppSocial\Urbe.Programacion.AppSocial.API\Urbe.Programacion.AppSocial.API.csproj", "{A30D7F07-E073-478E-BE7E-6D82DBAF601A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Entities.SQLiteMigrations", "AppSocial\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations\Urbe.Programacion.AppSocial.Entities.SQLiteMigrations.csproj", "{AF825A14-77C2-48B7-9546-5B371E5D410F}"
@@ -55,13 +53,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppVehicu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{4E483FE8-DEE4-4424-940E-CAA1AF397C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.ClientLibrary", "Urbe.Programacion.AppSocial.ClientLibrary\Urbe.Programacion.AppSocial.ClientLibrary.csproj", "{2BC3631B-59E3-4906-8B45-24E83D96F38C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.ClientLibrary", "AppSocial\Urbe.Programacion.AppSocial.ClientLibrary\Urbe.Programacion.AppSocial.ClientLibrary.csproj", "{2BC3631B-59E3-4906-8B45-24E83D96F38C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.DataTransfer", "Urbe.Programacion.AppSocial.DataTransfer\Urbe.Programacion.AppSocial.DataTransfer.csproj", "{66E41B88-20F6-4E98-987E-A0CFC14680F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.DataTransfer", "AppSocial\Urbe.Programacion.AppSocial.DataTransfer\Urbe.Programacion.AppSocial.DataTransfer.csproj", "{66E41B88-20F6-4E98-987E-A0CFC14680F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.Shared.REST", "Urbe.Programacion.Shared.REST\Urbe.Programacion.Shared.REST.csproj", "{F397E36B-2266-45F5-874F-A814169ABDA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.Shared.REST", "Shared\Urbe.Programacion.Shared.REST\Urbe.Programacion.Shared.REST.csproj", "{F397E36B-2266-45F5-874F-A814169ABDA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.ConsoleClient", "Urbe.Programacion.AppSocial.ConsoleClient\Urbe.Programacion.AppSocial.ConsoleClient.csproj", "{BECB7CE8-1FDF-4F25-AE7A-18FDBAA56879}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.ConsoleClient", "AppSocial\Urbe.Programacion.AppSocial.ConsoleClient\Urbe.Programacion.AppSocial.ConsoleClient.csproj", "{BECB7CE8-1FDF-4F25-AE7A-18FDBAA56879}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{64A5EAF2-655A-4BEF-B36C-D069A8D99A10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.WebApp.Server", "AppSocial\Urbe.Programacion.AppSocial.WebApp\Server\Urbe.Programacion.AppSocial.WebApp.Server.csproj", "{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.WebApp.Client", "AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Urbe.Programacion.AppSocial.WebApp.Client.csproj", "{0EDCF9F7-0589-4864-8825-077AF0BCE708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,10 +89,6 @@ Global
 		{09858A29-B08E-45AD-909B-688097CB237A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09858A29-B08E-45AD-909B-688097CB237A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09858A29-B08E-45AD-909B-688097CB237A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A30D7F07-E073-478E-BE7E-6D82DBAF601A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF825A14-77C2-48B7-9546-5B371E5D410F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -153,6 +153,14 @@ Global
 		{BECB7CE8-1FDF-4F25-AE7A-18FDBAA56879}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BECB7CE8-1FDF-4F25-AE7A-18FDBAA56879}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BECB7CE8-1FDF-4F25-AE7A-18FDBAA56879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EDCF9F7-0589-4864-8825-077AF0BCE708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDCF9F7-0589-4864-8825-077AF0BCE708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDCF9F7-0589-4864-8825-077AF0BCE708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EDCF9F7-0589-4864-8825-077AF0BCE708}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,7 +172,6 @@ Global
 		{5D3CC0F9-2180-4CE8-92CF-F654481AE250} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 		{AF7B2BB8-A703-4283-A269-C4DD0F43A4F2} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
 		{09858A29-B08E-45AD-909B-688097CB237A} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
-		{A30D7F07-E073-478E-BE7E-6D82DBAF601A} = {26CF868D-32EA-4642-ACB4-FFF654CC129D}
 		{C42B1E81-C3A8-4F0F-8F7D-3597862F0B38} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
 		{AF825A14-77C2-48B7-9546-5B371E5D410F} = {C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}
 		{6AADC71A-02DC-4BC8-A6E2-6B0379720F66} = {C42B1E81-C3A8-4F0F-8F7D-3597862F0B38}
@@ -185,6 +192,9 @@ Global
 		{66E41B88-20F6-4E98-987E-A0CFC14680F6} = {DD011580-B254-4F40-A5E9-FB1800C48DE1}
 		{F397E36B-2266-45F5-874F-A814169ABDA9} = {883F7CFC-A607-43DB-9B93-9F53033B3CF9}
 		{BECB7CE8-1FDF-4F25-AE7A-18FDBAA56879} = {4E483FE8-DEE4-4424-940E-CAA1AF397C28}
+		{64A5EAF2-655A-4BEF-B36C-D069A8D99A10} = {26CF868D-32EA-4642-ACB4-FFF654CC129D}
+		{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA} = {64A5EAF2-655A-4BEF-B36C-D069A8D99A10}
+		{0EDCF9F7-0589-4864-8825-077AF0BCE708} = {64A5EAF2-655A-4BEF-B36C-D069A8D99A10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A612EB94-F1AB-4384-BE52-E164723E2A1F}

@@ -9,6 +9,9 @@ using Urbe.Programacion.Shared.ModelServices;
 using Urbe.Programacion.Shared.ModelServices.Implementations;
 using Urbe.Programacion.Shared.Services.Attributes;
 using Urbe.Programacion.AppSocial.DataTransfer;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
@@ -137,4 +140,68 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         => requester?.Id.Equals(poster.Id) is true
         || (poster.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
             && (poster.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || requester is not null && await userRepository.IsFollowing(requester, poster));
+
+    public async ValueTask<IQueryable<Post>?> GetLatestPosts(SocialAppUser? requester, int count)
+    {
+        if (requester?.Id is not Guid uid || count is <= 0)
+            return null;
+
+        IQueryable<Post> query = context.Posts
+            .AsNoTracking()
+            .Where(x => requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster!));
+
+        if (requester.LastSeenPostInFeedId is Snowflake afterid)
+        {
+            var q2 = context.Posts.Where(x => x.Id >= afterid).Take(count);
+            var newlastid = await UpdateLastPost(q2);
+
+            return await q2.CountAsync() >= count ? q2 : query.Reverse().Where(x => x.Id <= newlastid).Take(count);
+        }
+
+        query = query.Take(count);
+        await UpdateLastPost(query);
+        return query;
+
+        async Task<Snowflake> UpdateLastPost(IQueryable<Post> query)
+        {
+            var newid = await query.Select(x => x.Id).LastAsync();
+            await context.SocialAppUsers
+                            .Where(x => x.Id == uid)
+                            .ExecuteUpdateAsync(x => x.SetProperty(p => p.LastSeenPostInFeedId, newid));
+            return newid;
+        }
+    }
+
+    public async ValueTask<bool> AddLike(SocialAppUser requester, Post post)
+    {
+        Debug.Assert(requester is not null);
+        Debug.Assert(post is not null);
+
+        if (await context.Set<SocialAppUserLike>().AnyAsync(x => x.UserWhoLikedThisId == requester.Id && x.PostId == post.Id) is false)
+        {
+            await context.Set<SocialAppUserLike>().AddAsync(new SocialAppUserLike()
+            {
+                Post = post,
+                UserWhoLikedThis = requester
+            });
+            return true;
+        }
+
+        return false;
+    }
+
+    public async ValueTask<bool> RemoveLike(SocialAppUser requester, Post post)
+    {
+        Debug.Assert(requester is not null);
+        Debug.Assert(post is not null);
+
+        var found = await context.Set<SocialAppUserLike>().FirstOrDefaultAsync(x => x.UserWhoLikedThisId == requester.Id && x.PostId == post.Id);
+        if (found is not null)
+        {
+            context.Set<SocialAppUserLike>().Remove(found);
+            return true;
+        }
+
+        return false;
+    }
 }

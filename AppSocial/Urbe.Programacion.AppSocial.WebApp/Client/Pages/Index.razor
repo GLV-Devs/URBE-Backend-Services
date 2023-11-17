@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject SocialApiClient client
+@inject ILogger<Index> log
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (Users is not null)
+{
+    <span>Not null</span>
+    @foreach (var u in Users)
+    {
+        <span>User:</span>
+        <span>@u.Username</span>
+    }
+}
+else if (Errors is not null)
+{
+    <span>Errored</span>
+    @foreach (var e in Errors)
+    {
+        <span>@e.DefaultMessageES</span>
+    }
+}
+else
+{
+    <span>It's null</span>
+}

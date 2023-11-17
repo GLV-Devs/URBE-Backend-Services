@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Urbe.Programacion.AppSocial.Entities;
 
@@ -11,9 +12,11 @@ using Urbe.Programacion.AppSocial.Entities;
 namespace Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231116031549_Add_UsersWhoLikedThis_ModelConfig")]
+    partial class Add_UsersWhoLikedThis_ModelConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

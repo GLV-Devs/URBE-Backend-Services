@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Urbe.Programacion.AppSocial.Entities;
 
@@ -11,9 +12,11 @@ using Urbe.Programacion.AppSocial.Entities;
 namespace Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.Migrations
 {
     [DbContext(typeof(SocialContext))]
-    partial class SocialContextModelSnapshot : ModelSnapshot
+    [Migration("20231116024343_Add_UsersWhoLikedThis")]
+    partial class Add_UsersWhoLikedThis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +47,21 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("IdentityUserClaim<Guid>");
+                });
+
+            modelBuilder.Entity("PostSocialAppUser", b =>
+                {
+                    b.Property<long>("PostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("UsersWhoLikedThisId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PostId", "UsersWhoLikedThisId");
+
+                    b.HasIndex("UsersWhoLikedThisId");
+
+                    b.ToTable("PostSocialAppUser");
                 });
 
             modelBuilder.Entity("Urbe.Programacion.AppSocial.Entities.Models.PendingMailConfirmation", b =>
@@ -233,26 +251,26 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Urbe.Programacion.AppSocial.Entities.Models.SocialAppUserLike", b =>
-                {
-                    b.Property<long>("PostId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("UserWhoLikedThisId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PostId", "UserWhoLikedThisId");
-
-                    b.HasIndex("UserWhoLikedThisId");
-
-                    b.ToTable("SocialAppUserLike");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("Urbe.Programacion.AppSocial.Entities.Models.SocialAppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PostSocialAppUser", b =>
+                {
+                    b.HasOne("Urbe.Programacion.AppSocial.Entities.Models.Post", null)
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Urbe.Programacion.AppSocial.Entities.Models.SocialAppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersWhoLikedThisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -311,25 +329,6 @@ namespace Urbe.Programacion.AppSocial.Entities.SQLServerMigrations.Migrations
                     b.Navigation("Followed");
 
                     b.Navigation("Follower");
-                });
-
-            modelBuilder.Entity("Urbe.Programacion.AppSocial.Entities.Models.SocialAppUserLike", b =>
-                {
-                    b.HasOne("Urbe.Programacion.AppSocial.Entities.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Urbe.Programacion.AppSocial.Entities.Models.SocialAppUser", "UserWhoLikedThis")
-                        .WithMany()
-                        .HasForeignKey("UserWhoLikedThisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("UserWhoLikedThis");
                 });
 
             modelBuilder.Entity("Urbe.Programacion.AppSocial.Entities.Models.Post", b =>

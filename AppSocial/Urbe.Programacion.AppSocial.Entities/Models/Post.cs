@@ -57,13 +57,22 @@ public class Post : IKeyed<Snowflake>, IEntity, ISelfModelBuilder<Post>
 
     public HashSet<Post>? Responses { get; set; }
 
+    public HashSet<SocialAppUser>? UsersWhoLikedThis { get; set; }
+    
     Snowflake IKeyed<Snowflake>.Id => Id;
 
     public static void BuildModel(ModelBuilder modelBuilder, EntityTypeBuilder<Post> mb, DbContext context)
     {
         mb.HasKey(x => x.Id);
+        mb.Property(x => x.Content).HasMaxLength(350);
         mb.Property(x => x.Id).HasConversion(Conversions.SnowflakeValueConverter);
         mb.HasOne(x => x.Poster).WithMany(x => x.Posts).HasForeignKey(x => x.PosterId).IsRequired(true);
         mb.HasOne(x => x.InResponseTo).WithMany(x => x.Responses).HasForeignKey(x => x.InResponseToId).IsRequired(false);
+
+        var likemb = mb.HasMany(x => x.UsersWhoLikedThis).WithMany().UsingEntity<SocialAppUserLike>(
+            right => right.HasOne(x => x.UserWhoLikedThis).WithMany().HasForeignKey(x => x.UserWhoLikedThisId),
+            left => left.HasOne(x => x.Post).WithMany().HasForeignKey(x => x.PostId)
+        );
+        likemb.HasKey(x => new { x.PostId, x.UserWhoLikedThisId });
     }
 }

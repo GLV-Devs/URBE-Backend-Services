@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Urbe.Programacion.Shared.REST\Urbe.Programacion.Shared.REST.csproj" />
+    <ProjectReference Include="..\Urbe.Programacion.Shared.REST\Urbe.Programacion.Shared.REST.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.Shared.Common\Urbe.Programacion.Shared.Common.csproj" />
     <ProjectReference Include="..\Urbe.Programacion.Shared.ModelServices\Urbe.Programacion.Shared.ModelServices.csproj" />
   </ItemGroup>

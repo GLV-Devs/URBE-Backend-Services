@@ -2,13 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Urbe.Programacion.AppSocial.DataTransfer;
+using Urbe.Programacion.Shared.Common;
 using Urbe.Programacion.Shared.Entities.Interfaces;
+using Urbe.Programacion.Shared.Entities.Internal;
 using Urbe.Programacion.Shared.Entities.Models;
 
 namespace Urbe.Programacion.AppSocial.Entities.Models;
 
 public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
 {
+    private readonly NullableKeyedNavigation<Snowflake, Post> LastSeenInFeedNav = new();
     public const int PronounsMaxLength = 30;
 
     public string? ProfileMessage { get; set; }
@@ -24,6 +27,18 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
     public string? ProfilePictureUrl { get; set; }
 
     public string? Pronouns { get; set; }
+
+    public Snowflake? LastSeenPostInFeedId
+    {
+        get => LastSeenInFeedNav.Id;
+        set => LastSeenInFeedNav.Id = value;
+    }
+
+    public Post? LastSeenPostInFeed
+    {
+        get => LastSeenInFeedNav.Entity;
+        set => LastSeenInFeedNav.Entity = value;
+    }
 
     public override bool PhoneNumberConfirmed
     {
@@ -50,6 +65,8 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
         mb.Property(x => x.Pronouns).HasMaxLength(PronounsMaxLength);
         mb.Property(x => x.ProfilePictureUrl).HasMaxLength(ProfilePictureUrlMaxLength);
         mb.Property(x => x.ProfileMessage).HasMaxLength(ProfileMessageMaxLength);
+
+        mb.HasOne(x => x.LastSeenPostInFeed).WithMany((string?)null).HasForeignKey(x => x.LastSeenPostInFeedId).IsRequired(false);
 
         mb.Property(x => x.Settings)
             .HasDefaultValue(UserSettings.AllowAnonymousViews |
