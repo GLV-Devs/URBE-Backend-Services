@@ -1,0 +1,20 @@
+@page "/Register"
+@inject SocialApiClient client
+@inject ILogger <Register> log
+
+<PageTitle>Register</PageTitle>
+
+<div>
+    <form>
+        <Input type="text" placeholder='Nombre de usuario'/>
+        <Input type="text" placeholder='Nombre'/>
+        <Input type="text" placeholder='Pronombres'/>
+        <Input type='email' placeholder='e-mail'/>
+        <Input type='password' placeholder='Contraseña'/>
+
+        <button>Registrar</button>
+    </form>
+    <span>¿Ya tienes cuenta?</span>
+    <span><a href="/Register">Registrarse</a></span>
+    
+</div>
