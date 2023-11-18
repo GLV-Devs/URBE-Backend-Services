@@ -1,9 +1,36 @@
-﻿using System.Reflection;
+﻿using System.Net;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Urbe.Programacion.Shared.Common;
 
-public static class ErrorMessages
+public static partial class ErrorMessages
 {
+    public static ErrorMessage PropertiesNotEqual(string property, string otherProperty)
+        => new(
+            $"{property} no es igual a {otherProperty}",
+            nameof(PropertiesNotEqual),
+            new ErrorMessageProperty[] 
+            { 
+                new(nameof(property), property),
+                new(nameof(otherProperty), otherProperty)
+            }
+        );
+
+    public static ErrorMessage InvalidServerHttpCode(HttpStatusCode code)
+        => new(
+            $"El servidor envió un código de respuesta inesperado: {(int)code} {Enum.GetName(code)}",
+            nameof(InvalidServerHttpCode),
+            new ErrorMessageProperty[] { new("code", ((int)code).ToString()) }
+        );
+
+    public static ErrorMessage UnexpectedServerResponse(int code, string? name = null)
+        => new(
+            $"El servidor envió una respuesta inesperada: {code} {name}",
+            nameof(UnexpectedServerResponse),
+            new ErrorMessageProperty[] { new("code", ((int)code).ToString()) }
+        );
+
     public static ErrorMessage EmailAlreadyConfirmed()
         => new(
             $"El usuario ya verificó su correo electrónico",
@@ -76,11 +103,13 @@ public static class ErrorMessages
             }
         );
 
-    public static ErrorMessage InternalError()
+    public static ErrorMessage InternalError(string? message = null)
         => new(
-            $"Ocurrió un error interno en el servidor",
+            string.IsNullOrWhiteSpace(message) ? "Ocurrió un error interno en el servidor" : $"Ocurrió un error interno en el servidor: {message}",
             nameof(InternalError),
-            null
+            string.IsNullOrWhiteSpace(message)
+            ? null
+            : new ErrorMessageProperty[] { new(nameof(message), message) }
         );
 
     public static ErrorMessage EmptyBody()
@@ -120,14 +149,11 @@ public static class ErrorMessages
             }
         );
 
-    public static ErrorMessage EmptyProperty(string property)
+    public static ErrorMessage EmptyProperty(string? property = null)
         => new(
-            $"La propiedad no puede permanecer vacía: {property}",
+            string.IsNullOrWhiteSpace(property) ? "La propiedad no puede permanecer vacía" : $"La propiedad no puede permanecer vacía: {property}",
             nameof(EmptyProperty),
-            new ErrorMessageProperty[]
-            {
-                new(nameof(property), property)
-            }
+            string.IsNullOrWhiteSpace(property) ? null : new ErrorMessageProperty[] { new(nameof(property), property) }
         );
 
     public static ErrorMessage BadPassword()
@@ -249,6 +275,27 @@ public static class ErrorMessages
             null
         );
 
+    public static string EncodeErrorMessage(string key, params object[]? arguments)
+        => $"{key}:{(arguments is not null ? string.Join(',', arguments.Select(EncodeArgument)) : null)}";
+
+    private static string? EncodeArgument(object argument)
+    {
+        var reg = EncodeCleanupRegex();
+        if (argument is string str)
+            return (string?)$"\"{reg.Replace(str, "")}\"";
+        else 
+        {
+            var strarg = argument.ToString();
+            return strarg is not null ? reg.Replace(strarg, "") : null;
+        }
+    }
+
+    //public static (string Key, object[]? Arguments) DecodeErrorMessage(string encoded)
+    //{
+    //    var split = encoded.Split(':');
+    //    return (split[0], )
+    //}
+
     public static ErrorMessage TryBindError(string key, string? description, params object[]? arguments)
     {
         var method = typeof(ErrorMessages).GetMethods(BindingFlags.Static | BindingFlags.Public).FirstOrDefault(x => x.Name.Equals(key));
@@ -277,4 +324,7 @@ public static class ErrorMessages
 
         return new ErrorMessage(description, key, null);
     }
+
+    [GeneratedRegex(@"["":]")]
+    private static partial Regex EncodeCleanupRegex();
 }

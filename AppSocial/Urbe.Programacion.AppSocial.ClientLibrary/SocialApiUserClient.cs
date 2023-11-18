@@ -10,7 +10,7 @@ public sealed class SocialApiUserClient : SocialApiClientModule
     internal SocialApiUserClient(SocialApiClient client) : base(client, "api/user") { }
 
     public ApiResponseTask GetUsers(CancellationToken ct = default)
-        => Get<UserViewModel>("query", ct);
+        => Get("query", ct);
     // query
 
     public ApiResponseTask UnfollowUser(Guid userId, CancellationToken ct = default)
@@ -20,36 +20,36 @@ public sealed class SocialApiUserClient : SocialApiClientModule
         => Put($"addfollow/{userId}", ct);
 
     public ApiResponseTask GetMutuals(Guid userId, CancellationToken ct = default)
-        => Get<UserViewModel>($"mutuals/{userId}", ct);
+        => Get($"mutuals/{userId}", ct);
     // query
 
     public ApiResponseTask GetFollowed(Guid userId, CancellationToken ct = default)
-        => Get<UserViewModel>($"followed/{userId}", ct);
+        => Get($"followed/{userId}", ct);
     // query
 
     public ApiResponseTask GetFollowers(Guid userId, CancellationToken ct = default)
-        => Get<UserViewModel>($"followers/{userId}", ct);
+        => Get($"followers/{userId}", ct);
     // query
 
     public ApiResponseTask GetUser(string username, CancellationToken ct = default)
-        => Get<UserViewModel>(username, ct);
+        => Get(username, ct);
 
     public ApiResponseTask GetMyMutuals(CancellationToken ct = default)
-        => Get<UserViewModel>("mutuals", ct);
+        => Get("mutuals", ct);
     // query
 
     public ApiResponseTask GetMyFollowed(CancellationToken ct = default)
-        => Get<UserViewModel>("followed", ct);
+        => Get("followed", ct);
     // query
 
     public ApiResponseTask GetMyFollowers(CancellationToken ct = default)
-        => Get<UserViewModel>("followers", ct);
+        => Get("followers", ct);
     // query
 
     public ApiResponseTask GetMe(CancellationToken ct = default)
-        => Get<UserSelfViewModel>(null, ct);
+        => Get(null, ct);
     // query
 
     public ApiResponseTask Update(UserUpdateModel request, CancellationToken ct = default)
-        => Put<UserSelfViewModel, UserUpdateModel>(null, request, ct);
+        => Put(null, request, ct);
 }

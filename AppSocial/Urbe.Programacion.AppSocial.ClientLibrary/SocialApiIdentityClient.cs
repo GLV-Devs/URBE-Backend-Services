@@ -10,10 +10,10 @@ public sealed class SocialApiIdentityClient : SocialApiClientModule
     internal SocialApiIdentityClient(SocialApiClient client) : base(client, "api/identity") { }
 
     public ApiResponseTask CreateNew(UserCreationModel request, CancellationToken ct = default)
-        => Post<UserSelfViewModel>(null, ct);
+        => Post(null, request, ct);
 
     public ApiResponseTask LogIn(UserLoginModel request, CancellationToken ct = default)
-        => Put<UserSelfViewModel, UserLoginModel>(null, request, ct);
+        => Put(null, request, ct);
 
     public ApiResponseTask LogOut(CancellationToken ct = default)
         => Delete(null, ct);

@@ -1,20 +1,65 @@
 @page "/Register"
-@inject SocialApiClient client
-@inject ILogger <Register> log
+@inject SocialApiClient Client
+@inject ILogger<Register> Log
+@inject NavigationManager Nav
+@inject AppState State
 
-<PageTitle>Register</PageTitle>
+<PageTitle>Registrarse</PageTitle>
 
-<div>
-    <form>
-        <Input type="text" placeholder='Nombre de usuario'/>
-        <Input type="text" placeholder='Nombre'/>
-        <Input type="text" placeholder='Pronombres'/>
-        <Input type='email' placeholder='e-mail'/>
-        <Input type='password' placeholder='Contraseña'/>
+<div class="loginFormContainer">
+    <EditForm Model="@CreationModel">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-        <button>Registrar</button>
-    </form>
+        <InputText 
+            DisplayName="Nombre de Usuario"
+            @bind-Value="CreationModel.Username"
+            id="username" />
+        <label for="username">Nombre de Usuario</label>
+        <ValidationMessage For="() => CreationModel.Username" />
+
+        <InputText 
+            DisplayName="Correo Electrónico"
+            @bind-Value="CreationModel.Email"
+            id="email" />
+        <label for="email">Correo Electrónico</label>
+        <ValidationMessage For="() => CreationModel.Email" />
+            
+        <InputText 
+            DisplayName="Confirmación de Correo Electrónico"
+            @bind-Value="CreationModel.ConfirmEmail"
+            id="confirm" />
+        <label for="confirm">Confirmación de Correo Electrónico</label>
+        <ValidationMessage For="() => CreationModel.ConfirmEmail" />
+
+        <InputText 
+            DisplayName="Contraseña"
+            @bind-Value="CreationModel.Password"
+            type="password"
+            id="password" />
+        <label for="password">Contraseña</label>
+        <ValidationMessage For="() => CreationModel.Password" />
+
+        <InputText 
+            DisplayName="Confirmar Contraseña"
+            @bind-Value="CreationModel.ConfirmPassword"
+            type="password"
+            id="confirmpassword" />
+        <label for="confirmpassword">Confirmar Contraseña</label>
+        <ValidationMessage For="() => CreationModel.ConfirmPassword" />
+            
+        <InputText 
+            DisplayName="Pronombres"
+            @bind-Value="CreationModel.Pronouns"
+            id="pronouns" />
+        <label for="pronouns">Pronombres</label>
+        <ValidationMessage For="() => CreationModel.Pronouns" />
+
+        <button type="submit">Registrarse</button>
+
+    </EditForm>
+    
     <span>¿Ya tienes cuenta?</span>
-    <span><a href="/Register">Registrarse</a></span>
+    <span><a href="/Login">Ingresar</a></span>
     
 </div>

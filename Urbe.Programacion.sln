@@ -63,9 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{64A5EAF2-655A-4BEF-B36C-D069A8D99A10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.WebApp.Server", "AppSocial\Urbe.Programacion.AppSocial.WebApp\Server\Urbe.Programacion.AppSocial.WebApp.Server.csproj", "{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.WebApp.Server", "AppSocial\Urbe.Programacion.AppSocial.WebApp\Server\Urbe.Programacion.AppSocial.WebApp.Server.csproj", "{636AEA4B-4EF9-40FB-BDD5-A6741F7EFFAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urbe.Programacion.AppSocial.WebApp.Client", "AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Urbe.Programacion.AppSocial.WebApp.Client.csproj", "{0EDCF9F7-0589-4864-8825-077AF0BCE708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.WebApp.Client", "AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Urbe.Programacion.AppSocial.WebApp.Client.csproj", "{0EDCF9F7-0589-4864-8825-077AF0BCE708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,16 +1,37 @@
 @page "/login"
-@inject SocialApiClient client
-@inject ILogger <Login> log
+@inject SocialApiClient Client
+@inject ILogger<Login> Log
+@inject AppState State
+@inject NavigationManager Nav
 
 <PageTitle>Login</PageTitle>
 
 <div>
-    <form>
-        <input type="email" placeholder="e-mail"/>
-        <input type="password" placeholder="Contraseña"/>
+    <EditForm Model="@LoginModel">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-        <button>Iniciar sesion</button>
-    </form>
+        <InputText 
+            DisplayName="Correo Electrónico o Nombre de Usuario" 
+            @bind-Value="LoginModel.UserNameOrEmail" 
+            id="email" 
+        />
+        <label for="email">Correo Electrónico o Nombre de Usuario</label>
+        <ValidationMessage For="() => LoginModel.UserNameOrEmail" />
+            
+
+        <InputText
+            DisplayName="Contraseña" 
+            @bind-Value="LoginModel.UserNameOrEmail" 
+            type="password"
+            id="password" 
+        />
+        <label for="password">Contraseña</label>
+        <ValidationMessage For="() => LoginModel.Password" />
+
+        <button type="submit">Iniciar sesion</button>
+
+    </EditForm>
     <a href="/Register">Registrarse</a>
 </div>
 

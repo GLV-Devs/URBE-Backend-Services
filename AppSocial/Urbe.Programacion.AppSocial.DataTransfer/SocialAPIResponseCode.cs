@@ -32,3 +32,17 @@ public readonly record struct SocialAPIResponseCode(APIResponseCodeEnum Response
     public static SocialAPIResponseCode UnspecifiedError => APIResponseCodeEnum.UnspecifiedError;
     public static SocialAPIResponseCode Exception => APIResponseCodeEnum.Exception;
 }
+
+public static class SocialAPIResponseCodeExtensions
+{
+    public static bool IsExpectedResponse(this SocialAPIResponseCode code, ref ErrorList errors, APIResponseCodeEnum expected)
+    {
+        if (code != expected)
+        {
+            errors.AddError(ErrorMessages.UnexpectedServerResponse((int)code.ResponseId, code.Name));
+            return false;
+        }
+
+        return true;
+    }
+}

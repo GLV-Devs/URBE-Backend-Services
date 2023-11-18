@@ -12,7 +12,7 @@ public abstract class SocialApiClientModule
 
     protected HttpClient Http => Client.Http;
 
-    #region Without Data
+    #region With Data
 
     protected ApiResponseTask Delete(string? endpoint, CancellationToken ct = default)
         => SocialApiRequestResponse.FromResponse(
@@ -27,10 +27,10 @@ public abstract class SocialApiClientModule
     protected ApiResponseTask Get(string? endpoint, CancellationToken ct = default)
         => SocialApiRequestResponse.FromResponse(
             Http.GetAsync(
-                $"{Controller}/{endpoint}",
+                $"{Controller}/{endpoint}", 
                 ct
-            ),
-            Client.JsonOptions,
+            ), 
+            Client.JsonOptions, 
             ct
         );
 
@@ -69,74 +69,6 @@ public abstract class SocialApiClientModule
 
     protected ApiResponseTask Post<TBody>(string? endpoint, TBody? body, CancellationToken ct = default)
         => SocialApiRequestResponse.FromResponse(
-            Http.PostAsync(
-                $"{Controller}/{endpoint}",
-                body is null ? null : JsonContent.Create(body, options: Client.JsonOptions),
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
-
-    #endregion
-
-    #region With Data
-
-    protected ApiResponseTask Delete<T>(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse<T>(
-            Http.DeleteAsync(
-                $"{Controller}/{endpoint}",
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
-
-    protected ApiResponseTask Get<T>(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse<T>(
-            Http.GetAsync(
-                $"{Controller}/{endpoint}", 
-                ct
-            ), 
-            Client.JsonOptions, 
-            ct
-        );
-
-    protected ApiResponseTask Put<T>(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse<T>(
-            Http.PutAsync(
-                $"{Controller}/{endpoint}",
-                null,
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
-
-    protected ApiResponseTask Post<T>(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse<T>(
-            Http.PostAsync(
-                $"{Controller}/{endpoint}",
-                null,
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
-
-    protected ApiResponseTask Put<TData, TBody>(string? endpoint, TBody? body, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse<TData>(
-            Http.PutAsync(
-                $"{Controller}/{endpoint}",
-                body is null ? null : JsonContent.Create(body, options: Client.JsonOptions),
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
-
-    protected ApiResponseTask Post<TData, TBody>(string? endpoint, TBody? body, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse<TData>(
             Http.PostAsync(
                 $"{Controller}/{endpoint}", 
                 body is null ? null : JsonContent.Create(body, options: Client.JsonOptions), 

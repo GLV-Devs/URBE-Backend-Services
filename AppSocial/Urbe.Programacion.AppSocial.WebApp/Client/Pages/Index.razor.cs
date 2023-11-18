@@ -1,12 +1,13 @@
-﻿using Urbe.Programacion.AppSocial.DataTransfer.Responses;
+﻿using System.Diagnostics;
+using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Client.Pages;
 
 public partial class Index
 {
-    public IEnumerable<UserViewModel>? Users;
-    public IEnumerable<ErrorMessage>? Errors;
+    public IEnumerable<PostViewModel>? Posts;
+    public ErrorList Errors;
     public bool IsErrored;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -15,23 +16,23 @@ public partial class Index
 
         if (firstRender)
         {
-            log.LogInformation("Getting User information from server");
-            var response = await client.Users.GetUsers();
-            log.LogInformation("Got response: HTTP Status: {httpcode}, APIResponse: {apicode}", response.HttpStatusCode, response.APIResponse.Code.ResponseId);
-            if (response.HttpStatusCode == HttpStatusCode.OK && response.APIResponse.Code.ResponseId == APIResponseCodeEnum.UserView)
-            {
-                log.LogInformation("Got user info: {data}", response.APIResponse.Data);
-                Users = (IEnumerable<UserViewModel>)response.APIResponse.Data!;
-            }
-            else
-            {
-                log.LogError("An error ocurred: {errors}", response.APIResponse.Errors);
-                Errors = response.APIResponse.Errors;
-                IsErrored = true;
-            }
-
-            log.LogInformation("Notifying of state change");
-            StateHasChanged();
+            await State.VerifyUserState(Client, Nav);
+            await RefreshFeed();
         }
+    }
+
+    protected async Task RefreshFeed()
+    {
+        var x = await Client.Posts.GetFeed();
+        if (Helper.IsExpectedCode(ref Errors, x.HttpStatusCode) is false
+            || x.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.PostView) is false)
+        {
+            if (x.APIResponse.Errors is not null)
+                Errors.AddErrorRange(x.APIResponse.Errors);
+            return;
+        }
+
+        Debug.Assert(x.APIResponse.Data is not null);
+        Posts = x.APIResponse.Data.Cast<PostViewModel>();
     }
 }

@@ -9,7 +9,7 @@ public class APIResponse<TObjectCode> : RESTObject<TObjectCode>
     public APIResponse(TObjectCode code) : base(code) { }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? Data { get; init; }
+    public IEnumerable<object>? Data { get; init; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ErrorMessage>? Errors { get; init; }

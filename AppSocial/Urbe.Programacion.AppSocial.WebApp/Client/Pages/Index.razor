@@ -1,31 +1,27 @@
 ﻿@page "/"
-@inject SocialApiClient client
-@inject ILogger<Index> log
+@inject SocialApiClient Client
+@inject ILogger<Index> Log
+@inject AppState State
+@inject NavigationManager Nav
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Página Principal</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="screenBox">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-@if (Users is not null)
-{
-    <span>Not null</span>
-    @foreach (var u in Users)
+    @if (Errors.Count > 0)
     {
-        <span>User:</span>
-        <span>@u.Username</span>
+        <div class="error-box">
+            @foreach (var e in Errors.Errors)
+            {
+                <span class="error-message">@e.DefaultMessageES</span>
+            }
+        </div>
     }
-}
-else if (Errors is not null)
-{
-    <span>Errored</span>
-    @foreach (var e in Errors)
+    else if (Posts is not null)
     {
-        <span>@e.DefaultMessageES</span>
+        @foreach (var p in Posts)
+        {
+            <Post PostData="p" />
+        }
     }
-}
-else
-{
-    <span>It's null</span>
-}
+</div>

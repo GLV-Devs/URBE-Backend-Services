@@ -10,14 +10,17 @@ public sealed class SocialApiPostClient : SocialApiClientModule
     internal SocialApiPostClient(SocialApiClient client) : base(client, "api/post") { }
 
     public ApiResponseTask GetResponses(Snowflake postId, CancellationToken ct = default)
-        => Get<PostViewModel>($"responses/{postId}", ct);
+        => Get($"responses/{postId}", ct);
     // query
 
     public ApiResponseTask GetMyPosts(CancellationToken ct = default)
-        => Get<PostViewModel>(null, ct);
+        => Get(null, ct);
     // query
 
+    public ApiResponseTask GetFeed(CancellationToken ct = default)
+        => Get("feed", ct);
+
     public ApiResponseTask GetUserPosts(Guid userId, CancellationToken ct = default)
-        => Get<PostViewModel>($"from/{userId}", ct);
+        => Get($"from/{userId}", ct);
     // query
 }

@@ -25,6 +25,9 @@ public static class ErrorListExtensions
     {
         (list._errors ??= new()).AddRange(messages);
     }
+
+    public static void Clear(this ref ErrorList list)
+        => list._errors?.Clear();
 }
 
 public readonly record struct ErrorMessageProperty(string Key, string Value);
