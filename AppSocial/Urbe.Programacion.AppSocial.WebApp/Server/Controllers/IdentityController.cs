@@ -28,6 +28,10 @@ public sealed class IdentityController : AppController
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    [HttpGet("contest")]
+    public IActionResult Contest()
+        => BadRequest();
+
     [HttpPost]
     public async Task<IActionResult> CreateEntity([FromBody] UserCreationModel creationModel)
     {

@@ -14,69 +14,54 @@ public abstract class SocialApiClientModule
 
     #region With Data
 
+    protected ApiResponseTask SendMessage<T>(HttpMethod method, string? endpoint, T? body, CancellationToken ct = default)
+    {
+        using var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
+
+        if (body is null)
+            msg.Content = JsonContent.Create(body, options: Client.JsonOptions);
+
+        try
+        {
+            return SocialApiRequestResponse.FromResponse(Http.SendAsync(msg, ct), Client.JsonOptions, ct);
+        }
+        catch(Exception e)
+        {
+            throw new SocialApiClientException(endpoint, method.Method, body, "An error ocurred while performing a request to the API", e);
+        }
+    }
+
+    protected ApiResponseTask SendMessage(HttpMethod method, string? endpoint, CancellationToken ct = default)
+    {
+        using var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
+
+        try
+        {
+            return SocialApiRequestResponse.FromResponse(Http.SendAsync(msg, ct), Client.JsonOptions, ct);
+        }
+        catch(Exception e)
+        {
+            throw new SocialApiClientException(endpoint, method.Method, null, "An error ocurred while performing a request to the API", e);
+        }
+    }
+
     protected ApiResponseTask Delete(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse(
-            Http.DeleteAsync(
-                $"{Controller}/{endpoint}",
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
+        => SendMessage(HttpMethod.Delete, endpoint, ct);
 
     protected ApiResponseTask Get(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse(
-            Http.GetAsync(
-                $"{Controller}/{endpoint}", 
-                ct
-            ), 
-            Client.JsonOptions, 
-            ct
-        );
+        => SendMessage(HttpMethod.Get, endpoint, ct);
 
     protected ApiResponseTask Put(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse(
-            Http.PutAsync(
-                $"{Controller}/{endpoint}",
-                null,
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
+        => SendMessage(HttpMethod.Put, endpoint, ct);
 
     protected ApiResponseTask Post(string? endpoint, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse(
-            Http.PostAsync(
-                $"{Controller}/{endpoint}",
-                null,
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
+        => SendMessage(HttpMethod.Post, endpoint, ct);
 
     protected ApiResponseTask Put<TBody>(string? endpoint, TBody? body, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse(
-            Http.PutAsync(
-                $"{Controller}/{endpoint}",
-                body is null ? null : JsonContent.Create(body, options: Client.JsonOptions),
-                ct
-            ),
-            Client.JsonOptions,
-            ct
-        );
+        => SendMessage(HttpMethod.Put, endpoint, body, ct);
 
     protected ApiResponseTask Post<TBody>(string? endpoint, TBody? body, CancellationToken ct = default)
-        => SocialApiRequestResponse.FromResponse(
-            Http.PostAsync(
-                $"{Controller}/{endpoint}", 
-                body is null ? null : JsonContent.Create(body, options: Client.JsonOptions), 
-                ct
-            ), 
-            Client.JsonOptions, 
-            ct
-        );
+        => SendMessage(HttpMethod.Post, endpoint, body, ct);
 
     #endregion
 

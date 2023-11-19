@@ -13,7 +13,7 @@ public class Program
         builder.RootComponents.Add<App>("#app");
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
-        builder.Services.AddSingleton<CookieHandler>();
+        builder.Services.AddSingleton(new CookieHandler(new HttpClientHandler()));
         builder.Services.AddScoped(
             sp => new HttpClient(sp.GetRequiredService<CookieHandler>()) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) }
         );

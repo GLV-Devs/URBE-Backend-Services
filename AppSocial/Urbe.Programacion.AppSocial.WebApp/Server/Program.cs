@@ -171,8 +171,8 @@ public static class Program
             // Cookie settings
             options.Cookie.Name = "SessionCookie";
             options.Cookie.HttpOnly = false;
-            options.LoginPath = "/api/identity";
-            options.LogoutPath = "/api/identity";
+            options.LoginPath = "/api/Identity/Contest";
+            options.LogoutPath = "/api/Identity/Contest";
             options.ClaimsIssuer = "GarciaLozanoViloria-Urbe.Programacion.AppSocial.API";
             options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             options.SlidingExpiration = true;

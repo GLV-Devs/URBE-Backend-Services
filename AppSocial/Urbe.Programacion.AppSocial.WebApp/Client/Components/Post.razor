@@ -1,17 +1,20 @@
 ﻿@using System.Diagnostics;
 @if (PostData is null)
 {
-    
+    <div class="post">
+        <div class="postHeader">
+        </div>
+        <p style="font-style: italic">null</p>
+    </div>
 }
 else
 {
     <div class="post">
         <div class="postHeader">
             <img class="profilePic" src="@PostData.Poster!.ProfilePictureUrl" />
-            <h3>@PostData.Poster.ProfileMessage</h3>
+            <h3>@PostData.Poster.Username</h3>
             <span>@PostData.Poster.Pronouns | '@PostData.PosterThenUsername' al momento de publicación en @PostData.DatePosted.ToLocalTime().DateTime</span>
         </div>
-
         <p>@PostData.Content</p>
     </div>
 }
