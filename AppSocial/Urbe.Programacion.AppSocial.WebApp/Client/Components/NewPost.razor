@@ -1,5 +1,7 @@
-﻿<h3>NewPost</h3>
-
-@code {
-
-}
+﻿<EditForm class="post" Model="@CreationModel" OnValidSubmit="@ValidSubmit">
+    <InputText 
+        placeholder="@PlaceholderText"
+        DisplayName="Contenido" 
+        @bind-Value="CreationModel.Content" />
+    <button type="submit">Publicar</button>
+</EditForm>

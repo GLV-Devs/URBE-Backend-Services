@@ -16,6 +16,8 @@ else
             <span>@PostData.Poster.Pronouns | '@PostData.PosterThenUsername' al momento de publicación en @PostData.DatePosted.ToLocalTime().DateTime</span>
         </div>
         <p>@PostData.Content</p>
+        <hr />
+        <NewPost InResponseTo="PostData" />
     </div>
 }
 

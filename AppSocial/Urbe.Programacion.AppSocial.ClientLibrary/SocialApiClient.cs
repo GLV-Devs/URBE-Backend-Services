@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Headers;
+using System.Net.Mime;
+using System.Text.Json;
 
 namespace Urbe.Programacion.AppSocial.ClientLibrary;
 
@@ -16,6 +18,7 @@ public sealed class SocialApiClient
     {
         Http = http ?? throw new ArgumentNullException(nameof(http));
         JsonOptions = options;
+        Http.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(MediaTypeNames.Application.Json));
 
         Identity = new(this);
         Posts = new(this);

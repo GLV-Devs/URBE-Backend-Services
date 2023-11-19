@@ -17,11 +17,15 @@
             }
         </div>
     }
-    else if (Posts is not null)
+    else
     {
-        @foreach (var p in Posts)
+        <NewPost />
+        @if (Posts is not null)
         {
-            <Post PostData="p" />
+            @foreach (var p in Posts)
+            {
+                <Post PostData="p" />
+            }
         }
     }
 </div>

@@ -1,11 +1,14 @@
-﻿using System.Net.Http.Json;
-
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
 using ApiResponseTask = System.Threading.Tasks.Task<Urbe.Programacion.AppSocial.ClientLibrary.SocialApiRequestResponse>;
 
 namespace Urbe.Programacion.AppSocial.ClientLibrary;
 
 public abstract class SocialApiClientModule
 {
+    private readonly static MediaTypeHeaderValue JsonMediaType = new("application/json");
+
     public SocialApiClient Client { get; }
 
     public string Controller { get; }
@@ -19,7 +22,7 @@ public abstract class SocialApiClientModule
         using var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
 
         if (body is null)
-            msg.Content = JsonContent.Create(body, options: Client.JsonOptions);
+            msg.Content = new StringContent(JsonSerializer.Serialize(body), mediaType: JsonMediaType);
 
         try
         {

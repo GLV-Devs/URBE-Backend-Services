@@ -2,6 +2,6 @@
 
 public class PostCreationModel
 {
-    public required string Content { get; init; }
-    public long? InResponseTo { get; init; }
+    public string? Content { get; set; }
+    public long? InResponseTo { get; set; }
 }

@@ -7,7 +7,7 @@
 <PageTitle>Login</PageTitle>
 
 <div>
-    <EditForm Model="@LoginModel">
+    <EditForm Model="@LoginModel" OnValidSubmit="@ValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
