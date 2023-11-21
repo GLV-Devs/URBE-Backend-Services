@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Urbe.Programacion.AppSocial.ClientLibrary\Urbe.Programacion.AppSocial.ClientLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

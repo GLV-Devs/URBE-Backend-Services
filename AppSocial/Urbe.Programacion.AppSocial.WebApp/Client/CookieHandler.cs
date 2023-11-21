@@ -11,7 +11,16 @@ public class CookieHandler : DelegatingHandler
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+        request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include)
+               .SetBrowserRequestCache(BrowserRequestCache.NoStore);
+
         return base.SendAsync(request, cancellationToken);
+    }
+
+    protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include)
+               .SetBrowserRequestCache(BrowserRequestCache.NoStore);
+        return base.Send(request, cancellationToken);
     }
 }

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Components;
 using Urbe.Programacion.AppSocial.ClientLibrary;
 using Urbe.Programacion.AppSocial.DataTransfer.Responses;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Client;
 

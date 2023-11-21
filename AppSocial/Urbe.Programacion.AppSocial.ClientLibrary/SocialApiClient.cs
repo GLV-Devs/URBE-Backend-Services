@@ -9,6 +9,14 @@ public sealed class SocialApiClient
     internal readonly HttpClient Http;
     internal readonly JsonSerializerOptions? JsonOptions;
 
+    public static JsonSerializerOptions DefaultJsonOptions { get; }
+        = new JsonSerializerOptions()
+        {
+            WriteIndented = false,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
     public SocialApiIdentityClient Identity { get; }
     public SocialApiPostClient Posts { get; }
     public SocialApiUserClient Users { get; }
@@ -17,7 +25,7 @@ public sealed class SocialApiClient
     public SocialApiClient(HttpClient http, JsonSerializerOptions? options = null)
     {
         Http = http ?? throw new ArgumentNullException(nameof(http));
-        JsonOptions = options;
+        JsonOptions = options ?? DefaultJsonOptions;
         Http.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(MediaTypeNames.Application.Json));
 
         Identity = new(this);

@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using ApiResponseTask = System.Threading.Tasks.Task<Urbe.Programacion.AppSocial.ClientLibrary.SocialApiRequestResponse>;
@@ -17,18 +18,19 @@ public abstract class SocialApiClientModule
 
     #region With Data
 
-    protected ApiResponseTask SendMessage<T>(HttpMethod method, string? endpoint, T? body, CancellationToken ct = default)
+    protected ApiResponseTask SendMessage<T>(HttpMethod method, string? endpoint, T body, CancellationToken ct = default)
     {
+        ArgumentNullException.ThrowIfNull(body);
+
         using var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
 
-        if (body is null)
-            msg.Content = new StringContent(JsonSerializer.Serialize(body), mediaType: JsonMediaType);
+        msg.Content = JsonContent.Create(body);
 
         try
         {
             return SocialApiRequestResponse.FromResponse(Http.SendAsync(msg, ct), Client.JsonOptions, ct);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             throw new SocialApiClientException(endpoint, method.Method, body, "An error ocurred while performing a request to the API", e);
         }

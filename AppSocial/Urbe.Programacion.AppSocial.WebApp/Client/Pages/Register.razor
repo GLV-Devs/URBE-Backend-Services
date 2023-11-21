@@ -1,8 +1,6 @@
+@inherits AppSocialComponent
 @page "/Register"
-@inject SocialApiClient Client
 @inject ILogger<Register> Log
-@inject NavigationManager Nav
-@inject AppState State
 
 <PageTitle>Registrarse</PageTitle>
 
@@ -12,7 +10,7 @@
         <div class="error-box">
             @foreach (var e in Errors.Errors)
             {
-                <span class="error-message">@e.DefaultMessageES</span>
+                <span class="error-message">@e.DefaultMessageES</span><br/>
             }
         </div>
     }
@@ -20,50 +18,71 @@
     <EditForm Model="@CreationModel" OnValidSubmit="@ValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
+        
+        <div class="form-group">
+            <InputText 
+                DisplayName="Nombre de Usuario"
+                @bind-Value="CreationModel.Username"
+                id="username" />
+            <label for="username">Nombre de Usuario</label>
+            <ValidationMessage For="() => CreationModel.Username" />
+        </div>
+        
+        <br />
 
-        <InputText 
-            DisplayName="Nombre de Usuario"
-            @bind-Value="CreationModel.Username"
-            id="username" />
-        <label for="username">Nombre de Usuario</label>
-        <ValidationMessage For="() => CreationModel.Username" />
+        <div class="form-group">
+            <InputText 
+                DisplayName="Correo Electrónico"
+                @bind-Value="CreationModel.Email"
+                id="email" />
+            <label for="email">Correo Electrónico</label>
+            <ValidationMessage For="() => CreationModel.Email" />
+        
+            <br />    
 
-        <InputText 
-            DisplayName="Correo Electrónico"
-            @bind-Value="CreationModel.Email"
-            id="email" />
-        <label for="email">Correo Electrónico</label>
-        <ValidationMessage For="() => CreationModel.Email" />
-            
-        <InputText 
-            DisplayName="Confirmación de Correo Electrónico"
-            @bind-Value="CreationModel.ConfirmEmail"
-            id="confirm" />
-        <label for="confirm">Confirmación de Correo Electrónico</label>
-        <ValidationMessage For="() => CreationModel.ConfirmEmail" />
+            <InputText 
+                DisplayName="Confirmación de Correo Electrónico"
+                @bind-Value="CreationModel.ConfirmEmail"
+                id="confirm" />
+            <label for="confirm">Confirmación de Correo Electrónico</label>
+            <ValidationMessage For="() => CreationModel.ConfirmEmail" />
+        </div>
+        
+        <br />
 
-        <InputText 
-            DisplayName="Contraseña"
-            @bind-Value="CreationModel.Password"
-            type="password"
-            id="password" />
-        <label for="password">Contraseña</label>
-        <ValidationMessage For="() => CreationModel.Password" />
+        <div class="form-group">
+            <InputText 
+                DisplayName="Contraseña"
+                @bind-Value="CreationModel.Password"
+                type="password"
+                id="password" />
+            <label for="password">Contraseña</label>
+            <ValidationMessage For="() => CreationModel.Password" />
+        
+            <br />
 
-        <InputText 
-            DisplayName="Confirmar Contraseña"
-            @bind-Value="CreationModel.ConfirmPassword"
-            type="password"
-            id="confirmpassword" />
-        <label for="confirmpassword">Confirmar Contraseña</label>
-        <ValidationMessage For="() => CreationModel.ConfirmPassword" />
-            
-        <InputText 
-            DisplayName="Pronombres"
-            @bind-Value="CreationModel.Pronouns"
-            id="pronouns" />
-        <label for="pronouns">Pronombres</label>
-        <ValidationMessage For="() => CreationModel.Pronouns" />
+            <InputText 
+                DisplayName="Confirmar Contraseña"
+                @bind-Value="CreationModel.ConfirmPassword"
+                type="password"
+                id="confirmpassword" />
+            <label for="confirmpassword">Confirmar Contraseña</label>
+            <ValidationMessage For="() => CreationModel.ConfirmPassword" />
+        </div>
+
+        <br />
+
+        
+        <div class="form-group">
+            <InputText 
+                DisplayName="Pronombres"
+                @bind-Value="CreationModel.Pronouns"
+                id="pronouns" />
+            <label for="pronouns">Pronombres</label>
+            <ValidationMessage For="() => CreationModel.Pronouns" />
+        </div>
+
+        <br />    
 
         <button type="submit">Registrarse</button>
 

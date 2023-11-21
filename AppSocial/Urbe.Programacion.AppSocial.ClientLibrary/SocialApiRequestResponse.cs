@@ -21,11 +21,11 @@ public readonly struct SocialApiRequestResponse
     private struct ApiResponseBuffer<T>
         where T : class
     {
-        public SocialAPIResponseCode Code;
-        public T[]? Data;
-        public IEnumerable<ErrorMessage>? Errors;
-        public string? TraceId;
-        public string? Exception;
+        public SocialAPIResponseCode Code { get; set; }
+        public T[]? Data { get; set; }
+        public ErrorMessage[]? Errors { get; set; }
+        public string? TraceId { get; set; }
+        public string? Exception { get; set; }
     }
 
     public APIResponse<SocialAPIResponseCode> APIResponse { get; }

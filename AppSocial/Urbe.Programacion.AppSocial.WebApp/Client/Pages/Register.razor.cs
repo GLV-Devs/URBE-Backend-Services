@@ -8,7 +8,6 @@ namespace Urbe.Programacion.AppSocial.WebApp.Client.Pages;
 public partial class Register
 {
     public ClientUserCreationModel CreationModel { get; } = new();
-    protected ErrorList Errors;
 
     public async Task ValidSubmit()
     {
@@ -27,17 +26,8 @@ public partial class Register
         }
 
         var resp = await Client.Identity.CreateNew(CreationModel);
-        if (Helper.IsExpectedCode(ref Errors, resp.HttpStatusCode) is false)
-        {
-            StateHasChanged();
+        if (CheckResponse(resp, APIResponseCodeEnum.UserSelfView) is false)
             return;
-        }
-
-        if (resp.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.UserSelfView))
-        {
-            StateHasChanged();
-            return;
-        }
 
         var u = resp.APIResponse.Data?.Cast<UserSelfViewModel>().FirstOrDefault();
 
@@ -48,7 +38,7 @@ public partial class Register
             return;
         }
 
-        State.LoggedInUser = u;
-        Nav.NavigateTo("/");
+        AppState.LoggedInUser = u;
+        Navigation.NavigateTo("/");
     }
 }
