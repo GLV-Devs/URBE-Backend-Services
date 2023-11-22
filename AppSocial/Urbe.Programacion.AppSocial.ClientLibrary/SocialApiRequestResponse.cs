@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using Urbe.Programacion.AppSocial.DataTransfer;
 using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.Common;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Urbe.Programacion.AppSocial.ClientLibrary;
 
@@ -21,6 +20,7 @@ public readonly struct SocialApiRequestResponse
     private struct ApiResponseBuffer<T>
         where T : class
     {
+        public string BearerToken { get; set; }
         public SocialAPIResponseCode Code { get; set; }
         public T[]? Data { get; set; }
         public ErrorMessage[]? Errors { get; set; }
@@ -28,7 +28,7 @@ public readonly struct SocialApiRequestResponse
         public string? Exception { get; set; }
     }
 
-    public APIResponse<SocialAPIResponseCode> APIResponse { get; }
+    public BearerAPIResponse APIResponse { get; }
     public HttpStatusCode HttpStatusCode { get; }
 
     public static async Task<SocialApiRequestResponse> FromResponse(
@@ -60,12 +60,13 @@ public readonly struct SocialApiRequestResponse
         );
     }
 
-    private static APIResponse<SocialAPIResponseCode> FillResponse<T>(JsonDocument doc, JsonSerializerOptions? options)
+    private static BearerAPIResponse FillResponse<T>(JsonDocument doc, JsonSerializerOptions? options)
         where T : class
     {
         var t = doc.Deserialize<ApiResponseBuffer<T>>(options);
-        return new APIResponse<SocialAPIResponseCode>(t.Code)
+        return new BearerAPIResponse(t.Code)
         {
+            BearerToken = t.BearerToken,
             Data = t.Data,
             Errors = t.Errors,
             Exception = t.Exception,
@@ -73,7 +74,7 @@ public readonly struct SocialApiRequestResponse
         };
     }
 
-    internal SocialApiRequestResponse(APIResponse<SocialAPIResponseCode> apiResponse, HttpStatusCode httpStatusCode)
+    internal SocialApiRequestResponse(BearerAPIResponse apiResponse, HttpStatusCode httpStatusCode)
     {
         APIResponse = apiResponse ?? throw new ArgumentNullException(nameof(apiResponse));
         HttpStatusCode = httpStatusCode;

@@ -11,6 +11,7 @@ using Urbe.Programacion.Shared.Services.Attributes;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
+[RegisterOptions]
 public class UserVerificationServiceOptions
 {
     public string? MailBody { get; }

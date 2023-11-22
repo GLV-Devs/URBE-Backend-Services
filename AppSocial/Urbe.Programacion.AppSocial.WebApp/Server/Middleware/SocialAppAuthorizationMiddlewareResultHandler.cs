@@ -1,25 +1,28 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
+using Urbe.Programacion.AppSocial.DataTransfer;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Server.Middleware;
 
-public class SocialAppAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
+public class SocialAppAuthorizationMiddlewareResultHandler 
 {
-    private readonly AuthorizationMiddlewareResultHandler defaultHandler = new();
+    private readonly RequestDelegate _next;
 
-    public async Task HandleAsync(
-        RequestDelegate next,
-        HttpContext context,
-        AuthorizationPolicy policy,
-        PolicyAuthorizationResult authorizeResult)
+    public SocialAppAuthorizationMiddlewareResultHandler(RequestDelegate next)
     {
-        if (authorizeResult.Forbidden)
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return;
-        }
+        _next = next;
+    }
 
-        // Fall back to the default implementation.
-        await defaultHandler.HandleAsync(next, context, policy, authorizeResult);
+    public async Task Invoke(HttpContext context)
+    {
+        if (_next is not null)
+            await _next.Invoke(context);
+
+        if (context.Response.HasStarted is false && context.Response.StatusCode is 401 or 403)
+            await context.Response.WriteAsJsonAsync(new BearerAPIResponse(APIResponseCodeEnum.Empty)
+            {
+                TraceId = context.TraceIdentifier
+            });
     }
 }

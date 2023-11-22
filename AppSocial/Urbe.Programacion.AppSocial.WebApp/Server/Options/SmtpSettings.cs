@@ -1,5 +1,8 @@
-﻿namespace Urbe.Programacion.AppSocial.WebApp.Server.Options;
+﻿using Urbe.Programacion.Shared.Services.Attributes;
 
+namespace Urbe.Programacion.AppSocial.WebApp.Server.Options;
+
+[RegisterOptions]
 public class SmtpSettings
 {
     public string Domain { get; init; }

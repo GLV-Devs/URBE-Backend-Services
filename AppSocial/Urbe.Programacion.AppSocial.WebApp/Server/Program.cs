@@ -6,6 +6,7 @@ using Mail.NET.MailKit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,14 @@ using Urbe.Programacion.AppSocial.DataTransfer;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc.Cors;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Configuration;
+using Urbe.Programacion.AppSocial.WebApp.Server.Authentication;
+using Urbe.Programacion.AppSocial.WebApp.Server.Services;
+using Urbe.Programacion.AppSocial.WebApp.Server.Filters;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Server;
 public static class Program
@@ -69,30 +78,28 @@ public static class Program
         ));
 
         services.ConfigureHttpJsonOptions(x => x.SerializerOptions.Converters.Add(SnowflakeConverter.Instance));
-        services.AddSingleton<IAuthorizationMiddlewareResultHandler, SocialAppAuthorizationMiddlewareResultHandler>();
 
         services.AddControllers().AddOData(o => o.Select().Filter().OrderBy().Count().SetMaxTop(100));
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(o
-            => o.AddSecurityDefinition("apiKey", new OpenApiSecurityScheme()
+            => o.AddSecurityDefinition("jwt", new OpenApiSecurityScheme()
             {
                 In = ParameterLocation.Cookie,
                 Description = "Please log in using the Identity controller",
-                Name = "Session",
+                Name = "Json Web Token Bearer",
                 Type = SecuritySchemeType.ApiKey
             }
         ));
+
+        services.RegisterDecoratedOptions(builder.Configuration);
 
         services.AddScoped<IMailWriter>(x =>
         {
             var settings = x.GetRequiredService<IOptions<SmtpSettings>>().Value;
             return new MailKitSmtpWriter(settings.Domain, settings.Port, new Auth(settings.UserName, settings.Password), settings.UseSsl);
         });
-
-        services.AddOptions<UserVerificationServiceOptions>();
-        services.AddOptions<SmtpSettings>(); // These should be stored in appsettings.Secret.json
 
         services.AddHostedService<BackgroundTaskStoreSweeper>();
 
@@ -101,8 +108,8 @@ public static class Program
 
         services.AddMvc(o =>
         {
-            o.Filters.Add(APIResponseFilter<SocialAPIResponseCode>.Instance);
             o.Filters.Add<SignInRefreshFilter<SocialAppUser>>();
+            o.Filters.Add(SocialAPIResponseFilter.SocialInstance);
         });
 
         services.RegisterDecoratedServices();
@@ -138,13 +145,6 @@ public static class Program
         else
             throw new InvalidDataException($"Unknown Database Type: {dbconf.DatabaseType}");
 
-        services.AddAuthentication(o =>
-        {
-            o.DefaultScheme = IdentityConstants.ApplicationScheme;
-            o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-        })
-        .AddIdentityCookies();
-
         services.AddIdentityCore<SocialAppUser>(o =>
         {
             o.Stores.MaxLengthForKeys = 128;
@@ -166,17 +166,45 @@ public static class Program
         .AddDefaultTokenProviders()
         .AddEntityFrameworkDbContextStores<SocialAppUser, SocialContext>();
 
-        services.ConfigureApplicationCookie(options =>
+        var jwto = builder.Configuration.GetRequiredSection("JWTOptions").Get<JWTOptions>();
+        services.AddAuthentication(o =>
         {
-            // Cookie settings
-            options.Cookie.Name = "SessionCookie";
-            options.Cookie.HttpOnly = false;
-            options.LoginPath = "/api/Identity/Contest";
-            options.LogoutPath = "/api/Identity/Contest";
-            options.ClaimsIssuer = "GarciaLozanoViloria-Urbe.Programacion.AppSocial.API";
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-            options.SlidingExpiration = true;
-        });
+            o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(o =>
+        {
+            o.RequireHttpsMetadata = false;
+            o.SaveToken = true;
+            //o.ClaimsIssuer = jwto?.Issuer;
+            //o.Audience = jwto?.Audience;
+            o.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = Application!.Services.GetRequiredService<IOptions<JWTOptions>>().Value.SecurityKey,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                //ValidIssuer = jwto?.Issuer,
+                //ValidAudience = jwto?.Audience,
+                //SignatureValidator = (t, p) => new JwtSecurityToken(t)
+            };
+        })
+        .AddScheme<JwtSignInHandlerOptions, JwtSignInHandler>(
+            "Identity.Application",
+            o => o.TokenFactory = Application!.Services.GetRequiredService<JwtFactory>()
+        );
+
+        //services.ConfigureApplicationCookie(options =>
+        //{
+        //    // Cookie settings
+        //    options.Cookie.Name = "SessionCookie";
+        //    options.Cookie.HttpOnly = false;
+        //    options.LoginPath = "/api/Identity/Contest";
+        //    options.LogoutPath = "/api/Identity/Contest";
+        //    options.ClaimsIssuer = "GarciaLozanoViloria-Urbe.Programacion.AppSocial.API";
+        //    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        //    options.SlidingExpiration = true;
+        //});
 
         services.UseAPIResponseInvalidModelStateResponse<SocialAPIResponseCode>();
 
@@ -186,6 +214,7 @@ public static class Program
 
         app.UseCors();
 
+        app.UseMiddleware<SocialAppAuthorizationMiddlewareResultHandler>();
         if (app.Environment.IsDevelopment())
         {
             app.UseVerboseExceptionHandler<SocialAPIResponseCode>();

@@ -6,71 +6,83 @@ using Urbe.Programacion.Shared.ModelServices.DTOs;
 
 namespace Urbe.Programacion.Shared.API.Common.Filters;
 
-public sealed class APIResponseFilter<TObjectCode> : IAsyncResultFilter
+public class APIResponseFilter<TObjectCode> : IAsyncResultFilter
     where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
 {
-    private APIResponseFilter() { }
+    protected APIResponseFilter() { }
 
     public static APIResponseFilter<TObjectCode> Instance { get; } = new();
 
-    public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+    protected virtual APIResponse<TObjectCode> CreateAPIResponseObject(TObjectCode code, ResultExecutingContext context)
+        => new(code);
+
+    protected async ValueTask<APIResponse<TObjectCode>> FillAPIResponseObject(ResultExecutingContext context)
     {
+        APIResponse<TObjectCode> resp;
         if (context.Result is ObjectResult objresult)
         {
             switch (objresult.Value)
             {
                 case APIResponse<TObjectCode>:
-                    break;
 
                 case null:
-                    objresult.Value = objresult.StatusCode is int sc && sc >= 200 && sc <= 299
-                        ? new APIResponse<TObjectCode>(TObjectCode.Success) { TraceId = context.HttpContext.TraceIdentifier }
-                        : new APIResponse<TObjectCode>(TObjectCode.UnspecifiedError) { TraceId = context.HttpContext.TraceIdentifier };
-                    break;
+                    resp = objresult.StatusCode is int sc && sc >= 200 && sc <= 299
+                        ? CreateAPIResponseObject(TObjectCode.Success, context)
+                        : CreateAPIResponseObject(TObjectCode.UnspecifiedError, context);
+
+                    resp.TraceId = context.HttpContext.TraceIdentifier;
+                    return resp;
 
                 case ProblemDetails problem:
                     var pdlist = new ErrorList();
                     pdlist.AddError(new ErrorMessage($"{problem.Title}: {problem.Detail}", "Unknown", null));
-                    objresult.Value = new APIResponse<TObjectCode>(TObjectCode.ErrorCollection)
-                    {
-                        Errors = pdlist.Errors,
-                        TraceId = context.HttpContext.TraceIdentifier
-                    };
-                    break;
+                    resp = CreateAPIResponseObject(TObjectCode.ErrorCollection, context);
+                    resp.Errors = pdlist.Errors;
+                    resp.TraceId = context.HttpContext.TraceIdentifier;
+                    return resp;
 
                 case IResponseModel<TObjectCode> model:
-                    objresult.Value = model.GetResponse(context.HttpContext.TraceIdentifier);
-                    break;
+                    return model.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
 
                 case IEnumerable<IResponseModel<TObjectCode>> models:
-                    objresult.Value = await models.GetResponse(context.HttpContext.TraceIdentifier);
-                    break;
+                    return await models.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
 
                 case ErrorList errorList:
-                    objresult.Value = errorList.GetResponse<TObjectCode>(context.HttpContext.TraceIdentifier);
-                    break;
+                    return errorList.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
 
                 case IEnumerable<ErrorMessage> errors:
-                    objresult.Value = errors.GetResponse<TObjectCode>(context.HttpContext.TraceIdentifier);
-                    break;
+                    return errors.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
 
                 default:
                     Debugger.Break();
                     throw new InvalidDataException("The result of the request was, unexpectedly, not an APIResponse or an IResponseModel");
             }
-
-            await next();
         }
         else if (context.Result is StatusCodeResult statusResult)
-            context.Result = new ObjectResult(statusResult.StatusCode is int sc && sc >= 200 && sc <= 299
-                        ? new APIResponse<TObjectCode>(TObjectCode.Success) { TraceId = context.HttpContext.TraceIdentifier }
-                        : new APIResponse<TObjectCode>(TObjectCode.UnspecifiedError) { TraceId = context.HttpContext.TraceIdentifier });
+        {
+            resp = statusResult.StatusCode is int sc && sc >= 200 && sc <= 299
+                ? CreateAPIResponseObject(TObjectCode.Success, context)
+                : CreateAPIResponseObject(TObjectCode.UnspecifiedError, context);
+
+            resp.TraceId = context.HttpContext.TraceIdentifier;
+            return resp;
+        }
         else if (context.Result is null)
-            context.Result = new ObjectResult(new APIResponse<TObjectCode>(TObjectCode.Success) { TraceId = context.HttpContext.TraceIdentifier });
+        {
+            resp = CreateAPIResponseObject(TObjectCode.Success, context);
+            resp.TraceId = context.HttpContext.TraceIdentifier;
+            return resp;
+        }
         else
         {
             Debugger.Break();
             throw new InvalidDataException("The result of the request was, unexpectedly, not an ObjectResult");
         }
+    }
+
+    public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+    {
+        await next.Invoke();
+        context.Result = new ObjectResult(await FillAPIResponseObject(context));
     }
 }

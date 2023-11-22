@@ -9,14 +9,14 @@ public class APIResponse<TObjectCode> : RESTObject<TObjectCode>
     public APIResponse(TObjectCode code) : base(code) { }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<object>? Data { get; init; }
+    public IEnumerable<object>? Data { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<ErrorMessage>? Errors { get; init; }
+    public IEnumerable<ErrorMessage>? Errors { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? TraceId { get; init; }
+    public string? TraceId { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Exception { get; init; }
+    public string? Exception { get; set; }
 }

@@ -8,8 +8,6 @@ namespace Urbe.Programacion.AppSocial.ClientLibrary;
 
 public abstract class SocialApiClientModule
 {
-    private readonly static MediaTypeHeaderValue JsonMediaType = new("application/json");
-
     public SocialApiClient Client { get; }
 
     public string Controller { get; }
@@ -18,17 +16,26 @@ public abstract class SocialApiClientModule
 
     #region With Data
 
+    private async ApiResponseTask HandleResponseMessage(HttpRequestMessage message, CancellationToken ct)
+    {
+        var resp = await SocialApiRequestResponse.FromResponse(Http.SendAsync(message, ct), Client.JsonOptions, ct);
+        if (string.IsNullOrWhiteSpace(resp.APIResponse?.BearerToken) is false)
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", resp.APIResponse.BearerToken);
+        return resp;
+    }
+
     protected ApiResponseTask SendMessage<T>(HttpMethod method, string? endpoint, T body, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(body);
 
-        using var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
-
-        msg.Content = JsonContent.Create(body);
+        var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute))
+        {
+            Content = JsonContent.Create(body)
+        };
 
         try
         {
-            return SocialApiRequestResponse.FromResponse(Http.SendAsync(msg, ct), Client.JsonOptions, ct);
+            return HandleResponseMessage(msg, ct);
         }
         catch (Exception e)
         {
@@ -38,11 +45,11 @@ public abstract class SocialApiClientModule
 
     protected ApiResponseTask SendMessage(HttpMethod method, string? endpoint, CancellationToken ct = default)
     {
-        using var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
+        var msg = new HttpRequestMessage(method, new Uri($"{Controller}/{endpoint}", UriKind.RelativeOrAbsolute));
 
         try
         {
-            return SocialApiRequestResponse.FromResponse(Http.SendAsync(msg, ct), Client.JsonOptions, ct);
+            return HandleResponseMessage(msg, ct);
         }
         catch(Exception e)
         {

@@ -1,11 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using Urbe.Programacion.Shared.Common;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Urbe.Programacion.Shared.ModelServices.DTOs;
 
 public static class DTOResponseExtensions
 {
-    public static async ValueTask<APIResponse<TObjectCode>> GetResponse<TObjectCode>(this IEnumerable<IResponseModel<TObjectCode>> data, string? traceId)
+    public static async ValueTask<APIResponse<TObjectCode>> GetResponse<TObjectCode>(
+        this IEnumerable<IResponseModel<TObjectCode>> data, string? traceId, APIResponse<TObjectCode>? response)
         where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
     {
         TObjectCode code =
@@ -17,34 +20,36 @@ public static class DTOResponseExtensions
             ? TObjectCode.NoData
             : data.First().APIResponseCode;
 
-        return new(code)
-        {
-            Data = data,
-            TraceId = traceId
-        };
+        var r = response ?? new(code);
+        r.Data = data;
+        r.TraceId = traceId;
+        return r;
     }
 
-    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this ErrorList errorList, string? traceId)
+    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this ErrorList errorList, string? traceId, APIResponse<TObjectCode>? response)
         where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
-        => new(TObjectCode.ErrorCollection)
-        {
-            Errors = errorList.Errors,
-            TraceId = traceId
-        };
+    {
+        var r = response ?? new(TObjectCode.ErrorCollection);
+        r.Errors = errorList.Errors;
+        r.TraceId = traceId;
+        return r;
+    }
 
-    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this IEnumerable<ErrorMessage> errorList, string? traceId)
+    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this IEnumerable<ErrorMessage> errorList, string? traceId, APIResponse<TObjectCode>? response)
         where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
-        => new(TObjectCode.ErrorCollection)
-        {
-            Errors = errorList,
-            TraceId = traceId
-        };
+    {
+        var r = response ?? new(TObjectCode.ErrorCollection);
+        r.Errors = errorList;
+        r.TraceId = traceId;
+        return r;
+    }
 
-    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this IResponseModel<TObjectCode> data, string? traceId)
+    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this IResponseModel<TObjectCode> data, string? traceId, APIResponse<TObjectCode>? response)
         where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
-        => new(data.APIResponseCode)
-        {
-            Data = new object[] { data },
-            TraceId = traceId
-        };
+    {
+        var r = response ?? new(data.APIResponseCode);
+        r.Data = new object[] { data };
+        r.TraceId = traceId;
+        return r;
+    }
 }

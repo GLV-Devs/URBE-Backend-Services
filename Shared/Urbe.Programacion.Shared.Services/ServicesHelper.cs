@@ -16,18 +16,63 @@ public static class ServicesHelper
                 .Where(x => x.Attributes is not null && x.Attributes.Any()))
         {
             foreach (var attr in attributes)
-                serviceCollection.AddScoped(attr.Interface, type);
+                serviceCollection.Add(new ServiceDescriptor(attr.Interface ?? type, type, attr.Lifetime));
         }
+    }
+
+    public static void AddBoundOptions<TOptions>(
+        this IServiceCollection services,
+        IConfiguration config,
+        string? section = null,
+        string? optionsName = null
+    ) => AddBoundOptions(services, typeof(TOptions), config, section, optionsName);
+
+    public static void AddBoundOptions(
+        this IServiceCollection services,
+        Type type,
+        IConfiguration config,
+        string? section = null,
+        string? optionsName = null
+    )
+    {
+        services.AddOptions();
+
+        var optionsType = typeof(IOptions<>).MakeGenericType(type);
+        var configureOptionsType = typeof(IConfigureOptions<>).MakeGenericType(type);
+        var configureNamedOptionsType = typeof(ConfigureNamedOptions<>).MakeGenericType(type);
+        var optionsConfigurationCallbackType = typeof(Action<>).MakeGenericType(type);
+        var configureNamedOptionsConstructor = configureNamedOptionsType.GetConstructor(
+            new Type[] { typeof(string), optionsConfigurationCallbackType }
+        )!;
+
+        var decoratedOptionsClosureType = typeof(DecoratedOptionsClosure<>).MakeGenericType(type);
+        var decoratedOptionsClosureConstructor = decoratedOptionsClosureType.GetConstructor(
+            new Type[] { typeof(string), typeof(IConfiguration) }
+        )!;
+
+        RegisterOptions(
+            services,
+            optionsName,
+            section,
+            type,
+            config,
+            optionsType,
+            decoratedOptionsClosureConstructor,
+            configureOptionsType,
+            configureNamedOptionsConstructor,
+            optionsConfigurationCallbackType
+        );
     }
 
     public static void RegisterDecoratedOptions(this IServiceCollection services, IConfiguration config)
     {
+        services.AddOptions();
         foreach (var (type, attributes) in AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
                 .Select(x => (Type: x, Attributes: x.GetCustomAttributes<RegisterOptionsAttribute>()))
                 .Where(x => x.Attributes is not null && x.Attributes.Any()))
         {
-            services.AddOptions();
+            var optionsType = typeof(IOptions<>).MakeGenericType(type);
             var configureOptionsType = typeof(IConfigureOptions<>).MakeGenericType(type);
             var configureNamedOptionsType = typeof(ConfigureNamedOptions<>).MakeGenericType(type);
             var optionsConfigurationCallbackType = typeof(Action<>).MakeGenericType(type);
@@ -41,19 +86,45 @@ public static class ServicesHelper
             )!;
 
             foreach (var attr in attributes)
-            {
-                var name = attr.OptionsName ?? Options.DefaultName;
-                var section = attr.SectionName ?? type.Name;
-
-                var closure = decoratedOptionsClosureConstructor.Invoke(new object[] { section, config });
-
-                services.AddSingleton(configureOptionsType, configureNamedOptionsConstructor.Invoke(new object[]
-                {
-                    name,
-                    Delegate.CreateDelegate(optionsConfigurationCallbackType, closure, "Bind")
-                })!);
-            }
+                RegisterOptions(
+                    services,
+                    attr.OptionsName,
+                    attr.SectionName,
+                    type,
+                    config,
+                    optionsType,
+                    decoratedOptionsClosureConstructor,
+                    configureOptionsType,
+                    configureNamedOptionsConstructor,
+                    optionsConfigurationCallbackType
+                );
         }
+    }
+
+    private static void RegisterOptions(
+            IServiceCollection services,
+            string? name,
+            string? section,
+            Type type,
+            IConfiguration config,
+            Type optionsType,
+            ConstructorInfo decoratedOptionsClosureConstructor,
+            Type configureOptionsType,
+            ConstructorInfo configureNamedOptionsConstructor,
+            Type optionsConfigurationCallbackType
+            )
+    {
+        name ??= Options.DefaultName;
+        section ??= type.Name;
+
+        var closure = decoratedOptionsClosureConstructor.Invoke(new object[] { section, config });
+        var instance = configureNamedOptionsConstructor.Invoke(new object[]
+        {
+            name,
+            Delegate.CreateDelegate(optionsConfigurationCallbackType, closure, "Bind")
+        });
+
+        services.AddSingleton(configureOptionsType, instance);
     }
 
     private class DecoratedOptionsClosure<T>
