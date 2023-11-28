@@ -10,6 +10,7 @@ public class UserViewModel : IResponseModel<SocialAPIResponseCode>
     public string? ProfileMessage { get; set; }
     public string? RealName { get; set; }
     public bool? FollowsRequester { get; set; }
+    public bool IsFollowedByRequester { get; set; }
     public string? ProfilePictureUrl { get; set; }
 
     SocialAPIResponseCode IResponseModel<SocialAPIResponseCode>.APIResponseCode => APIResponseCodeEnum.UserView;

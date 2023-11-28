@@ -1,4 +1,6 @@
-﻿@if (UserModel is not null)
+﻿@inherits AppSocialComponent
+
+@if (UserModel is not null)
 {
     <div class="contact-card">
         <div class="contact-card-item avatar">
@@ -6,6 +8,7 @@
             <p class="contact-card-item username"><span>@UserModel.Username</span> | <span>@UserModel.Pronouns</span></p>
         </div>
         <p class="contact-card-item profile-message">@UserModel.ProfileMessage</p>
+        <button class="small btn btn-secondary" @onclick="FollowUser"></button>
     </div>
 }
 else

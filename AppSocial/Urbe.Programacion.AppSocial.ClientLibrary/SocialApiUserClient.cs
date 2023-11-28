@@ -11,6 +11,13 @@ public sealed class SocialApiUserClient : SocialApiClientModule
 
     public ApiResponseTask GetUsers(CancellationToken ct = default)
         => Get("query", ct);
+
+    public ApiResponseTask GetUsers(string query, CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(query);
+        return Get($"query?$filter=contains(UserName,'{query}')", ct);
+    }
+
     // query
 
     public ApiResponseTask UnfollowUser(Guid userId, CancellationToken ct = default)

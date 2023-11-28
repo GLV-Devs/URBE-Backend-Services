@@ -129,7 +129,8 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             Id = Guid.NewGuid(),
             UserName = model.Username,
             Email = model.Email,
-            RealName = model.RealName
+            RealName = model.RealName,
+            Pronouns = model.Pronouns
         };
 
         var createresult = await userManager.CreateAsync(newuser);
@@ -209,7 +210,10 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                 };
 
                 if (requester is not null)
-                    view.FollowsRequester = await IsFollowing(requester, entity);
+                {
+                    view.FollowsRequester = await IsFollowing(entity, requester);
+                    view.IsFollowedByRequester = await IsFollowing(requester, entity); 
+                }
             }
             else
                 view = new UserViewModel()
@@ -231,6 +235,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             ProfilePictureUrl = entity.ProfilePictureUrl,
             RealName = entity.RealName,
             FollowsRequester = false,
+            IsFollowedByRequester = await IsFollowing(requester, entity),
             ProfileMessage = entity.ProfileMessage,
             Pronouns = entity.Pronouns
         });
@@ -285,48 +290,53 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             && await context.SocialAppUserFollows.Where(x => x.Follower == requester && x.Followed == followed).ExecuteDeleteAsync() > 0;
     }
 
-    public override ValueTask<IQueryable<object>?> GetViews(BaseAppUser? requester, IQueryable<SocialAppUser>? users)
-        => ValueTask.FromResult<IQueryable<object>?>(
-            users is null
-            ? null
-            : requester is null
-            ? users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
-                ? new UserViewModel()
-                {
-                    UserId = x.Id,
-                    ProfileMessage = x.ProfileMessage,
-                    ProfilePictureUrl = x.ProfilePictureUrl,
-                    Pronouns = x.Pronouns,
-                    RealName = x.RealName,
-                    Username = x.UserName!
-                }
-                : new UserViewModel()
-                {
-                    UserId = x.Id,
-                    Username = x.UserName!,
-                    ProfilePictureUrl = null,
-                    Pronouns = x.Pronouns,
-                })
-            : users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
-                ? new UserViewModel()
-                {
-                    UserId = x.Id,
-                    ProfileMessage = x.ProfileMessage,
-                    ProfilePictureUrl = x.ProfilePictureUrl,
-                    Pronouns = x.Pronouns,
-                    RealName = x.RealName,
-                    Username = x.UserName!,
-                    FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
-                }
-                : new UserViewModel()
-                {
-                    UserId = x.Id,
-                    Username = x.UserName!,
-                    Pronouns = x.Pronouns,
-                    ProfilePictureUrl = x.ProfilePictureUrl,
-                    FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
-                })
-           );
+    public override ValueTask<IQueryable<object>?> GetViews(BaseAppUser? r, IQueryable<SocialAppUser>? users)
+    {
+        var requester = (SocialAppUser?)r;
+        return ValueTask.FromResult<IQueryable<object>?>(
+                users is null
+                ? null
+                : requester is null
+                ? users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
+                    ? new UserViewModel()
+                    {
+                        UserId = x.Id,
+                        ProfileMessage = x.ProfileMessage,
+                        ProfilePictureUrl = x.ProfilePictureUrl,
+                        Pronouns = x.Pronouns,
+                        RealName = x.RealName,
+                        Username = x.UserName!
+                    }
+                    : new UserViewModel()
+                    {
+                        UserId = x.Id,
+                        Username = x.UserName!,
+                        ProfilePictureUrl = null,
+                        Pronouns = x.Pronouns,
+                    })
+                : users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
+                    ? new UserViewModel()
+                    {
+                        UserId = x.Id,
+                        ProfileMessage = x.ProfileMessage,
+                        ProfilePictureUrl = x.ProfilePictureUrl,
+                        Pronouns = x.Pronouns,
+                        RealName = x.RealName,
+                        Username = x.UserName!,
+                        FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester),
+                        IsFollowedByRequester = x.Followers != null && x.Followers.Contains(requester)
+                    }
+                    : new UserViewModel()
+                    {
+                        UserId = x.Id,
+                        Username = x.UserName!,
+                        Pronouns = x.Pronouns,
+                        ProfilePictureUrl = x.ProfilePictureUrl,
+                        FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester),
+                        IsFollowedByRequester = x.Followers != null && x.Followers.Contains(requester)
+                    })
+               );
+    }
 
     public override IQueryable<SocialAppUser> Query(BaseAppUser? r)
     {

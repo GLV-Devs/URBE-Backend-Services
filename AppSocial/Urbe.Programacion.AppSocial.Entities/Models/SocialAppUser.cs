@@ -20,6 +20,8 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
 
     public HashSet<SocialAppUser>? FollowedUsers { get; set; }
 
+    public HashSet<SocialAppUser>? Followers { get; set; }
+
     public HashSet<Post>? Posts { get; set; }
 
     public int FollowerCount { get; init; }
@@ -74,6 +76,11 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
                              UserSettings.AllowAnonymousPostViews |
                              UserSettings.AllowNonFollowerPostViews
                             );
+
+        mb.HasMany(x => x.Followers).WithMany().UsingEntity<SocialAppUserFollow>(
+            right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId),
+            left => left.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId)
+        );
 
         var followmb = mb.HasMany(x => x.FollowedUsers).WithMany().UsingEntity<SocialAppUserFollow>(
             right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId),

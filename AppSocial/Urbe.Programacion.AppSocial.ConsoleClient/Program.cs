@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using Urbe.Programacion.AppSocial.ClientLibrary;
+using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 
 namespace Urbe.Programacion.AppSocial.ConsoleClient;
 
@@ -44,6 +45,14 @@ public static class Program
         });
 
         var feed = await ApiClient.Posts.GetFeed();
+
+        var users = await ApiClient.Users.GetUsers();
+
+        foreach (var user in users.APIResponse.Data!.Cast<UserViewModel>())
+        {
+            var follow = await ApiClient.Users.FollowUser(user.UserId);
+            break;
+        }
 
         //var resp = await ApiClient.Identity.CreateNew(new DataTransfer.Requests.UserCreationModel()
         //{
