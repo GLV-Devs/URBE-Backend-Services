@@ -9,17 +9,20 @@
 }
 else
 {
-    <div class="post">
-        <div class="postHeader">
-            <img class="profilePic" src="@PostData.Poster.GetUserProfilePic()" />
-            <h3>@PostData.Poster!.Username</h3>
-            <span>@PostData.Poster.Pronouns</span>
-        </div>
-        <p>@PostData.Content</p>
-        <div class="postFooter">
-            <span>Publicado en @PostData.DatePosted.RenderPostTime() bajo '@PostData.PosterThenUsername'</span>
+    <div class="FullPost">
+        <div class="Post">
+            <div class="postHeader">
+                <img class="profilePic" src="@PostData.Poster.GetUserProfilePic()" />
+                <h3 class="usuarioPost">@PostData.Poster!.Username</h3>
+                <span>@PostData.Poster.Pronouns</span>
+            </div>
+            <p>@PostData.Content</p>
+            <div class="postFooter">
+                <span class="date">Publicado en @PostData.DatePosted.RenderPostTime() bajo '@PostData.PosterThenUsername'</span>
+            </div>
         </div>
         <hr />
         <NewPost InResponseTo="PostData" PostList="PostList" />
     </div>
+    
 }

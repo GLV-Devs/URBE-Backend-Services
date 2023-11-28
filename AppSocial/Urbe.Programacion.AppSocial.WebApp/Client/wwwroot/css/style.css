@@ -1,9 +1,12 @@
 ﻿@import url("https://fonts.googleapis.com/css2?family=Exo+2&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 /* otras fuentes
 https://fonts.google.com/specimen/Barlow+Semi+Condensed
 https://fonts.google.com/specimen/Signika+Negative
 https://fonts.google.com/specimen/Exo+2
-https://fonts.google.com/specimen/Hind */
+https://fonts.google.com/specimen/Hind 
+
+*/
 .error-message {
   color: 0;
 }
@@ -12,21 +15,24 @@ https://fonts.google.com/specimen/Hind */
 }
 
 body {
+  font-family: "Raleway", sans-serif;
   margin: 0px;
-  font-family: "Exo 2", sans-serif;
   height: 100%;
   overflow: hidden;
-}
-body ::-webkit-scrollbar {
-  width: 10px;
-  border-radius: 5px;
-}
-body ::-webkit-scrollbar:hover {
-  background-color: rgba(0, 0, 0, 0);
-}
-body ::-webkit-scrollbar-thumb {
-  height: 10px;
-  border-radius: 5px;
+  /*    ::-webkit-scrollbar {
+          width: 10px;
+          border-radius: 5px;
+          // transition: background-color 0.5s;
+      }
+
+      ::-webkit-scrollbar:hover {
+          background-color: rgba(0, 0, 0, 0);
+      }
+
+      ::-webkit-scrollbar-thumb {
+          height: 10px;
+          border-radius: 5px;
+      }*/
 }
 
 .container {
@@ -155,18 +161,18 @@ body ::-webkit-scrollbar-thumb {
   overflow: hidden;
 }
 .container .bottomBox .showPanel .showPanelContainer .screenBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  background-color: rgb(0, 95, 115);
-  border-radius: 25px;
-  padding: 20px;
-  width: 60vw;
-  height: 82vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  z-index: 15;
+  /*
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+   background-color: $principal;
+   border-radius: 25px;
+   padding: 20px;
+   width: 60vw;
+   height: 82vh;
+   overflow-y: scroll;
+   z-index: 15;*/
 }
 .container .bottomBox .showPanel .showPanelContainer .screenBox form {
   display: flex;
@@ -244,36 +250,55 @@ body ::-webkit-scrollbar-thumb {
   gap: 10px;
 }
 
+.FullPost {
+  width: 780px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 25px;
+  padding: 10px 30px;
+  color: white;
+  margin: 10px;
+}
+
+.postHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.postHeader .profilePic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.postHeader .usuarioPost {
+  color: white;
+  margin: 10px;
+}
+
+.date {
+  color: lightgray;
+  font-size: 15px;
+}
+
+p {
+  color: white;
+  font-weight: 400;
+  font-size: 20px;
+  margin: 10px;
+}
+
 .post {
-  width: 70%;
+  width: 700px;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
   border-radius: 25px;
   padding: 10px 30px;
   background-color: rgba(255, 255, 255, 0.1);
-}
-.post .postHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-}
-.post img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.post h3 {
-  color: white;
-}
-.post span {
-  color: lightgray;
-  font-size: 15px;
-}
-.post p {
-  color: white;
+  margin: 20px;
 }
 .post Button {
   width: 20%;
@@ -307,22 +332,25 @@ body ::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: scroll;
 }
 .sesion .sesionContainer {
-  display: flex;
-  overflow: hidden;
+  margin-top: 100px;
 }
 .sesion .loginFormContainer {
+  margin: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50vw;
-  height: 70vh;
+  width: 80vw;
+  min-height: 75vh;
   align-self: center;
   justify-self: center;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 25px;
+  overflow: scroll;
 }
 .sesion .loginFormContainer h1 {
   font-size: 50px;
@@ -365,10 +393,35 @@ body ::-webkit-scrollbar-thumb {
 }
 
 .TextField {
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0px 0px 7px 4px rgba(0, 0, 0, 0.1);
   transition: all ease 0.2s;
+  border: none;
+  width: 300px;
+  height: 30px;
 }
 .TextField:hover {
-  box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.2);
+}
+.TextField:focus {
+  outline: none;
+}
+
+.submit {
+  min-width: 25px;
+  min-height: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin: 10px;
+}
+
+.error-message {
+  font-size: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
 }
