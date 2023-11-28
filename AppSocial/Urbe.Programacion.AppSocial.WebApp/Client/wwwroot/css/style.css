@@ -365,10 +365,10 @@ body ::-webkit-scrollbar-thumb {
 }
 
 .TextField {
-  border-radius: 15px;
-  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  box-shadow: 0px 0px 7px 4px rgba(0, 0, 0, 0.1);
   transition: all ease 0.2s;
 }
 .TextField:hover {
-  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.9);
+  box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.4);
 }
