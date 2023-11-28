@@ -19,20 +19,17 @@ body {
   margin: 0px;
   height: 100%;
   overflow: hidden;
-  /*    ::-webkit-scrollbar {
-          width: 10px;
-          border-radius: 5px;
-          // transition: background-color 0.5s;
-      }
-
-      ::-webkit-scrollbar:hover {
-          background-color: rgba(0, 0, 0, 0);
-      }
-
-      ::-webkit-scrollbar-thumb {
-          height: 10px;
-          border-radius: 5px;
-      }*/
+}
+body ::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+body ::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+body ::-webkit-scrollbar-thumb {
+  height: 10px;
+  border-radius: 5px;
 }
 
 .container {
@@ -315,6 +312,7 @@ p {
   align-self: center;
   background-color: rgb(0, 71, 90);
   transition: all ease 0.45s;
+  color: white;
 }
 .post input::placeholder {
   text-align: center;
@@ -326,16 +324,20 @@ p {
   outline: none;
 }
 
+.sesionContainer {
+  margin-bottom: 40px;
+  height: 80vh;
+  align-content: center;
+  justify-content: center;
+}
+
 .sesion {
   background-color: rgb(0, 95, 115);
-  height: 100vh;
+  height: 95vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: scroll;
-}
-.sesion .sesionContainer {
-  margin-top: 100px;
 }
 .sesion .loginFormContainer {
   margin: 20px;
@@ -424,4 +426,30 @@ p {
   display: flex;
   flex-direction: column;
   width: 100px;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  max-height: 100px;
+  padding: 10px;
+}
+.contact-card .avatar {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+}
+.contact-card .avatar .profile-pic {
+  height: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.contact-card .avatar .username {
+  font-size: 17px;
+}
+.contact-card .avatar .contact-card-item {
+  height: 40px;
+}
+.contact-card:hover {
+  box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.2);
 }

@@ -32,7 +32,7 @@ body {
     height: 100%;
     overflow: hidden;
 
-/*    ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         width: 10px;
         border-radius: 5px;
         // transition: background-color 0.5s;
@@ -45,7 +45,7 @@ body {
     ::-webkit-scrollbar-thumb {
         height: 10px;
         border-radius: 5px;
-    }*/
+    }
 }
 
 .container{
@@ -378,6 +378,7 @@ p {
         align-self: center;
         background-color: $blueDark;
         transition: all ease .45s;
+        color:white;
 
         &::placeholder {
             text-align: center;
@@ -392,17 +393,21 @@ p {
     }
 }
 
+.sesionContainer {
+    margin-bottom:40px;
+    height:80vh;
+    align-content: center;
+    justify-content: center;
+}
+
 .sesion {
     background-color: $principal;
-    height: 100vh;
+    height: 95vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: scroll;
-
-    .sesionContainer {
-        margin-top: 100px;
-    }
+  
 
     .loginFormContainer {
         margin: 20px;
@@ -504,4 +509,36 @@ p {
     flex-direction:column;
     width:100px; 
 }
+
+.contact-card {
+    display: flex;
+    flex-direction: column;
+    max-height: 100px;
+    padding: 10px;
+
+    .avatar {
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+
+        .profile-pic {
+            height: 5px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .username{
+            font-size: 17px;
+        }
+
+        .contact-card-item {
+            height: 40px;
+        }
+    }
+
+    &:hover {
+        box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+
 
