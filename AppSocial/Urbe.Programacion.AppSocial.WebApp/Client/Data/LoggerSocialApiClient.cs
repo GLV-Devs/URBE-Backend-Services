@@ -17,13 +17,7 @@ public class LoggerSocialApiClient : SocialApiClient
         try
         {
             var r = await base.HandleResponseMessage(message, ct);
-            Log.LogDebug("Response Message:\n\tHttpCode: {code}\n\tApiResponseCode: {apicode}\n\tData: {data}\n\tErrors: {errors}\n\tBearer Token Exists: {bte}",
-                r.HttpStatusCode,
-                r.APIResponse.Code,
-                r.APIResponse.Data,
-                r.APIResponse.Errors,
-                string.IsNullOrWhiteSpace(r.APIResponse.BearerToken) is false
-            );
+            Log.LogRequestResponse(r);
             return r;
         }
         catch(Exception e)

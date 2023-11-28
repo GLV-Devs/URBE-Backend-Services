@@ -40,14 +40,16 @@ public partial class Index
 
     protected async Task RefreshFeed()
     {
+        Errors.Clear();
         var x = await Client.Posts.GetFeed();
-        if (Helper.IsExpectedCode(ref Errors, x.HttpStatusCode) is false
-            || x.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.PostView) is false)
-        {
-            if (x.APIResponse.Errors is not null)
-                Errors.AddErrorRange(x.APIResponse.Errors);
-            return;
-        }
+        //if (Helper.IsExpectedCode(ref Errors, x.HttpStatusCode) is false 
+        //    || x.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.PostView) is false)
+        //{
+        //    Log.LogRequestResponse(x);
+        //    if (x.APIResponse.Errors is not null)
+        //        Errors.AddErrorRange(x.APIResponse.Errors);
+        //    return;
+        //}
 
         Debug.Assert(x.APIResponse.Data is not null);
         Posts.Clear();

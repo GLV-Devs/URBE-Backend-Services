@@ -149,7 +149,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         IQueryable<Post> query = context.Posts
             .AsNoTracking()
             .OrderBy(x => x)
-            .Where(x => requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster!));
+            .Where(x => x.Poster == requester || (requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster!)));
 
         if (requester.LastSeenPostInFeedId is Snowflake afterid)
         {

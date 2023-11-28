@@ -23,9 +23,11 @@ public partial class NewPost
     public async Task ValidSubmit()
     {
         CreationModel.InResponseTo = InResponseTo?.Id;
+        Logger.LogInformation("Creating post");
         var resp = await Client.Posts.Create(CreationModel);
         if (resp.HttpStatusCode != HttpStatusCode.OK)
         {
+            Logger.LogInformation("Post could not be created due to an HTTP error: {httpcode}", resp.HttpStatusCode);
             if (resp.APIResponse?.Errors is IEnumerable<ErrorMessage> msgs)
                 Errors.AddErrorRange(msgs);
             else
@@ -36,15 +38,22 @@ public partial class NewPost
 
         if (resp.APIResponse.Code.ResponseId is not APIResponseCodeEnum.PostView)
         {
+            Logger.LogInformation("Post could not be created due to an unexpected API Response: {apicode}", resp.APIResponse.Code.ResponseId.ToString());
+            Logger.LogRequestResponse(resp);
+
             if (resp.APIResponse.Errors is IEnumerable<ErrorMessage> msgs)
                 Errors.AddErrorRange(msgs);
             else
-                Errors.AddError(ErrorMessages.UnexpectedServerResponse((int)APIResponseCodeEnum.PostView, APIResponseCodeEnum.PostView.ToString()));
+                Errors.AddError(ErrorMessages.UnexpectedServerResponse(
+                    (int)resp.APIResponse.Code.ResponseId, 
+                    resp.APIResponse.Code.ResponseId.ToString()
+                ));
 
             return;
         }
 
         Debug.Assert(resp.APIResponse.Data is not null);
+        Logger.LogInformation("Post succesfully created");
         PostList?.Add(resp.APIResponse.Data.Cast<PostViewModel>());
     }
 }
