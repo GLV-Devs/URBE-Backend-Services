@@ -9,9 +9,10 @@
                 <span class="username">@UserModel.Username</span>
                 <span class="pronouns">@PronounsSeparator@UserModel.Pronouns</span>
             </p>
+            <button class="small btn btn-primary follow-button" @onclick="FollowUser">@FollowLabel</button>
         </div>
         <p class="contact-card-item profile-message">@(UserModel.ProfileMessage ?? "...")</p>
-        <button class="small btn btn-primary follow-button" @onclick="FollowUser">@FollowLabel</button>
+        
     </div>
 }
 else
