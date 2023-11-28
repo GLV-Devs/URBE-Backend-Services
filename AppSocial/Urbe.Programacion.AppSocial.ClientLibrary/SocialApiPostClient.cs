@@ -1,11 +1,12 @@
-﻿using Urbe.Programacion.AppSocial.DataTransfer.Responses;
+﻿using Urbe.Programacion.AppSocial.DataTransfer.Requests;
+using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.Common;
 
 using ApiResponseTask = System.Threading.Tasks.Task<Urbe.Programacion.AppSocial.ClientLibrary.SocialApiRequestResponse>;
 
 namespace Urbe.Programacion.AppSocial.ClientLibrary;
 
-public sealed class SocialApiPostClient : SocialApiClientModule
+public sealed class SocialApiPostClient : SocialApiCRDModule<Snowflake, PostCreationModel>
 {
     internal SocialApiPostClient(SocialApiClient client) : base(client, "api/post") { }
 
@@ -14,7 +15,7 @@ public sealed class SocialApiPostClient : SocialApiClientModule
     // query
 
     public ApiResponseTask GetMyPosts(CancellationToken ct = default)
-        => Get(null, ct);
+        => Get("me", ct);
     // query
 
     public ApiResponseTask GetFeed(CancellationToken ct = default)
@@ -23,4 +24,10 @@ public sealed class SocialApiPostClient : SocialApiClientModule
     public ApiResponseTask GetUserPosts(Guid userId, CancellationToken ct = default)
         => Get($"from/{userId}", ct);
     // query
+
+    public ApiResponseTask LikePost(Snowflake postId, CancellationToken ct = default)
+        => Put($"like/{postId}", ct);
+
+    public ApiResponseTask UnlikePost(Snowflake postId, CancellationToken ct = default)
+        => Put($"unlike/{postId}", ct);
 }

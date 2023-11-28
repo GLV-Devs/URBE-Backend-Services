@@ -1,14 +1,31 @@
 ﻿using System.Diagnostics;
 using Urbe.Programacion.AppSocial.DataTransfer.Responses;
+using Urbe.Programacion.AppSocial.WebApp.Client.Data;
 using Urbe.Programacion.Shared.Common;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Client.Pages;
 
 public partial class Index
 {
-    public IEnumerable<PostViewModel>? Posts;
+    public PostList Posts = new();
     public ErrorList Errors;
     public bool IsErrored;
+
+    public Index()
+    {
+        Posts.ListCleared += Posts_ListCleared;
+        Posts.PostAdded += Posts_PostAdded;
+    }
+
+    private void Posts_PostAdded(PostList arg1, PostViewModel arg2)
+    {
+        StateHasChanged();
+    }
+
+    private void Posts_ListCleared(PostList obj)
+    {
+        StateHasChanged();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -33,6 +50,7 @@ public partial class Index
         }
 
         Debug.Assert(x.APIResponse.Data is not null);
-        Posts = x.APIResponse.Data.Cast<PostViewModel>();
+        Posts.Clear();
+        Posts.Add(x.APIResponse.Data.Cast<PostViewModel>());
     }
 }

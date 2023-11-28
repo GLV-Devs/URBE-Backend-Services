@@ -8,7 +8,10 @@ namespace Urbe.Programacion.Shared.ModelServices.DTOs;
 public static class DTOResponseExtensions
 {
     public static async ValueTask<APIResponse<TObjectCode>> GetResponse<TObjectCode>(
-        this IEnumerable<IResponseModel<TObjectCode>> data, string? traceId, APIResponse<TObjectCode>? response)
+        this IEnumerable<IResponseModel<TObjectCode>> data, 
+        string? traceId,
+        Func<TObjectCode, APIResponse<TObjectCode>>? responseFactory
+    )
         where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
     {
         TObjectCode code =
@@ -20,7 +23,7 @@ public static class DTOResponseExtensions
             ? TObjectCode.NoData
             : data.First().APIResponseCode;
 
-        var r = response ?? new(code);
+        var r = responseFactory?.Invoke(code) ?? new(code);
         r.Data = data;
         r.TraceId = traceId;
         return r;
@@ -44,10 +47,14 @@ public static class DTOResponseExtensions
         return r;
     }
 
-    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(this IResponseModel<TObjectCode> data, string? traceId, APIResponse<TObjectCode>? response)
+    public static APIResponse<TObjectCode> GetResponse<TObjectCode>(
+        this IResponseModel<TObjectCode> data, 
+        string? traceId, 
+        Func<TObjectCode, APIResponse<TObjectCode>>? responseFactory
+    )
         where TObjectCode : struct, IEquatable<TObjectCode>, IAPIResponseObjectCode<TObjectCode>
     {
-        var r = response ?? new(data.APIResponseCode);
+        var r = responseFactory?.Invoke(data.APIResponseCode) ?? new(data.APIResponseCode);
         r.Data = new object[] { data };
         r.TraceId = traceId;
         return r;

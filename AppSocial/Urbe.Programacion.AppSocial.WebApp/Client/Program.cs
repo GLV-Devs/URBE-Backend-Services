@@ -1,3 +1,4 @@
+using Majorsoft.Blazor.Extensions.BrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Urbe.Programacion.AppSocial.ClientLibrary;
@@ -18,6 +19,7 @@ public class Program
             sp => new HttpClient(sp.GetRequiredService<CookieHandler>()) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) }
         );
 
+        builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
         builder.Services.AddScoped<SocialApiClient>();
         builder.Services.AddSingleton<AppState>();
 

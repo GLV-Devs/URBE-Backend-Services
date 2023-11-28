@@ -15,6 +15,8 @@ public static class Program
 
     private static async Task Main(string[] args)
     {
+        await DebugMain(args);
+        return;
         if (File.Exists("ClientConfig.json"))
         {
             using var file = File.OpenRead("ClientConfig.json");
@@ -30,5 +32,24 @@ public static class Program
 
         var csd = new ConsoleScreenDriver();
         //await csd.Run(new LoginScreen());
+    }
+
+    private static async Task DebugMain(string[] args)
+    {
+        ApiClient = new("https://localhost:7062");
+        var resp = await ApiClient.Identity.LogIn(new DataTransfer.Requests.UserLoginModel()
+        {
+            Password = "5976431-Absol",
+            UserNameOrEmail = "dagarciam1014@gmail.com"
+        });
+
+        //var resp = await ApiClient.Identity.CreateNew(new DataTransfer.Requests.UserCreationModel()
+        //{
+        //    Email = "dudenottelling@gmail.com",
+        //    Password = "5976431-Absol",
+        //    Pronouns = "el/elle/ella",
+        //    RealName = "Diego García",
+        //    Username = "DiegoG"
+        //});
     }
 }

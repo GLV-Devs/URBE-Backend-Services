@@ -38,6 +38,7 @@ public partial class Login
             return;
         }
 
+        await State.SetToken(resp.APIResponse.BearerToken);
         State.LoggedInUser = u;
         Nav.NavigateTo("/");
     }

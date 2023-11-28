@@ -19,12 +19,12 @@
     }
     else
     {
-        <NewPost />
+        <NewPost PostList="Posts" />
         @if (Posts is not null)
         {
             @foreach (var p in Posts)
             {
-                <Post PostData="p" />
+                <Post PostData="p" PostList="Posts" />
             }
         }
     }

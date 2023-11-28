@@ -18,9 +18,19 @@ public abstract class SocialApiClientModule
 
     private async ApiResponseTask HandleResponseMessage(HttpRequestMessage message, CancellationToken ct)
     {
-        var resp = await SocialApiRequestResponse.FromResponse(Http.SendAsync(message, ct), Client.JsonOptions, ct);
+        var resp = await SocialApiRequestResponse.FromResponse(
+            Http.SendAsync(
+                message, 
+                HttpCompletionOption.ResponseHeadersRead, 
+                ct
+            ), 
+            Client.JsonOptions, 
+            ct
+        );
+
         if (string.IsNullOrWhiteSpace(resp.APIResponse?.BearerToken) is false)
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", resp.APIResponse.BearerToken);
+        
         return resp;
     }
 

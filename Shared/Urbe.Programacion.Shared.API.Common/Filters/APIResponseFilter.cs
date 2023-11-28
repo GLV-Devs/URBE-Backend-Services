@@ -42,10 +42,10 @@ public class APIResponseFilter<TObjectCode> : IAsyncResultFilter
                     return resp;
 
                 case IResponseModel<TObjectCode> model:
-                    return model.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
+                    return model.GetResponse(context.HttpContext.TraceIdentifier, c => CreateAPIResponseObject(c, context));
 
                 case IEnumerable<IResponseModel<TObjectCode>> models:
-                    return await models.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
+                    return await models.GetResponse(context.HttpContext.TraceIdentifier, c => CreateAPIResponseObject(c, context));
 
                 case ErrorList errorList:
                     return errorList.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
@@ -82,7 +82,7 @@ public class APIResponseFilter<TObjectCode> : IAsyncResultFilter
 
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
-        await next.Invoke();
         context.Result = new ObjectResult(await FillAPIResponseObject(context));
+        await next.Invoke();
     }
 }

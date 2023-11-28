@@ -39,7 +39,7 @@ public class PostController : CRDController<SocialAppUser, Post, Snowflake, Post
     public Task<IActionResult> GetLatestPosts()
         => GetLatestPosts(null);
 
-    [HttpGet("like/{id}")]
+    [HttpPut("like/{id}")]
     [Authorize]
     public async Task<IActionResult> AddLike(long id)
     {
@@ -57,7 +57,7 @@ public class PostController : CRDController<SocialAppUser, Post, Snowflake, Post
         return Ok();
     }
 
-    [HttpGet("unlike/{id}")]
+    [HttpPut("unlike/{id}")]
     [Authorize]
     public async Task<IActionResult> RemoveLike(long id)
     {
@@ -84,7 +84,7 @@ public class PostController : CRDController<SocialAppUser, Post, Snowflake, Post
         return Ok(await PostRepository.GetViews(u, await PostRepository.GetLatestPosts(u, count ?? 10)));
     }
 
-    [HttpGet]
+    [HttpGet("me")]
     [Authorize]
     [EnableQuery]
     public async Task<IActionResult> GetPosts()

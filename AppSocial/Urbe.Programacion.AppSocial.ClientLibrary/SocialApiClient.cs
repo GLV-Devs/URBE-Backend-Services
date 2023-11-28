@@ -17,6 +17,12 @@ public sealed class SocialApiClient
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
+    public AuthenticationHeaderValue? Authorization
+    {
+        set => Http.DefaultRequestHeaders.Authorization = value;
+        get => Http.DefaultRequestHeaders.Authorization;
+    }
+
     public SocialApiIdentityClient Identity { get; }
     public SocialApiPostClient Posts { get; }
     public SocialApiUserClient Users { get; }

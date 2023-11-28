@@ -4,6 +4,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.Shared.Common;
 using System;
+using Majorsoft.Blazor.Extensions.BrowserStorage;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Client.Shared;
 
@@ -13,6 +14,7 @@ public partial class AppSocialComponent
     [Inject] protected SocialApiClient Client { get; set; }
     [Inject] protected AppState AppState { get; set; }
     [Inject] protected NavigationManager Navigation { get; set; }
+    [Inject] protected ILocalStorageService LocalStorage { get; set; } 
 #pragma warning restore CS8618
 
     protected ErrorList Errors;
@@ -28,7 +30,7 @@ public partial class AppSocialComponent
             return false;
         }
 
-        if (response.APIResponse.Code.IsExpectedResponse(ref Errors, expectedApiResponseCode))
+        if (response.APIResponse.Code.IsExpectedResponse(ref Errors, expectedApiResponseCode) is false)
         {
             if (response.APIResponse.Errors is not null)
                 Errors.AddErrorRange(response.APIResponse.Errors);
