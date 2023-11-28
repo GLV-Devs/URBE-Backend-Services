@@ -1,8 +1,14 @@
-﻿
-<div class="ContactCard">
-    <div class="Avatar">
-        <img class="profilePic" src="" />
-        <p>Nombre de usuario</p>
+﻿@if (UserModel is not null)
+{
+    <div class="contact-card">
+        <div class="contact-card-item avatar">
+            <img class="contact-card-item profile-pic" src="@UserModel.GetUserProfilePic()" />
+            <p class="contact-card-item username"><span>@UserModel.Username</span> | <span>@UserModel.Pronouns</span></p>
+        </div>
+        <p class="contact-card-item profile-message">@UserModel.ProfileMessage</p>
     </div>
-    <p>Mensajito bonito de usuario</p>
-</div>
+}
+else
+{
+    <div class="contact-card"><p>null</p></div>
+}

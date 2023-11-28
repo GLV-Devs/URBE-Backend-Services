@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject SocialApiClient Client
+@inject ILogger<NavMenu> Logger
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">App Social</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -20,8 +23,9 @@
             </NavLink>
         </div>
         <hr/>
-        <UserListCompact />
     </nav>
+
+    <UserList Compact="true" UserViews="UserList" />
 </div>
 
 @code {

@@ -1,0 +1,13 @@
+﻿<div class="user-list @CssClass">
+    @if (UserViews is not null)
+    {
+        @foreach (var user in UserViews)
+        {
+            <ContactCard UserModel="user"/>
+        }
+    }
+    else
+    {
+        <p>null</p>
+    }
+</div>

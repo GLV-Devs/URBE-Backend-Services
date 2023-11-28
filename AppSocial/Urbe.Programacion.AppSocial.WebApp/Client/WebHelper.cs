@@ -11,6 +11,12 @@ namespace Urbe.Programacion.AppSocial.WebApp.Client;
 
 public static class WebHelper
 {
+    public static string GetUserProfilePic(this UserViewModel user)
+        => user?.ProfilePictureUrl ?? "/defaultuserpic.jpg";
+
+    public static string GetUserProfilePic(this UserSelfViewModel user)
+        => user?.ProfilePictureUrl ?? "/defaultuserpic.jpg";
+
     public static async ValueTask VerifyUserState(this AppState state, SocialApiClient client, NavigationManager nav, ILogger log, CancellationToken ct = default)
     {
         log.LogInformation("Verifying User State");
