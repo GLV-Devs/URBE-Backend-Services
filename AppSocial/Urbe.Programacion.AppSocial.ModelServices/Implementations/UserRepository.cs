@@ -293,10 +293,12 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     public override ValueTask<IQueryable<object>?> GetViews(BaseAppUser? r, IQueryable<SocialAppUser>? users)
     {
         var requester = (SocialAppUser?)r;
-        return ValueTask.FromResult<IQueryable<object>?>(
-                users is null
-                ? null
-                : requester is null
+        if (users is null)
+            return ValueTask.FromResult<IQueryable<object>?>(null);
+        else
+        {
+            return ValueTask.FromResult<IQueryable<object>?>(
+                (IQueryable<UserViewModel>?)(requester is null
                 ? users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
                     ? new UserViewModel()
                     {
@@ -314,7 +316,8 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                         ProfilePictureUrl = null,
                         Pronouns = x.Pronouns,
                     })
-                : users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.FollowedUsers != null && x.FollowedUsers.Contains(requester)
+                : users.AsNoTracking()
+                    .Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (x.FollowedUsers != null && x.FollowedUsers.Contains(requester))
                     ? new UserViewModel()
                     {
                         UserId = x.Id,
@@ -323,7 +326,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                         Pronouns = x.Pronouns,
                         RealName = x.RealName,
                         Username = x.UserName!,
-                        FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester),
+                        //FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester),
                         IsFollowedByRequester = x.Followers != null && x.Followers.Contains(requester)
                     }
                     : new UserViewModel()
@@ -332,10 +335,11 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                         Username = x.UserName!,
                         Pronouns = x.Pronouns,
                         ProfilePictureUrl = x.ProfilePictureUrl,
-                        FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester),
+                        //FollowsRequester = x.FollowedUsers != null && x.FollowedUsers.Contains(requester),
                         IsFollowedByRequester = x.Followers != null && x.Followers.Contains(requester)
-                    })
+                    }))
                );
+        }
     }
 
     public override IQueryable<SocialAppUser> Query(BaseAppUser? r)

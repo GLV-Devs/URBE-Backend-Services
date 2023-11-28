@@ -43,6 +43,6 @@ public partial class AppSocialComponent
         return true;
     }
 
-    protected ValueTask VerifyUserState(CancellationToken ct = default)
+    protected ValueTask<bool> VerifyUserState(CancellationToken ct = default)
         => WebHelper.VerifyUserState(AppState, Client, Navigation, Logger, ct);
 }

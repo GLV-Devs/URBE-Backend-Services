@@ -33,7 +33,8 @@ public partial class Index
 
         if (firstRender)
         {
-            await State.VerifyUserState(Client, Nav, Log);
+            if (await State.VerifyUserState(Client, Nav, Log) is false)
+                return;
             await RefreshFeed();
         }
     }

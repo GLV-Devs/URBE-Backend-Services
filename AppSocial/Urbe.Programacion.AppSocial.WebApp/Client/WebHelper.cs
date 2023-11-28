@@ -20,13 +20,13 @@ public static class WebHelper
     public static string GetUserProfilePic(this UserSelfViewModel? user)
         => user?.ProfilePictureUrl ?? "/defaultuserpic.jpg";
 
-    public static async ValueTask VerifyUserState(this AppState state, SocialApiClient client, NavigationManager nav, ILogger log, CancellationToken ct = default)
+    public static async ValueTask<bool> VerifyUserState(this AppState state, SocialApiClient client, NavigationManager nav, ILogger log, CancellationToken ct = default)
     {
         log.LogInformation("Verifying User State");
         if (state.LoggedInUser is not null)
         {
             log.LogDebug("User already present");
-            return;
+            return true;
         }
 
         var token = await state.GetToken();
@@ -45,10 +45,11 @@ public static class WebHelper
             Debug.Assert(data is not null);
             await state.SetToken(resp.APIResponse.BearerToken);
             state.LoggedInUser = data;
-            return;
+            return true;
         }
 
         log.LogInformation("Navigating to Login Page");
         nav.NavigateTo("/Login");
+        return false;
     }
 }
