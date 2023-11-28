@@ -11,11 +11,14 @@ else
 {
     <div class="post">
         <div class="postHeader">
-            <img class="profilePic" src="@PostData.Poster!.ProfilePictureUrl" />
-            <h3>@PostData.Poster.Username</h3>
-            <span>@PostData.Poster.Pronouns | '@PostData.PosterThenUsername' al momento de publicación en @PostData.DatePosted.ToLocalTime().DateTime</span>
+            <img class="profilePic" src="@PostData.Poster.GetUserProfilePic()" />
+            <h3>@PostData.Poster!.Username</h3>
+            <span>@PostData.Poster.Pronouns</span>
         </div>
         <p>@PostData.Content</p>
+        <div class="postFooter">
+            <span>Publicado en @PostData.DatePosted.RenderPostTime() bajo '@PostData.PosterThenUsername'</span>
+        </div>
         <hr />
         <NewPost InResponseTo="PostData" PostList="PostList" />
     </div>
