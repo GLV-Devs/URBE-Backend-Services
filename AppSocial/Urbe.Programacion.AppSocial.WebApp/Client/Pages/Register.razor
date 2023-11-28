@@ -36,9 +36,7 @@
                 DisplayName="Correo Electr�nico"
                 @bind-Value="CreationModel.Email"
                 id="email" />
-            <ValidationMessage For="() => CreationModel.Email" />
-        
-  
+            <ValidationMessage For="() => CreationModel.Email" />  
 
             <label for="confirm">Confirmaci�n de Correo Electr�nico</label>
             <InputText class="TextField"
@@ -57,9 +55,7 @@
                 @bind-Value="CreationModel.Password"
                 type="password"
                 id="password" />
-            <ValidationMessage For="() => CreationModel.Password" />
-        
-
+            <ValidationMessage For="() => CreationModel.Password" />    
 
             <label for="confirmpassword">Confirmar Contrase�a</label>
             <InputText class="TextField"
@@ -69,9 +65,6 @@
                 id="confirmpassword" />
             <ValidationMessage For="() => CreationModel.ConfirmPassword" />
         </div>
-
-
-
         
         <div class="form-group">
             <label for="pronouns">Pronombres</label>
@@ -83,12 +76,11 @@
         </div>
 
   
-
         <button type="submit">Registrarse</button>
 
     </EditForm>
     
-    <span>�Ya tienes cuenta?</span>
+    <span>¿Ya tienes cuenta?</span>
     <span><a href="/Login">Ingresar</a></span>
     
 </div>
