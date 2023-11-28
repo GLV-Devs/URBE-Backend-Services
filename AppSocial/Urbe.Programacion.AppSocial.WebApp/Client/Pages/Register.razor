@@ -20,49 +20,49 @@
         <ValidationSummary />
         
         <div class="form-group">
-            <label class="TextField" for="username">Nombre de Usuario</label>
-            <InputText 
-                DisplayName="Nombre de Usuario"
+            <label for="username">Nombre de Usuario</label>
+            <InputText class="TextField"
+                       DisplayName="Nombre de Usuario"
                 @bind-Value="CreationModel.Username"
                 id="username" />
             <ValidationMessage For="() => CreationModel.Username" />
         </div>
         
-        <br />
+
 
         <div class="form-group">
             <label for="email">Correo Electr�nico</label>
-            <InputText 
+            <InputText class="TextField"
                 DisplayName="Correo Electr�nico"
                 @bind-Value="CreationModel.Email"
                 id="email" />
             <ValidationMessage For="() => CreationModel.Email" />
         
-            <br />    
+  
 
             <label for="confirm">Confirmaci�n de Correo Electr�nico</label>
-            <InputText 
+            <InputText class="TextField"
                 DisplayName="Confirmaci�n de Correo Electr�nico"
                 @bind-Value="CreationModel.ConfirmEmail"
                 id="confirm" />
             <ValidationMessage For="() => CreationModel.ConfirmEmail" />
         </div>
         
-        <br />
+
 
         <div class="form-group">
             <label for="password">Contrase�a</label>
-            <InputText 
+            <InputText class="TextField"
                 DisplayName="Contrase�a"
                 @bind-Value="CreationModel.Password"
                 type="password"
                 id="password" />
             <ValidationMessage For="() => CreationModel.Password" />
         
-            <br />
+
 
             <label for="confirmpassword">Confirmar Contrase�a</label>
-            <InputText 
+            <InputText class="TextField"
                 DisplayName="Confirmar Contrase�a"
                 @bind-Value="CreationModel.ConfirmPassword"
                 type="password"
@@ -70,19 +70,19 @@
             <ValidationMessage For="() => CreationModel.ConfirmPassword" />
         </div>
 
-        <br />
+
 
         
         <div class="form-group">
             <label for="pronouns">Pronombres</label>
-            <InputText 
+            <InputText class="TextField"
                 DisplayName="Pronombres"
                 @bind-Value="CreationModel.Pronouns"
                 id="pronouns" />
             <ValidationMessage For="() => CreationModel.Pronouns" />
         </div>
 
-        <br />    
+  
 
         <button type="submit">Registrarse</button>
 

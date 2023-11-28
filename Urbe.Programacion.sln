@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urbe.Programacion.AppSocial.Entities", "AppSocial\Urbe.Programacion.AppSocial.Entities\Urbe.Programacion.AppSocial.Entities.csproj", "{9F9BE47C-8A98-4602-B7AE-65040CCD9E65}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DD011580-B254-4F40-A5E9-FB1800C48DE1}"
+	ProjectSection(SolutionItems) = preProject
+		AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Shared\AppSocialComponent.razor = AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Shared\AppSocialComponent.razor
+		AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Shared\AppSocialComponent.razor.cs = AppSocial\Urbe.Programacion.AppSocial.WebApp\Client\Shared\AppSocialComponent.razor.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{26CF868D-32EA-4642-ACB4-FFF654CC129D}"
 EndProject

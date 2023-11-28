@@ -356,3 +356,19 @@ body ::-webkit-scrollbar-thumb {
 .sesion .loginFormContainer img {
   width: 80px;
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.TextField {
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.3);
+  transition: all ease 0.2s;
+}
+.TextField:hover {
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.9);
+}
