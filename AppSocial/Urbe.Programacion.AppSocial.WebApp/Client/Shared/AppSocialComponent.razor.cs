@@ -14,7 +14,8 @@ public partial class AppSocialComponent
     [Inject] protected SocialApiClient Client { get; set; }
     [Inject] protected AppState AppState { get; set; }
     [Inject] protected NavigationManager Navigation { get; set; }
-    [Inject] protected ILocalStorageService LocalStorage { get; set; } 
+    [Inject] protected ILocalStorageService LocalStorage { get; set; }
+    [Inject] protected ILogger<AppSocialComponent> Logger { get; set; }
 #pragma warning restore CS8618
 
     protected ErrorList Errors;
@@ -43,5 +44,5 @@ public partial class AppSocialComponent
     }
 
     protected ValueTask VerifyUserState(CancellationToken ct = default)
-        => WebHelper.VerifyUserState(AppState, Client, Navigation, ct);
+        => WebHelper.VerifyUserState(AppState, Client, Navigation, Logger, ct);
 }

@@ -11,18 +11,26 @@ namespace Urbe.Programacion.AppSocial.WebApp.Client;
 
 public static class WebHelper
 {
-    public static async ValueTask VerifyUserState(this AppState state, SocialApiClient client, NavigationManager nav, CancellationToken ct = default)
+    public static async ValueTask VerifyUserState(this AppState state, SocialApiClient client, NavigationManager nav, ILogger log, CancellationToken ct = default)
     {
+        log.LogInformation("Verifying User State");
         if (state.LoggedInUser is not null)
+        {
+            log.LogDebug("User already present");
             return;
+        }
 
         var token = await state.GetToken();
         if (string.IsNullOrWhiteSpace(token) is false)
+        {
             client.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            log.LogDebug("Obtained Bearer Token from local storage");
+        }
 
         var resp = await client.Users.GetMe(ct);
         if (resp.HttpStatusCode == HttpStatusCode.OK)
         {
+            log.LogDebug("Obtained User info from API");
             Debug.Assert(resp.APIResponse.Code.ResponseId == APIResponseCodeEnum.UserSelfView);
             var data = resp.APIResponse.Data?.Cast<UserSelfViewModel>().FirstOrDefault();
             Debug.Assert(data is not null);
@@ -31,6 +39,7 @@ public static class WebHelper
             return;
         }
 
+        log.LogInformation("Navigating to Login Page");
         nav.NavigateTo("/Login");
     }
 }

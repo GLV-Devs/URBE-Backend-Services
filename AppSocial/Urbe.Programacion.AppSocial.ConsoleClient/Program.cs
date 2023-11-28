@@ -43,6 +43,8 @@ public static class Program
             UserNameOrEmail = "dagarciam1014@gmail.com"
         });
 
+        var feed = await ApiClient.Posts.GetFeed();
+
         //var resp = await ApiClient.Identity.CreateNew(new DataTransfer.Requests.UserCreationModel()
         //{
         //    Email = "dudenottelling@gmail.com",

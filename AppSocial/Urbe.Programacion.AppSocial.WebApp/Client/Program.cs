@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Urbe.Programacion.AppSocial.ClientLibrary;
 using Urbe.Programacion.AppSocial.WebApp.Client;
+using Urbe.Programacion.AppSocial.WebApp.Client.Data;
 
 namespace Urbe.Programacion.AppSocial.WebApp.Client;
 
@@ -20,7 +21,7 @@ public class Program
         );
 
         builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
-        builder.Services.AddScoped<SocialApiClient>();
+        builder.Services.AddScoped<SocialApiClient, LoggerSocialApiClient>();
         builder.Services.AddSingleton<AppState>();
 
         await builder.Build().RunAsync();

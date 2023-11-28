@@ -33,7 +33,7 @@ public partial class Index
 
         if (firstRender)
         {
-            await State.VerifyUserState(Client, Nav);
+            await State.VerifyUserState(Client, Nav, Log);
             await RefreshFeed();
         }
     }

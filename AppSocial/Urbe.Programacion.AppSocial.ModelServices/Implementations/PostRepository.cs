@@ -140,7 +140,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         => requester?.Id.Equals(poster.Id) is true
         || (poster.Settings.HasFlag(UserSettings.AllowAnonymousViews) || requester is not null)
             && (poster.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || requester is not null && await userRepository.IsFollowing(requester, poster));
-
+    
     public async ValueTask<IQueryable<Post>?> GetLatestPosts(SocialAppUser? requester, int count)
     {
         if (requester?.Id is not Guid uid || count is <= 0)
@@ -148,23 +148,26 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
 
         IQueryable<Post> query = context.Posts
             .AsNoTracking()
+            .OrderBy(x => x)
             .Where(x => requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster!));
 
         if (requester.LastSeenPostInFeedId is Snowflake afterid)
         {
             var q2 = context.Posts.Where(x => x.Id >= afterid).Take(count);
             var newlastid = await UpdateLastPost(q2);
-
-            return await q2.CountAsync() >= count ? q2 : query.Reverse().Where(x => x.Id <= newlastid).Take(count);
+            return newlastid is Snowflake nli
+                ? await q2.CountAsync() >= count ? q2 : query.Reverse().Where(x => x.Id <= newlastid).Take(count)
+                : null;
         }
 
         query = query.Take(count);
-        await UpdateLastPost(query);
-        return query;
+        return await UpdateLastPost(query) is Snowflake ? query : null;
 
-        async Task<Snowflake> UpdateLastPost(IQueryable<Post> query)
+        async Task<Snowflake?> UpdateLastPost(IQueryable<Post> query)
         {
-            var newid = await query.Select(x => x.Id).LastAsync();
+            var newid = await query.Select(x => x.Id).OrderBy(x => x).LastOrDefaultAsync();
+            if (newid == default) return default;
+
             await context.SocialAppUsers
                             .Where(x => x.Id == uid)
                             .ExecuteUpdateAsync(x => x.SetProperty(p => p.LastSeenPostInFeedId, newid));
