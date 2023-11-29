@@ -15,6 +15,12 @@ public partial class Index
     {
         Posts.ListCleared += Posts_ListCleared;
         Posts.PostAdded += Posts_PostAdded;
+        Posts.RefreshRequested += Posts_RefreshRequested;
+    }
+
+    private void Posts_RefreshRequested(PostList obj)
+    {
+        _ = RefreshFeed();
     }
 
     private bool isLoading;

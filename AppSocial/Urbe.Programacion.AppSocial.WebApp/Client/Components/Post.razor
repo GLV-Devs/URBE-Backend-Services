@@ -1,4 +1,7 @@
-﻿@using System.Diagnostics;
+﻿@inject SocialApiClient Client
+@inject NavigationManager Nav
+@using System.Diagnostics;
+
 @if (PostData is null)
 {
     <div class="post">
@@ -19,10 +22,9 @@ else
             <p class="post-content">@PostData.Content</p>
             <div class="postFooter">
                 <span class="date">Publicado en @PostData.DatePosted.RenderPostTime() bajo '@PostData.PosterThenUsername'</span>
+                <button class="oi oi-delete" @onclick="DeletePost"></button>
             </div>
         </div>
-        <hr />
-        @* <NewPost InResponseTo="PostData" PostList="PostList" /> *@
     </div>
     
 }

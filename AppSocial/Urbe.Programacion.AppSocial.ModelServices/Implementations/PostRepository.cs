@@ -128,7 +128,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
     }
 
     public ValueTask<IQueryable<Post>> GetPosts(SocialAppUser requester)
-        => ValueTask.FromResult(context.Posts.Where(x => x.PosterId == requester.Id));
+        => ValueTask.FromResult(context.Posts.OrderBy(x => x.DatePosted).Where(x => x.PosterId == requester.Id));
 
     public async ValueTask<IQueryable<Post>?> GetPosts(SocialAppUser? requester, SocialAppUser user)
         => await CanView(requester, user) ? await GetPosts(user) : null;
@@ -146,33 +146,19 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         if (requester?.Id is not Guid uid || count is <= 0)
             return null;
 
-        IQueryable<Post> query = context.Posts
+        return context.Posts
             .AsNoTracking()
-            .OrderBy(x => x)
-            .Where(x => x.Poster == requester || (requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster!)));
-
-        if (requester.LastSeenPostInFeedId is Snowflake afterid)
-        {
-            var q2 = context.Posts.Where(x => x.Id >= afterid).Take(count);
-            var newlastid = await UpdateLastPost(q2);
-            return newlastid is Snowflake nli
-                ? await q2.CountAsync() >= count ? q2 : query.Reverse().Where(x => x.Id <= newlastid).Take(count)
-                : null;
-        }
-
-        query = query.Take(count);
-        return await UpdateLastPost(query) is Snowflake ? query : null;
-
-        async Task<Snowflake?> UpdateLastPost(IQueryable<Post> query)
-        {
-            var newid = await query.Select(x => x.Id).OrderBy(x => x).LastOrDefaultAsync();
-            if (newid == default) return default;
-
-            await context.SocialAppUsers
-                            .Where(x => x.Id == uid)
-                            .ExecuteUpdateAsync(x => x.SetProperty(p => p.LastSeenPostInFeedId, newid));
-            return newid;
-        }
+            .OrderBy(x => x.DatePosted)
+            .Join(
+                context.SocialAppUserFollows,
+                o => o.PosterId,
+                i => i.FollowerId,
+                (o, i) => new { Post = o, Followed = i.FollowedId }
+            )
+            .Where(x => x.Post.PosterId == uid || x.Post.PosterId == x.Followed)
+            .Select(x => x.Post)
+            .Take(count)
+            .Distinct();
     }
 
     public async ValueTask<bool> AddLike(SocialAppUser requester, Post post)

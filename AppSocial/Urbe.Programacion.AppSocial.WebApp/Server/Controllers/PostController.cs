@@ -81,7 +81,7 @@ public class PostController : CRDController<SocialAppUser, Post, Snowflake, Post
     {
         var u = await UserManager.GetUserAsync(User);
         Debug.Assert(u is not null);
-        return Ok(await PostRepository.GetViews(u, await PostRepository.GetLatestPosts(u, count ?? 10)));
+        return Ok(await PostRepository.GetViews(u, await PostRepository.GetLatestPosts(u, count ?? 100)));
     }
 
     [HttpGet("me")]

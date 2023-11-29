@@ -9,6 +9,7 @@ public class PostList : IReadOnlyCollection<PostViewModel>
 
     public event Action<PostList, PostViewModel>? PostAdded;
     public event Action<PostList>? ListCleared;
+    public event Action<PostList>? RefreshRequested;
 
     public IEnumerator<PostViewModel> GetEnumerator()
     {
@@ -22,6 +23,11 @@ public class PostList : IReadOnlyCollection<PostViewModel>
 
     public PostViewModel this[int index] 
         => ((IList<PostViewModel>)_postList)[index];
+
+    public void RequestRefresh()
+    {
+        RefreshRequested?.Invoke(this);
+    }
 
     public void Add(IEnumerable<PostViewModel> items)
     {
