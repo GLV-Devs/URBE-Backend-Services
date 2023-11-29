@@ -21,7 +21,7 @@ public class Program
         );
 
         builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
-        builder.Services.AddScoped<SocialApiClient, LoggerSocialApiClient>();
+        builder.Services.AddScoped<SocialApiClient, WebSocialApiClient>();
         builder.Services.AddSingleton<AppState>();
 
         await builder.Build().RunAsync();

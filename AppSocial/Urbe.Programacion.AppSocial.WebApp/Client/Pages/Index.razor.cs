@@ -17,6 +17,20 @@ public partial class Index
         Posts.PostAdded += Posts_PostAdded;
     }
 
+    private bool isLoading;
+    public bool IsLoading
+    {
+        get => isLoading;
+        set
+        {
+            if (value != isLoading)
+            {
+                isLoading = value;
+                StateHasChanged();
+            }
+        }
+    }
+
     private void Posts_PostAdded(PostList arg1, PostViewModel arg2)
     {
         StateHasChanged();
@@ -41,19 +55,28 @@ public partial class Index
 
     protected async Task RefreshFeed()
     {
-        Errors.Clear();
-        var x = await Client.Posts.GetFeed();
-        //if (Helper.IsExpectedCode(ref Errors, x.HttpStatusCode) is false 
-        //    || x.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.PostView) is false)
-        //{
-        //    Log.LogRequestResponse(x);
-        //    if (x.APIResponse.Errors is not null)
-        //        Errors.AddErrorRange(x.APIResponse.Errors);
-        //    return;
-        //}
+        IsLoading = true;
+        await Task.Yield();
+        try
+        {
+            Errors.Clear();
+            var x = await Client.Posts.GetFeed();
+            //if (Helper.IsExpectedCode(ref Errors, x.HttpStatusCode) is false
+            //    || x.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.PostView) is false)
+            //{
+            //    Log.LogRequestResponse(x);
+            //    if (x.APIResponse.Errors is not null)
+            //        Errors.AddErrorRange(x.APIResponse.Errors);
+            //    return;
+            //}
 
-        Debug.Assert(x.APIResponse.Data is not null);
-        Posts.Clear();
-        Posts.Add(x.APIResponse.Data.Cast<PostViewModel>());
+            Posts.Clear();
+            Debug.Assert(x.APIResponse.Data is not null);
+            Posts.Add(x.APIResponse.Data.Cast<PostViewModel>());
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 }
