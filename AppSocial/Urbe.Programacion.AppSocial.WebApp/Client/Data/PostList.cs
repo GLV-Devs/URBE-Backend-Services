@@ -5,7 +5,7 @@ namespace Urbe.Programacion.AppSocial.WebApp.Client.Data;
 
 public class PostList : IReadOnlyCollection<PostViewModel>
 {
-    private readonly List<PostViewModel> _postList = new();
+    private readonly LinkedList<PostViewModel> _postList = new();
 
     public event Action<PostList, PostViewModel>? PostAdded;
     public event Action<PostList>? ListCleared;
@@ -31,7 +31,7 @@ public class PostList : IReadOnlyCollection<PostViewModel>
 
     public void Add(PostViewModel item)
     {
-        _postList.Add(item);
+        _postList.AddFirst(item);
         PostAdded?.Invoke(this, item);
     }
 

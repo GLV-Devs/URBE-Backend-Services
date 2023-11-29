@@ -90,7 +90,7 @@ public partial class MyAccount
             Debug.Assert(resp.APIResponse.Data is not null);
             SelfModel = resp.APIResponse.Data.Cast<UserSelfViewModel>().Single();
 
-            Nav.NavigateTo("/MyAccount");
+            Nav.NavigateTo("/MyAccount", true);
         }
         finally
         {
