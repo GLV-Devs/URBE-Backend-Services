@@ -75,7 +75,7 @@ body {
             }
         }
 
-        .bar{
+        /*.bar{
             padding: 10px;
             display: flex;
             flex-direction: row;
@@ -83,37 +83,9 @@ body {
             justify-content: space-between;
             background-color: $principal;
             width: 98.5vw;
-        }
+        }*/
 
-        .searchInput{
-            width: 15%;
-            height: 40px;
-            transition: all ease .45s;
-            background-color: $blueDark;
-            border-radius: 10px;
-            overflow: hidden;
-            border: none;
-
-            &::placeholder{
-                color: white;
-                font-size: 30px;
-                text-align: center;
-                font-family: 'Exo 2', sans-serif;
-                position: relative;
-                top:5px;
-            }
-
-            &:focus{
-                border: none;
-                outline: none;
-                border-bottom: 3px solid $secondary;
-                width: 70%;
-            }
-
-            &:hover{
-                box-shadow: 0px 0px 5px 5px $shadow;
-            }
-        }
+        
 
         .shortcuts{
             display: flex;
@@ -364,23 +336,28 @@ body {
 
 
     Button {
-        width: 20%;
+        font-weight:900;
+        width: 80px;
         margin: 10px;
-        position: relative;
-        left: 0px;
+        align-self: end;
+        padding: 10px;
+        transform: scale(0.9);
     }
+}
 
-    input {
+ .inputtextarea {
         border-radius: 15px;
         border: none;
-        height: 40px;
+        min-height: 100px;
+        max-height: 100px;
         width: 700px;
         margin: 10px;
         align-self: center;
         background-color: $blueDark;
         transition: all ease .45s;
         color: white;
-        font-size: 15px;
+        font-size: 18px;
+        padding: 10px;
 
         &::placeholder {
             text-align: center;
@@ -393,7 +370,6 @@ body {
             outline: none;
         }
     }
-}
 
 .sesionContainer {
     margin-bottom:40px;
@@ -529,7 +505,7 @@ body {
 
     .pronouns{
         color:lightgray;
-        font-size: 13px;
+        font-size: 10px;
     }
 
     .profile-message{
@@ -583,4 +559,33 @@ body {
     }
 }
 
+.searchInput {
+    width: 700px;
+    height: 50px;
+    transition: all ease .45s;
+    background-color: $blueDark;
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    color: white;
+
+    &::placeholder {
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        font-family: 'Exo 2', sans-serif;
+        position: relative;
+        top: 5px;
+    }
+
+    &:focus {
+        border: none;
+        outline: none;
+        border-bottom: 3px solid $secondary;
+    }
+
+    &:hover {
+        box-shadow: 0px 0px 5px 5px $shadow;
+    }
+}
 

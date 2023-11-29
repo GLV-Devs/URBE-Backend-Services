@@ -2,7 +2,9 @@
 
 <Loading LoadingEnabled="IsLoading"/>
 <EditForm class="post" Model="@CreationModel" OnValidSubmit="@ValidSubmit">
-    <InputText 
+    <InputTextArea 
+        class="inputtextarea"
+        resize="none"
         placeholder="@PlaceholderText"
         DisplayName="Contenido" 
         @bind-Value="CreationModel.Content" />

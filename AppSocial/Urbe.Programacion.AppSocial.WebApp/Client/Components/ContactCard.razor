@@ -8,7 +8,7 @@
                 <img class="contact-card-item profile-pic" src="@UserModel.GetUserProfilePic()" />
                 <p class="contact-card-item">
                     <span class="username">@UserModel.Username</span>
-                    <span class="pronouns">@PronounsSeparator@UserModel.Pronouns</span>
+                    <span class="pronouns">@UserModel.Pronouns</span>
                 </p>
             </div>
             <button class="small btn btn-primary follow-button" @onclick="FollowUser">@FollowLabel</button>
