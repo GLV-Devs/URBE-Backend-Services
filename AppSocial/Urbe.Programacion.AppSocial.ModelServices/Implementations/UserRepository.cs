@@ -11,6 +11,7 @@ using Urbe.Programacion.Shared.ModelServices.Implementations;
 using Urbe.Programacion.Shared.Services.Attributes;
 using Urbe.Programacion.AppSocial.DataTransfer;
 using System.Net;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Urbe.Programacion.AppSocial.ModelServices.Implementations;
 
@@ -290,6 +291,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             && await context.SocialAppUserFollows.Where(x => x.Follower == requester && x.Followed == followed).ExecuteDeleteAsync() > 0;
     }
 
+    private readonly record struct FollowerRelation(Guid FollowedId, Guid FollowerId);
     public override ValueTask<IQueryable<object>?> GetViews(BaseAppUser? r, IQueryable<SocialAppUser>? users)
     {
         var requester = (SocialAppUser?)r;
@@ -300,7 +302,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
             return ValueTask.FromResult<IQueryable<object>?>(
                 (IQueryable<UserViewModel>?)(requester is null
                 ? users.AsNoTracking().Select(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews)
-                    ? new UserViewModel()
+                    ? new UserViewModel() // Anonymous requester
                     {
                         UserId = x.Id,
                         ProfileMessage = x.ProfileMessage,
@@ -317,7 +319,12 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
                         Pronouns = x.Pronouns,
                     })
                 : users.AsNoTracking()
-                    .Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (x.FollowedUsers != null && x.FollowedUsers.Contains(requester))
+                    //.Join(
+                    //    context.SocialAppUserFollows,
+                    //    o => new FollowerRelation(requester.Id, o.Id),
+                    //    i => new FollowerRelation(i.FollowerId, i.FollowedId),
+                    //)
+                    .Select(x => x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || (x.Followers != null && x.Followers.Contains(requester))
                     ? new UserViewModel()
                     {
                         UserId = x.Id,

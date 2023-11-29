@@ -6,5 +6,65 @@
 
 <PageTitle>Mi Página</PageTitle>
 
-<div class="screenBox">
-</div>
+@if(SelfModel is null)
+{
+    <p>null</p>
+}
+else
+{    
+    @if (Errors.Count > 0)
+    {
+        <div class="error-box">
+            @foreach (var e in Errors.Errors)
+            {
+                <span class="error-message">@e.DefaultMessageES</span>
+            }
+        </div>
+    }
+
+    <Loading LoadingEnabled="IsLoading" />
+    <div className="changeProfileContainer">
+        <div className='ChangePhoto'>
+        <img className='profilePic' for='ChangePic' src=@SelfModel.GetUserProfilePic()/>
+        <InputText id='ChangePic' @bind-Value="UpdateModel.ProfilePictureUrl" type='url' placeholder='Pon aqui el link de tu foto de perfil'></InputText>
+        </div>
+
+        <EditForm Model="@UpdateModel" OnValidSubmit="@ValidSubmit">
+            <label for='realName'>Nombre Real</label>
+            <InputText id='realName' @bind-Value="UpdateModel.RealName" placeholder=@SelfModel.RealName></InputText>
+
+            <label for='UserName'>Nombre de usuario</label>
+            <InputText id='UserName' @bind-Value="UpdateModel.Username" placeholder=@SelfModel.Username></InputText>
+
+            <label for='Pronouns'>Pronombres</label>
+            <InputText id='Pronouns' @bind-Value="UpdateModel.Pronouns" placeholder=@SelfModel.Pronouns></InputText>
+
+            <div className='checkGroup'>
+                <InputCheckbox @bind-Value="AllowRealNamePublicly"/>
+                <label for='check1'>Hacer publico mi nombre real</label>
+            </div>
+
+            <div className='checkGroup'>
+                <InputCheckbox @bind-Value="AllowNonFollowerPostViews"/>
+                <label for='check2'>Permitir que personas que no me siguen vea mis publicaciones</label>
+            </div>
+
+            <div className='checkGroup'>
+                <InputCheckbox @bind-Value="AllowAnonymousPostViews"/>
+                <label for='check3'>Permitir que cualquier persona vea mis publicaciones</label>
+            </div>
+
+            <div className='checkGroup'>
+                <InputCheckbox @bind-Value="AllowNonFollowerViews"/>
+                <label for='check4'>Permitir que personas que no me siguen vea mi informacion</label>
+            </div>
+
+            <div className='checkGroup'>
+                <InputCheckbox @bind-Value="AllowAnonymousViews"/>
+                <label for='check5'>Permitir que cualquier persona vea mi informacion</label>
+            </div>
+
+            <button type='submit'>Guardar</button>
+        </EditForm>
+    </div>
+}

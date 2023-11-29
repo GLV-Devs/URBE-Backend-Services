@@ -49,7 +49,7 @@ public class UserController : AppController
             return Ok();
         }
         else
-            return BadRequest();
+            return Conflict();
     }
 
     [HttpPut("addfollow/{key}")]
@@ -68,7 +68,7 @@ public class UserController : AppController
             return Ok();
         }
         else
-            return BadRequest();
+            return Conflict();
     }
 
     #region Regarding Requester and other user
