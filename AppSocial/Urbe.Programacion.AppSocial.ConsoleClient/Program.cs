@@ -45,16 +45,8 @@ public static class Program
             UserNameOrEmail = "dagarciam1014@gmail.com"
         });
 
-        var feed = await ApiClient.Posts.GetFeed();
-
-        var users = await ApiClient.Users.GetUsers();
-
-        foreach (var user in users.APIResponse.Data!.Cast<UserViewModel>())
-        {
-            var follow = await ApiClient.Users.FollowUser(user.UserId);
-            if (follow.APIResponse.Code.ResponseId != DataTransfer.APIResponseCodeEnum.Success)
-                break;
-        }
+        var users = await ApiClient.Users.GetUsers("%e%");
+        ;
 
         //var resp = await ApiClient.Identity.CreateNew(new DataTransfer.Requests.UserCreationModel()
         //{

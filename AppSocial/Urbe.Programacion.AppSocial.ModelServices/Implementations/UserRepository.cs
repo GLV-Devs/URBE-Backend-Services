@@ -350,7 +350,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     }
 
     public IQueryable<SocialAppUser> Query(SocialAppUser? r, string userName)
-        => Query(r).Where(x => x.UserName!.Contains(userName));
+        => Query(r).Where(x => EF.Functions.Like(x.UserName!, userName));
 
     public override IQueryable<SocialAppUser> Query(BaseAppUser? r)
     {

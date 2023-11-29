@@ -66,12 +66,13 @@ public partial class Search
                 return;
 
             var resp = await Client.Users.GetUsers(search);
-            if (CheckResponse(resp, APIResponseCodeEnum.UserView) is false)
-                return;
+            //if (CheckResponse(resp, APIResponseCodeEnum.UserView) is false)
+            //    return;
 
             Debug.Assert(resp.APIResponse?.Data is not null);
             UserResults = resp.APIResponse.Data.Cast<UserViewModel>();
             ResultsVisible = true;
+            StateHasChanged();
         }
         finally
         {
