@@ -310,11 +310,12 @@ body {
     width: 780px;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    border-radius: 25px;
+   /* border-left: 1px solid black;
+    border-right: 1px solid black;*/
+    border-bottom: 1px solid black;
     padding: 10px 30px;
     color: white;
-    margin: 10px;
+    margin: 0px;
 }
 
 .postHeader {
@@ -343,7 +344,7 @@ body {
     font-size: 15px;
 }
 
-p {
+.post-content {
     color: white;
     font-weight: 400;
     font-size: 20px;
@@ -351,34 +352,35 @@ p {
 }
 
 .post {
-    width: 700px;
+    width: 780px;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    border-radius: 25px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 10px 30px;
     background-color: $tBackColor;
-    margin: 20px;
+    margin-top: 20px;
 
-    
+
 
     Button {
         width: 20%;
         margin: 10px;
         position: relative;
-        right: 10px;
+        left: 0px;
     }
 
     input {
-        border-radius: 20px;
+        border-radius: 15px;
         border: none;
-        height: 50px;
-        width: 555px;
+        height: 40px;
+        width: 700px;
         margin: 10px;
         align-self: center;
         background-color: $blueDark;
         transition: all ease .45s;
-        color:white;
+        color: white;
+        font-size: 15px;
 
         &::placeholder {
             text-align: center;
@@ -513,18 +515,43 @@ p {
 .contact-card {
     display: flex;
     flex-direction: column;
-    max-height: 100px;
+    max-height: 90px;
     padding: 10px;
+
+    .username {
+        color: white;
+        font-weight: 400;
+        font-size: 20px;
+        position: relative;
+        top: 10px;
+        left: 15px;
+    }
+
+    .pronouns{
+        color:lightgray;
+        font-size: 13px;
+    }
+
+    .profile-message{
+        color:white;
+        padding-left:10px;
+    }
 
     .avatar {
         height: 50px;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        padding-right: 5px;
+
+        .avatar-items {
+            display: flex;
+            flex-direction: row;
+        }
 
         .profile-pic {
             height: 5px;
             border-radius: 50%;
-            vertical-align: middle;
         }
 
         .username {
@@ -534,6 +561,16 @@ p {
         .pronouns {
             font-size: 12px;
             color: lightgray;
+        }
+
+        .follow-button {
+            font-size:14px;
+            margin-top: 10px;
+            border-radius: 5px;
+            min-height: 30px;
+            min-width: 60px;
+            text-align: center;
+            padding: 2px;
         }
 
         .contact-card-item {
