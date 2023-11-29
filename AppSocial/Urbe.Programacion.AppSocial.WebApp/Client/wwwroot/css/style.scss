@@ -295,6 +295,10 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 5px;
+
+    &:hover {
+        cursor: pointer;
+    }
     
 
     .profilePic {
@@ -314,16 +318,35 @@ body {
 
 }
 
-.date {
-    color: lightgray;
-    font-size: 15px;
+.postFooter {
+    width: 740px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    vertical-align:middle;
+
+    .date {
+        color: lightgray;
+        font-size: 15px;
+    }
+
+    .borrar {
+        min-width: 50px;
+        min-height: 30px;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        background-color: $blueDark; 
+    }
 }
 
 .post-content {
     color: white;
+    width: 730px;
     font-weight: 400;
     font-size: 20px;
     margin: 10px;
+    word-wrap:break-word;
 }
 
 .post {
@@ -335,6 +358,7 @@ body {
     padding: 10px 30px;
     background-color: $tBackColor;
     margin-top: 20px;
+    
 
 
 
@@ -531,6 +555,9 @@ body {
         .avatar-items {
             display: flex;
             flex-direction: row;
+            &:hover {
+                cursor:pointer;
+            }
         }
 
         .profile-pic {
@@ -557,6 +584,7 @@ body {
 
     &:hover {
         box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.2);
+        
     }
 }
 .bar{
@@ -739,19 +767,24 @@ label {
         .info-usuario{
             display: flex;
             flex-direction: row;
+            gap: 15px;
+            
 
             .User{
                 color: white;
-                font-size: 20px;
+                font-size: 40px;
             }
             .Pronombres{
                 color: lightgray;
-                font-size: 17px;
+                font-size: 25px;
+                margin-top: 15px;
             }
         }
 
         .descripcion-usuario{
+            color: white;
             font-size: 17px;
+        
         }
     }
 }

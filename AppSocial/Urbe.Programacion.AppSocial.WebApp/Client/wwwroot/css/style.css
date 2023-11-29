@@ -239,6 +239,9 @@ body ::-webkit-scrollbar-thumb {
   align-items: center;
   gap: 5px;
 }
+.postHeader:hover {
+  cursor: pointer;
+}
 .postHeader .profilePic {
   width: 50px;
   height: 50px;
@@ -253,16 +256,33 @@ body ::-webkit-scrollbar-thumb {
   margin: 10px;
 }
 
-.date {
+.postFooter {
+  width: 740px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  vertical-align: middle;
+}
+.postFooter .date {
   color: lightgray;
   font-size: 15px;
+}
+.postFooter .borrar {
+  min-width: 50px;
+  min-height: 30px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: rgb(0, 71, 90);
 }
 
 .post-content {
   color: white;
+  width: 730px;
   font-weight: 400;
   font-size: 20px;
   margin: 10px;
+  word-wrap: break-word;
 }
 
 .post {
@@ -450,6 +470,9 @@ body ::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: row;
 }
+.contact-card .avatar .avatar-items:hover {
+  cursor: pointer;
+}
 .contact-card .avatar .profile-pic {
   height: 5px;
   border-radius: 50%;
@@ -636,15 +659,18 @@ label {
 .header .usuario .info-usuario {
   display: flex;
   flex-direction: row;
+  gap: 15px;
 }
 .header .usuario .info-usuario .User {
   color: white;
-  font-size: 20px;
+  font-size: 40px;
 }
 .header .usuario .info-usuario .Pronombres {
   color: lightgray;
-  font-size: 17px;
+  font-size: 25px;
+  margin-top: 15px;
 }
 .header .usuario .descripcion-usuario {
+  color: white;
   font-size: 17px;
 }
