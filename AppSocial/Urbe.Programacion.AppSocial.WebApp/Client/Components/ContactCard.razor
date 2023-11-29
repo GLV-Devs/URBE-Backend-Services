@@ -6,10 +6,10 @@
         <div class="contact-card-item avatar">
             <div class="avatar-items">
                 <img class="contact-card-item profile-pic" src="@UserModel.GetUserProfilePic()" />
-                <p class="contact-card-item">
+                <div class="contact-card-item">
                     <span class="username">@UserModel.Username</span>
                     <span class="pronouns">@UserModel.Pronouns</span>
-                </p>
+                </div>
             </div>
             <button class="small btn btn-primary follow-button" @onclick="FollowUser">@FollowLabel</button>
         </div>
