@@ -23,51 +23,51 @@ else
     }
 
     <Loading LoadingEnabled="IsLoading" />
-    <div className="changeProfileContainer">
-        <div className='ChangePhoto'>
-        <img className='profilePic' for='ChangePic' src=@SelfModel.GetUserProfilePic()/>
-        <InputText id='ChangePic' @bind-Value="UpdateModel.ProfilePictureUrl" type='url' placeholder='Pon aqui el link de tu foto de perfil'></InputText>
+    <div class="changeProfileContainer">
+        <div class='ChangePhoto'>
+            <img class='profilePic' for='ChangePic' src=@SelfModel.GetUserProfilePic()/>
+            <InputText class="InputText" id='ChangePic' @bind-Value="UpdateModel.ProfilePictureUrl" type='url' placeholder='Pon aqui el link de tu foto de perfil'></InputText>
         </div>
 
-        <EditForm Model="@UpdateModel" OnValidSubmit="@ValidSubmit">
+        <EditForm class="form" Model="@UpdateModel" OnValidSubmit="@ValidSubmit">
             <label for='realName'>Nombre Real</label>
-            <InputText id='realName' @bind-Value="UpdateModel.RealName" placeholder=@SelfModel.RealName></InputText>
+            <InputText class="InputText" id='realName' @bind-Value="UpdateModel.RealName" placeholder=@SelfModel.RealName></InputText>
 
             <label for='UserName'>Nombre de usuario</label>
-            <InputText id='UserName' @bind-Value="UpdateModel.Username" placeholder=@SelfModel.Username></InputText>
+            <InputText class="InputText" id='UserName' @bind-Value="UpdateModel.Username" placeholder=@SelfModel.Username></InputText>
 
             <label for='Pronouns'>Pronombres</label>
-            <InputText id='Pronouns' @bind-Value="UpdateModel.Pronouns" placeholder=@SelfModel.Pronouns></InputText>
+            <InputText class="InputText" id='Pronouns' @bind-Value="UpdateModel.Pronouns" placeholder=@SelfModel.Pronouns></InputText>
 
             <label for='Message'>Mensaje de Perfil</label>
-            <InputText id='Message' @bind-Value="UpdateModel.ProfileMessage" placeholder=@SelfModel.ProfileMessage></InputText>
+            <InputText class="InputText" id='Message' @bind-Value="UpdateModel.ProfileMessage" placeholder=@SelfModel.ProfileMessage></InputText>
 
-            <div className='checkGroup'>
-                <InputCheckbox @bind-Value="AllowRealNamePublicly"/>
+            <div class='checkGroup'>
+                <InputCheckbox class="checkBox" @bind-Value="AllowRealNamePublicly" />
                 <label for='check1'>Hacer publico mi nombre real</label>
             </div>
 
-            <div className='checkGroup'>
-                <InputCheckbox @bind-Value="AllowNonFollowerPostViews"/>
+            <div class='checkGroup'>
+                <InputCheckbox class="checkBox" @bind-Value="AllowNonFollowerPostViews" />
                 <label for='check2'>Permitir que personas que no me siguen vea mis publicaciones</label>
             </div>
 
-            <div className='checkGroup'>
-                <InputCheckbox @bind-Value="AllowAnonymousPostViews"/>
+            <div class='checkGroup'>
+                <InputCheckbox class="checkBox" @bind-Value="AllowAnonymousPostViews" />
                 <label for='check3'>Permitir que cualquier persona vea mis publicaciones</label>
             </div>
 
-            <div className='checkGroup'>
-                <InputCheckbox @bind-Value="AllowNonFollowerViews"/>
+            <div class='checkGroup'>
+                <InputCheckbox class="checkBox"  @bind-Value="AllowNonFollowerViews" />
                 <label for='check4'>Permitir que personas que no me siguen vea mi informacion</label>
             </div>
 
-            <div className='checkGroup'>
-                <InputCheckbox @bind-Value="AllowAnonymousViews"/>
+            <div class='checkGroup'>
+                <InputCheckbox class="checkBox"  @bind-Value="AllowAnonymousViews" />
                 <label for='check5'>Permitir que cualquier persona vea mi informacion</label>
             </div>
 
-            <button type='submit'>Guardar</button>
+            <button class="boton" type='submit'>Guardar</button>
         </EditForm>
     </div>
 }
