@@ -16,16 +16,14 @@
     else
     {
         <div class='bar'>
-            <InputText size="medium" placeholder="Inserte su busqueda" class="searchInput" @bind-Value="SearchQuery" @oninput="HandleInput" />
+            <InputText size="medium" placeholder="Inserte su busqueda" class="searchInput" @bind-Value="SearchQuery" />
+            <button class="btn btn-primary btn-search" @onclick="FetchResults">Buscar</button>
         </div>
         <p class="search-note">Ésta función es similar a la de un LIKE en SQL, sientase libre de usar wildcards como '%' o '_'. Para mas información, visite <a href="https://learn.microsoft.com/en-us/sql/t-sql/language-elements/like-transact-sql?view=sql-server-ver16">éste link</a></p>
 
         <Loading LoadingEnabled="IsLoading"/>
-        @if (ResultsVisible)
-        { 
-            <div>
-                <UserList UserViews="UserResults" />
-            </div>
-        }
+        <div>
+            <UserList UserViews="UserResults" />
+        </div>
     }
 </div>
