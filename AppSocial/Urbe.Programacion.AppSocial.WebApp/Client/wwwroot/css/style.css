@@ -43,6 +43,15 @@ body ::-webkit-scrollbar-thumb {
 .container .searchBar {
   flex: 1;
   width: 100vw;
+  /*.bar{
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background-color: $principal;
+      width: 98.5vw;
+  }*/
 }
 .container .searchBar .icon {
   width: 50px;
@@ -54,41 +63,6 @@ body ::-webkit-scrollbar-thumb {
   cursor: pointer;
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.9));
   transform: scale(1.1);
-}
-.container .searchBar .bar {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgb(0, 95, 115);
-  width: 98.5vw;
-}
-.container .searchBar .searchInput {
-  width: 15%;
-  height: 40px;
-  transition: all ease 0.45s;
-  background-color: rgb(0, 71, 90);
-  border-radius: 10px;
-  overflow: hidden;
-  border: none;
-}
-.container .searchBar .searchInput::placeholder {
-  color: white;
-  font-size: 30px;
-  text-align: center;
-  font-family: "Exo 2", sans-serif;
-  position: relative;
-  top: 5px;
-}
-.container .searchBar .searchInput:focus {
-  border: none;
-  outline: none;
-  border-bottom: 3px solid rgb(238, 155, 0);
-  width: 70%;
-}
-.container .searchBar .searchInput:hover {
-  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
 }
 .container .searchBar .shortcuts {
   display: flex;
@@ -299,29 +273,34 @@ body ::-webkit-scrollbar-thumb {
   margin-top: 20px;
 }
 .post Button {
-  width: 20%;
+  font-weight: 900;
+  width: 80px;
   margin: 10px;
-  position: relative;
-  left: 0px;
+  align-self: end;
+  padding: 10px;
+  transform: scale(0.9);
 }
-.post input {
+
+.inputtextarea {
   border-radius: 15px;
   border: none;
-  height: 40px;
+  min-height: 100px;
+  max-height: 100px;
   width: 700px;
   margin: 10px;
   align-self: center;
   background-color: rgb(0, 71, 90);
   transition: all ease 0.45s;
   color: white;
-  font-size: 15px;
+  font-size: 18px;
+  padding: 10px;
 }
-.post input::placeholder {
+.inputtextarea::placeholder {
   text-align: center;
   color: white;
   font-size: large;
 }
-.post input:focus {
+.inputtextarea:focus {
   border-bottom: 3px solid rgb(238, 155, 0);
   outline: none;
 }
@@ -446,7 +425,7 @@ body ::-webkit-scrollbar-thumb {
 }
 .contact-card .pronouns {
   color: lightgray;
-  font-size: 13px;
+  font-size: 10px;
 }
 .contact-card .profile-message {
   color: white;
@@ -488,4 +467,31 @@ body ::-webkit-scrollbar-thumb {
 }
 .contact-card:hover {
   box-shadow: 0px 0px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.searchInput {
+  width: 700px;
+  height: 50px;
+  transition: all ease 0.45s;
+  background-color: rgb(0, 71, 90);
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+  color: white;
+}
+.searchInput::placeholder {
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  font-family: "Exo 2", sans-serif;
+  position: relative;
+  top: 5px;
+}
+.searchInput:focus {
+  border: none;
+  outline: none;
+  border-bottom: 3px solid rgb(238, 155, 0);
+}
+.searchInput:hover {
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
 }

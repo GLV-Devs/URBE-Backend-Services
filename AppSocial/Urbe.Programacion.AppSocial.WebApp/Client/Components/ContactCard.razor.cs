@@ -9,7 +9,7 @@ public partial class ContactCard
     public UserViewModel? UserModel { get; set; } = new();
 
     public string FollowLabel => UserModel?.IsFollowedByRequester is true ? "Dejar de Seguir" : "Seguir";
-    public string PronounsSeparator => string.IsNullOrWhiteSpace(UserModel?.Pronouns) ? "" : " | ";
+   
 
     protected async Task FollowUser()
     {
