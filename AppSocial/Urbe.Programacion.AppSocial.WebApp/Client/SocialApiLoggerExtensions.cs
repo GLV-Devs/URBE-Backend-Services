@@ -13,5 +13,9 @@ public static class SocialApiLoggerExtensions
                 r.APIResponse.Errors,
                 string.IsNullOrWhiteSpace(r.APIResponse.BearerToken) is false
             );
+
+        if (r.APIResponse.Errors?.Any() is true)
+            foreach (var error in r.APIResponse.Errors)
+                logger.LogError("Error: Key: {key}, Description: {desc}", error.Key, error.DefaultMessageES);
     }
 }

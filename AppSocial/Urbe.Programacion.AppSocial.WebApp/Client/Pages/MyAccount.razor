@@ -39,6 +39,9 @@ else
             <label for='Pronouns'>Pronombres</label>
             <InputText id='Pronouns' @bind-Value="UpdateModel.Pronouns" placeholder=@SelfModel.Pronouns></InputText>
 
+            <label for='Message'>Mensaje de Perfil</label>
+            <InputText id='Message' @bind-Value="UpdateModel.ProfileMessage" placeholder=@SelfModel.ProfileMessage></InputText>
+
             <div className='checkGroup'>
                 <InputCheckbox @bind-Value="AllowRealNamePublicly"/>
                 <label for='check1'>Hacer publico mi nombre real</label>

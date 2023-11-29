@@ -53,6 +53,14 @@ public class APIResponseFilter<TObjectCode> : IAsyncResultFilter
                 case IEnumerable<ErrorMessage> errors:
                     return errors.GetResponse(context.HttpContext.TraceIdentifier, CreateAPIResponseObject(TObjectCode.ErrorCollection, context));
 
+                case BadRequestObjectResult:
+                    resp = CreateAPIResponseObject(TObjectCode.ErrorCollection, context);
+                    resp.Errors = new ErrorMessage[]
+                    {
+                        ErrorMessages.InternalError()
+                    };
+                    return resp;
+
                 default:
                     Debugger.Break();
                     throw new InvalidDataException("The result of the request was, unexpectedly, not an APIResponse or an IResponseModel");

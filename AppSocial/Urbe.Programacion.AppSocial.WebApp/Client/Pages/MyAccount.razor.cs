@@ -1,4 +1,5 @@
-﻿using Urbe.Programacion.AppSocial.DataTransfer.Requests;
+﻿using System.Diagnostics;
+using Urbe.Programacion.AppSocial.DataTransfer.Requests;
 using Urbe.Programacion.AppSocial.DataTransfer.Responses;
 using Urbe.Programacion.AppSocial.WebApp.Client.Components;
 using Urbe.Programacion.Shared.Common;
@@ -66,7 +67,16 @@ public partial class MyAccount
 
             Log.LogInformation("Attempting to modify user");
             var resp = await Client.Users.Update(UpdateModel);
+            
             if (Helper.IsExpectedCode(ref Errors, resp.HttpStatusCode) is false)
+            {
+                Log.LogInformation("An error ocurred modifying the user");
+                Log.LogRequestResponse(resp);
+                StateHasChanged();
+                return;
+            }
+
+            if (resp.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.UserSelfView) is false)
             {
                 Log.LogInformation("An error ocurred modifying the user");
                 Log.LogRequestResponse(resp);
@@ -76,6 +86,9 @@ public partial class MyAccount
 
             Log.LogInformation("Succesfully modified user");
             Log.LogRequestResponse(resp);
+
+            Debug.Assert(resp.APIResponse.Data is not null);
+            SelfModel = resp.APIResponse.Data.Cast<UserSelfViewModel>().Single();
 
             Nav.NavigateTo("/MyAccount");
         }
