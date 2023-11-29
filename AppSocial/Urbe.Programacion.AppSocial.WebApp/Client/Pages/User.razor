@@ -1,23 +1,39 @@
-﻿@page "/User"
+﻿@page "/User/{username}"
 @inherits AppSocialComponent
 
-<PageTitle>Users</PageTitle>
+<PageTitle>Usuarios</PageTitle>
 
-<div class="header">
-    <img class='profilePic' src="@UserModel.GetUserProfilePic()"/>
-    <div class="usuario">
-        <div class="info-usuario">
-            <span class="User">@UserModel!.Username</span>
-            <span class="Pronombres">@UserModel.Pronouns</span>
-        </div>
-        <span class="descripcion-usuario">@UserModel.ProfileMessage</span>
-        <button class="boton">Seguir</button>
+@if (Errors.Count > 0)
+{
+    <div class="error-box">
+        @foreach (var e in Errors.Errors)
+        {
+            <span class="error-message">@e.DefaultMessageES</span>
+        }
     </div>
-</div>
-<div class="publicaciones">
-    @foreach(var post in Posts)
-    {
-        <Post PostData="post" PostList="Posts"/>
-    }
-</div>
+}
+else if (UserModel is null)
+{
+    <Loading LoadingEnabled="true"/>
+}
+else
+{
+    <div class="header">
+        <img class='profilePic' src="@UserModel.GetUserProfilePic()"/>
+        <div class="usuario">
+            <div class="info-usuario">
+                <span class="User">@UserModel!.Username</span>
+                <span class="Pronombres">@UserModel.Pronouns</span>
+            </div>
+            <span class="descripcion-usuario">@UserModel.ProfileMessage</span>
+            <button class="boton">Seguir</button>
+        </div>
+    </div>
+    <div class="publicaciones">
+        @foreach(var post in Posts)
+        {
+            <Post PostData="post" PostList="Posts"/>
+        }
+    </div>
+}
 

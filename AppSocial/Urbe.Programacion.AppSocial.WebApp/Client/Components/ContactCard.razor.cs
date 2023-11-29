@@ -43,4 +43,11 @@ public partial class ContactCard
             user.IsFollowedByRequester = true;
         }
     }
+
+    public void GoToUser()
+    {
+        if (string.IsNullOrWhiteSpace(UserModel?.Username)) return;
+
+        Navigation.NavigateTo($@"/User/{UserModel.Username}", true);
+    }
 }

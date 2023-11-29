@@ -22,4 +22,11 @@ public partial class Post
 
         PostList?.RequestRefresh();
     }
+
+    public void GoToUser()
+    {
+        if (string.IsNullOrWhiteSpace(PostData?.Poster?.Username)) return;
+
+        Nav.NavigateTo($@"/User/{PostData.Poster.Username}", true);
+    }
 }

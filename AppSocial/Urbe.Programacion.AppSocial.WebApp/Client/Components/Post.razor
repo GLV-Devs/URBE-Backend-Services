@@ -14,7 +14,7 @@ else
 {
     <div class="FullPost">
         <div class="Post">
-            <div class="postHeader">
+            <div class="postHeader" @onclick="GoToUser">
                 <img class="profilePic" src="@PostData.Poster.GetUserProfilePic()" />
                 <h3 class="usuarioPost">@PostData.Poster!.Username</h3>
                 <span class="pronouns">@PostData.Poster.Pronouns</span>

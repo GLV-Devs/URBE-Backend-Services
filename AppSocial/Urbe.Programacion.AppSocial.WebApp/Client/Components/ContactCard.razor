@@ -4,7 +4,7 @@
 {
     <div class="contact-card">
         <div class="contact-card-item avatar">
-            <div class="avatar-items">
+            <div class="avatar-items" @onclick="GoToUser">
                 <img class="contact-card-item profile-pic" src="@UserModel.GetUserProfilePic()" />
                 <div class="contact-card-item">
                     <span class="username">@UserModel.Username</span>
