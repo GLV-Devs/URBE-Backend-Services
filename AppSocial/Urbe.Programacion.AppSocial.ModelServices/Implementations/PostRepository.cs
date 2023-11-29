@@ -28,6 +28,17 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
         this.context = context;
     }
 
+    public override ValueTask<SuccessResult> Delete(BaseAppUser? requester, Post entity)
+    {
+        if (requester is not null && requester.Id == entity.PosterId)
+            return base.Delete(requester, entity);
+
+        ErrorList x = new();
+        x.AddError(ErrorMessages.NoPermission());
+        x.RecommendedCode = System.Net.HttpStatusCode.Unauthorized;
+        return ValueTask.FromResult(new SuccessResult(x));
+    }
+
     public override ValueTask<SuccessResult<Post>> Create(BaseAppUser? requester, PostCreationModel model)
     {
         var errors = new ErrorList();
