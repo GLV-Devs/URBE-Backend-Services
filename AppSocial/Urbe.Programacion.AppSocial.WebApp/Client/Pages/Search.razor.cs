@@ -41,6 +41,10 @@ public partial class Search
 
     private async Task WaitForInput()
     {
+        ResultsVisible = false;
+        IsLoading = true;
+        await Task.Yield();
+
         while (true)
         {
             if (DateTime.Now - InputTimer > InputDelay)
@@ -55,15 +59,12 @@ public partial class Search
 
     protected async Task FetchResults()
     {
-        var search = SearchQuery;
-        if (string.IsNullOrWhiteSpace(search))
-            return;
-
-        ResultsVisible = false;
-        IsLoading = true;
-        await Task.Yield();
         try
         {
+            var search = SearchQuery;
+            if (string.IsNullOrWhiteSpace(search))
+                return;
+
             var resp = await Client.Users.GetUsers(search);
             if (CheckResponse(resp, APIResponseCodeEnum.UserView) is false)
                 return;

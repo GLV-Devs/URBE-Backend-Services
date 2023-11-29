@@ -74,14 +74,6 @@ public partial class MyAccount
                 return;
             }
 
-            if (resp.APIResponse.Code.IsExpectedResponse(ref Errors, APIResponseCodeEnum.UserSelfView))
-            {
-                Log.LogInformation("An error ocurred modifying the user");
-                Log.LogRequestResponse(resp);
-                StateHasChanged();
-                return;
-            }
-
             Log.LogInformation("Succesfully modified user");
             Log.LogRequestResponse(resp);
 
