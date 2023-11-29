@@ -15,7 +15,7 @@ public sealed class SocialApiUserClient : SocialApiClientModule
     public ApiResponseTask GetUsers(string query, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(query);
-        return Get($"query?$filter=contains(UserName,'{query}')", ct);
+        return Get($"query/{query}", ct);
     }
 
     // query

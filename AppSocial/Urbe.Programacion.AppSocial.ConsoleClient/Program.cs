@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using Urbe.Programacion.AppSocial.ClientLibrary;
 using Urbe.Programacion.AppSocial.DataTransfer.Responses;
@@ -51,7 +52,8 @@ public static class Program
         foreach (var user in users.APIResponse.Data!.Cast<UserViewModel>())
         {
             var follow = await ApiClient.Users.FollowUser(user.UserId);
-            break;
+            if (follow.APIResponse.Code.ResponseId != DataTransfer.APIResponseCodeEnum.Success)
+                break;
         }
 
         //var resp = await ApiClient.Identity.CreateNew(new DataTransfer.Requests.UserCreationModel()

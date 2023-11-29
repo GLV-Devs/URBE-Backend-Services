@@ -349,6 +349,9 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         }
     }
 
+    public IQueryable<SocialAppUser> Query(SocialAppUser? r, string userName)
+        => Query(r).Where(x => x.UserName!.Contains(userName));
+
     public override IQueryable<SocialAppUser> Query(BaseAppUser? r)
     {
         var requester = (SocialAppUser?)r;

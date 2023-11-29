@@ -25,6 +25,14 @@ public class UserController : AppController
         UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
+    [HttpGet("query/{username}")]
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<UserViewModel>>> QueryByUsername(string username)
+    {
+        var u = await UserManager.GetUserAsync(User);
+        return Ok(await UserRepository.GetViews(u, UserRepository.Query(u, username)));
+    }
+
     [HttpGet("query")]
     [EnableQuery]
     public async Task<ActionResult<IQueryable<UserViewModel>>> QueryUsers()
