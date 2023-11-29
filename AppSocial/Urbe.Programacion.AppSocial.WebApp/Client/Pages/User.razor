@@ -1,0 +1,25 @@
+﻿@page "/User"
+@inject SocialApiClient Client
+@inject ILogger<Index> Log
+@inject AppState State
+@inject NavigationManager Nav
+
+<PageTitle>Users</PageTitle>
+
+<div class="header">
+    <img class='profilePic' src=""/>
+    <div class="usuario">
+        <div class="info-usuario">
+            <span class="User">Usuario</span>
+            <span class="Pronombres">Pronombres</span>
+        </div>
+        <span class="descripcion-usuario">Mensaje de descripcion</span>
+        <button class="boton">Seguir</button> @* si es propio no debe salir el boton de seguir *@
+    </div>
+</div>
+<div class="publicaciones">
+
+    @* Posts igual que en index*@
+
+</div>
+

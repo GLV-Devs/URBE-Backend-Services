@@ -397,7 +397,7 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 80vw;
+        width: 70vw;
         min-height: 75vh;
         align-self: center;
         justify-self: center;
@@ -712,6 +712,46 @@ label {
 
         &:active {
             transform: scale(2);
+        }
+    }
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+
+    .profilePic {
+        min-width: 150px;
+        max-width: 150px;
+        min-height: 150px;
+        max-height: 150px;
+        border-radius: 50%;
+    }
+
+    .usuario{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .info-usuario{
+            display: flex;
+            flex-direction: row;
+
+            .User{
+                color: white;
+                font-size: 20px;
+            }
+            .Pronombres{
+                color: lightgray;
+                font-size: 17px;
+            }
+        }
+
+        .descripcion-usuario{
+            font-size: 17px;
         }
     }
 }

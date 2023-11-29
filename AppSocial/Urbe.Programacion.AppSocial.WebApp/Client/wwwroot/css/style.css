@@ -330,7 +330,7 @@ body ::-webkit-scrollbar-thumb {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80vw;
+  width: 70vw;
   min-height: 75vh;
   align-self: center;
   justify-self: center;
@@ -612,4 +612,39 @@ label {
 }
 .checkGroup .checkBox:active {
   transform: scale(2);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+.header .profilePic {
+  min-width: 150px;
+  max-width: 150px;
+  min-height: 150px;
+  max-height: 150px;
+  border-radius: 50%;
+}
+.header .usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.header .usuario .info-usuario {
+  display: flex;
+  flex-direction: row;
+}
+.header .usuario .info-usuario .User {
+  color: white;
+  font-size: 20px;
+}
+.header .usuario .info-usuario .Pronombres {
+  color: lightgray;
+  font-size: 17px;
+}
+.header .usuario .descripcion-usuario {
+  font-size: 17px;
 }
