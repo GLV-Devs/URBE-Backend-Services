@@ -26,14 +26,14 @@ public partial class Register
         }
 
         var resp = await Client.Identity.CreateNew(CreationModel);
-        if (CheckResponse(resp, APIResponseCodeEnum.UserSelfView) is false)
-            return;
 
         var u = resp.APIResponse.Data?.Cast<UserSelfViewModel>().FirstOrDefault();
 
         if (u is null)
         {
-            Errors.AddError(ErrorMessages.InternalError("El servidor no retorno data de un usuario"));
+            Errors.AddError(ErrorMessages.InternalError("Ocurrió un error al crear el usuario"));
+            if (resp.APIResponse.Errors is not null)
+                Errors.AddErrorRange(resp.APIResponse.Errors);
             StateHasChanged();
             return;
         }

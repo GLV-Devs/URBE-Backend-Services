@@ -18,8 +18,6 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
 
     public UserSettings Settings { get; set; }
 
-    public HashSet<SocialAppUser>? FollowedUsers { get; set; }
-
     public HashSet<SocialAppUser>? Followers { get; set; }
 
     public HashSet<Post>? Posts { get; set; }
@@ -77,15 +75,15 @@ public class SocialAppUser : BaseAppUser, ISelfModelBuilder<SocialAppUser>
                              UserSettings.AllowNonFollowerPostViews
                             );
 
-        mb.HasMany(x => x.Followers).WithMany().UsingEntity<SocialAppUserFollow>(
+        var followmb = mb.HasMany(x => x.Followers).WithMany().UsingEntity<SocialAppUserFollow>(
             right => right.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId),
             left => left.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId)
         );
 
-        var followmb = mb.HasMany(x => x.FollowedUsers).WithMany().UsingEntity<SocialAppUserFollow>(
-            right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId),
-            left => left.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId)
-        );
+        //var followmb = mb.HasMany(x => x.FollowedUsers).WithMany().UsingEntity<SocialAppUserFollow>(
+        //    right => right.HasOne(x => x.Followed).WithMany().HasForeignKey(x => x.FollowedId),
+        //    left => left.HasOne(x => x.Follower).WithMany().HasForeignKey(x => x.FollowerId)
+        //);
 
         followmb.HasKey(x => x.Id);
         followmb.ToTable(x => x.HasCheckConstraint("CK_SocialAppUserFollow_NoSelfFollow", "FollowedId <> FollowerId"));

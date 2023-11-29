@@ -84,7 +84,7 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
                 ? null
                 : requester is null
                 ? query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && x.Poster.Settings.HasFlag(UserSettings.AllowAnonymousPostViews))
-                : query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || requester.FollowedUsers != null && requester.FollowedUsers.Contains(x.Poster)))
+                : query.AsNoTracking().Include(x => x.Poster).Where(x => x.Poster != null && (x.Poster.Id == requester.Id || x.Poster.Settings.HasFlag(UserSettings.AllowNonFollowerPostViews) || x.Poster!.Followers != null && x.Poster!.Followers.Contains(requester)))
                 )?.Select(x => new PostViewModel()
                 {
                     Content = x.Content,
@@ -170,6 +170,16 @@ public class PostRepository : EntityCRDRepository<Post, Snowflake, PostCreationM
             .Select(x => x.Post)
             .Take(count)
             .Distinct();
+
+        return context.Database.SqlQueryRaw<Post>(
+            $"""
+            select distinct Posts.* 
+            from Posts 
+            left join SocialAppUserFollows on SocialAppUserFollows.FollowerId = '{uid}'
+            where Posts.PosterId = '{uid}' or Posts.PosterId = SocialAppUserFollows.FollowedId
+            order by DatePosted desc
+            """
+        );
     }
 
     public async ValueTask<bool> AddLike(SocialAppUser requester, Post post)

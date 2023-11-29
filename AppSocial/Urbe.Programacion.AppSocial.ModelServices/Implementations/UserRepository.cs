@@ -247,7 +247,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser followed) 
         => requester.Id != followed.Id
-            && (requester.FollowedUsers?.Contains(followed) is true
+            && (followed.Followers?.Contains(requester) is true
             || await context.SocialAppUserFollows.AnyAsync(x => x.FollowerId == requester.Id && x.FollowedId == followed.Id));
 
     public ValueTask<IQueryable<SocialAppUser>> GetFollowers(SocialAppUser requester)
@@ -257,7 +257,14 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
         => ValueTask.FromResult(context.SocialAppUserFollows.Where(x => x.FollowerId == requester.Id).Select(x => x.Followed!));
 
     public ValueTask<IQueryable<SocialAppUser>> GetMutuals(SocialAppUser requester)
-        => ValueTask.FromResult(context.SocialAppUsers.Where(x => requester.FollowedUsers != null && requester.FollowedUsers.Contains(x) && x.FollowedUsers != null && x.FollowedUsers.Contains(requester)));
+        => ValueTask.FromResult(
+            context.SocialAppUsers.Where(x => 
+                requester.Followers != null 
+                && requester.Followers.Contains(x)
+                && x.Followers != null 
+                && x.Followers.Contains(requester)
+            )
+        );
 
     public async ValueTask<bool> IsFollowing(SocialAppUser requester, SocialAppUser follower, SocialAppUser followed)
         => await CanView(requester, follower) && await IsFollowing(follower, followed);
@@ -356,7 +363,7 @@ public class UserRepository : EntityCRUDRepository<SocialAppUser, Guid, UserCrea
     {
         var requester = (SocialAppUser?)r;
         return requester is not null
-                ? Query().Where(x => x.Id != requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || requester.FollowedUsers != null && requester.FollowedUsers.Contains(x)))
+                ? Query().Where(x => x.Id != requester.Id && (x.Settings.HasFlag(UserSettings.AllowNonFollowerViews) || x.Followers != null && x.Followers.Contains(requester)))
                 : Query().Where(x => x.Settings.HasFlag(UserSettings.AllowAnonymousViews));
     }
 
